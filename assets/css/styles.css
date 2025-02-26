@@ -1,3 +1,14 @@
+.geral{
+  display: flex;
+  flex-direction: row;
+}
+
+.hero{
+  height: 100vh;
+  width: 10000px;
+  background: center / cover no-repeat url(../images/fundo_provisorio.webp);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,20 +20,30 @@
   }
   
   .header {
+    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
     background: #1a1b30;
     padding-inline-end: 16px;
     padding-inline-start: 16px;
   }
   
   .nav {
-    max-width: 1280px;
-    height: 70px;
+    width: 100px;
+    height: 100%;
+    
     margin-inline-end: auto;
     margin-inline-start: auto;
   
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
+    transition: 1s;
+  }
+
+  .nav:hover{
+    width: 200px;
+    transition: 1s;
   }
 
   .con-logo {
@@ -44,6 +65,9 @@
   
   .nav-list {
     display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
     gap: 32px;
     list-style: none;
   }
@@ -55,11 +79,14 @@
     padding-block-start: 16px;
   }
 
+  /**************************barra de pesquisa******************************/
+
   .search-box {
     top: 50%;
     left: 50%;
     background: #262738;
     height: 40px;
+    width: 10;
     border-radius: 40px;
     padding: 10px;
   }
@@ -97,6 +124,8 @@
     padding: 0 6px;
 
   }
+
+  /**********************barra de pesquisa******************************/
   
   .hamburger {
     display: none;
@@ -118,6 +147,8 @@
     transition: 0.3s;
   }
   
+
+  /********************aqui começa o css pra mobile***********************/
   @media (max-width: 750px) {
     .nav-title {
       font-size: 0px;
