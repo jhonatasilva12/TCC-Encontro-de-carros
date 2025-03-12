@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 12/01/2025 às 02:15
--- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Tempo de geração: 12-Mar-2025 às 01:01
+-- Versão do servidor: 10.4.27-MariaDB
+-- versão do PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,35 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `db_meetcar`
+-- Banco de dados: `bd_meetcar`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_comentario`
+-- Estrutura da tabela `evento_user`
+--
+
+CREATE TABLE `evento_user` (
+  `fk_id_user` int(11) NOT NULL,
+  `fk_id_evento` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `grupo_tegru`
+--
+
+CREATE TABLE `grupo_tegru` (
+  `fk_id_grupo` int(11) NOT NULL,
+  `fk_id_temas_grupo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tb_comentario`
 --
 
 CREATE TABLE `tb_comentario` (
@@ -32,7 +54,7 @@ CREATE TABLE `tb_comentario` (
   `texto_comentario` varchar(300) NOT NULL,
   `likes_comentario` int(11) NOT NULL,
   `imagem_comentario` varchar(36) DEFAULT NULL,
-  `data_comentario` date NOT NULL,
+  `data_comentario` datetime NOT NULL,
   `fk_id_user` int(11) NOT NULL,
   `fk_id_post` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -40,21 +62,35 @@ CREATE TABLE `tb_comentario` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_grupo`
+-- Estrutura da tabela `tb_evento`
+--
+
+CREATE TABLE `tb_evento` (
+  `id_evento` int(11) NOT NULL,
+  `nome_evento` varchar(30) NOT NULL,
+  `descricao_evento` varchar(300) NOT NULL,
+  `data_inicio_evento` datetime NOT NULL,
+  `duracao_evento` varchar(15) DEFAULT NULL,
+  `fk_id_criador` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tb_grupo`
 --
 
 CREATE TABLE `tb_grupo` (
   `id_grupo` int(11) NOT NULL,
   `nome_grupo` varchar(30) NOT NULL,
   `descricao_grupo` varchar(350) DEFAULT NULL,
-  `fk_id_user` int(11) NOT NULL,
-  `fk_id_temas_grupo` int(11) NOT NULL
+  `fk_id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_post`
+-- Estrutura da tabela `tb_post`
 --
 
 CREATE TABLE `tb_post` (
@@ -62,7 +98,7 @@ CREATE TABLE `tb_post` (
   `titulo_post` varchar(20) DEFAULT NULL,
   `imagem_post` varchar(36) DEFAULT NULL,
   `texto_post` varchar(500) NOT NULL,
-  `data_post` date NOT NULL,
+  `data_post` datetime NOT NULL,
   `likes_post` int(11) NOT NULL,
   `fk_id_user` int(11) NOT NULL,
   `fk_id_tipo_post` int(11) NOT NULL
@@ -71,7 +107,7 @@ CREATE TABLE `tb_post` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_tipo_post`
+-- Estrutura da tabela `tb_tipo_post`
 --
 
 CREATE TABLE `tb_tipo_post` (
@@ -82,7 +118,7 @@ CREATE TABLE `tb_tipo_post` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_user`
+-- Estrutura da tabela `tb_user`
 --
 
 CREATE TABLE `tb_user` (
@@ -99,7 +135,7 @@ CREATE TABLE `tb_user` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `temas_grupo`
+-- Estrutura da tabela `temas_grupo`
 --
 
 CREATE TABLE `temas_grupo` (
@@ -111,7 +147,7 @@ CREATE TABLE `temas_grupo` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `user_grupo`
+-- Estrutura da tabela `user_grupo`
 --
 
 CREATE TABLE `user_grupo` (
@@ -124,7 +160,21 @@ CREATE TABLE `user_grupo` (
 --
 
 --
--- Índices de tabela `tb_comentario`
+-- Índices para tabela `evento_user`
+--
+ALTER TABLE `evento_user`
+  ADD KEY `fk_id_user` (`fk_id_user`),
+  ADD KEY `fk_id_evento` (`fk_id_evento`);
+
+--
+-- Índices para tabela `grupo_tegru`
+--
+ALTER TABLE `grupo_tegru`
+  ADD KEY `fk_id_grupo` (`fk_id_grupo`),
+  ADD KEY `fk_id_temas_grupo` (`fk_id_temas_grupo`);
+
+--
+-- Índices para tabela `tb_comentario`
 --
 ALTER TABLE `tb_comentario`
   ADD PRIMARY KEY (`id_comentario`),
@@ -132,15 +182,21 @@ ALTER TABLE `tb_comentario`
   ADD KEY `fk_id_post` (`fk_id_post`);
 
 --
--- Índices de tabela `tb_grupo`
+-- Índices para tabela `tb_evento`
+--
+ALTER TABLE `tb_evento`
+  ADD PRIMARY KEY (`id_evento`),
+  ADD KEY `fk_id_criador` (`fk_id_criador`);
+
+--
+-- Índices para tabela `tb_grupo`
 --
 ALTER TABLE `tb_grupo`
   ADD PRIMARY KEY (`id_grupo`),
-  ADD KEY `fk_id_user` (`fk_id_user`),
-  ADD KEY `fk_id_temas_grupo` (`fk_id_temas_grupo`);
+  ADD KEY `fk_id_user` (`fk_id_user`);
 
 --
--- Índices de tabela `tb_post`
+-- Índices para tabela `tb_post`
 --
 ALTER TABLE `tb_post`
   ADD PRIMARY KEY (`id_post`),
@@ -148,32 +204,32 @@ ALTER TABLE `tb_post`
   ADD KEY `fk_id_tipo_post` (`fk_id_tipo_post`);
 
 --
--- Índices de tabela `tb_tipo_post`
+-- Índices para tabela `tb_tipo_post`
 --
 ALTER TABLE `tb_tipo_post`
   ADD PRIMARY KEY (`id_tipo_post`);
 
 --
--- Índices de tabela `tb_user`
+-- Índices para tabela `tb_user`
 --
 ALTER TABLE `tb_user`
   ADD PRIMARY KEY (`id_user`);
 
 --
--- Índices de tabela `temas_grupo`
+-- Índices para tabela `temas_grupo`
 --
 ALTER TABLE `temas_grupo`
   ADD PRIMARY KEY (`id_temas_grupo`);
 
 --
--- Índices de tabela `user_grupo`
+-- Índices para tabela `user_grupo`
 --
 ALTER TABLE `user_grupo`
   ADD KEY `fk_id_user` (`fk_id_user`),
   ADD KEY `fk_id_grupo` (`fk_id_grupo`);
 
 --
--- AUTO_INCREMENT para tabelas despejadas
+-- AUTO_INCREMENT de tabelas despejadas
 --
 
 --
@@ -181,6 +237,12 @@ ALTER TABLE `user_grupo`
 --
 ALTER TABLE `tb_comentario`
   MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `tb_evento`
+--
+ALTER TABLE `tb_evento`
+  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tb_grupo`
@@ -213,36 +275,35 @@ ALTER TABLE `temas_grupo`
   MODIFY `id_temas_grupo` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Restrições para tabelas despejadas
+-- Restrições para despejos de tabelas
 --
 
 --
--- Restrições para tabelas `tb_comentario`
+-- Limitadores para a tabela `evento_user`
+--
+ALTER TABLE `evento_user`
+  ADD CONSTRAINT `evento_user_ibfk_1` FOREIGN KEY (`fk_id_user`) REFERENCES `tb_user` (`id_user`),
+  ADD CONSTRAINT `evento_user_ibfk_2` FOREIGN KEY (`fk_id_evento`) REFERENCES `tb_evento` (`id_evento`);
+
+--
+-- Limitadores para a tabela `grupo_tegru`
+--
+ALTER TABLE `grupo_tegru`
+  ADD CONSTRAINT `grupo_tegru_ibfk_1` FOREIGN KEY (`fk_id_grupo`) REFERENCES `tb_grupo` (`id_grupo`),
+  ADD CONSTRAINT `grupo_tegru_ibfk_2` FOREIGN KEY (`fk_id_temas_grupo`) REFERENCES `temas_grupo` (`id_temas_grupo`);
+
+--
+-- Limitadores para a tabela `tb_comentario`
 --
 ALTER TABLE `tb_comentario`
   ADD CONSTRAINT `tb_comentario_ibfk_1` FOREIGN KEY (`fk_id_user`) REFERENCES `tb_user` (`id_user`),
   ADD CONSTRAINT `tb_comentario_ibfk_2` FOREIGN KEY (`fk_id_post`) REFERENCES `tb_post` (`id_post`);
 
 --
--- Restrições para tabelas `tb_grupo`
+-- Limitadores para a tabela `tb_evento`
 --
-ALTER TABLE `tb_grupo`
-  ADD CONSTRAINT `tb_grupo_ibfk_1` FOREIGN KEY (`fk_id_user`) REFERENCES `tb_user` (`id_user`),
-  ADD CONSTRAINT `tb_grupo_ibfk_2` FOREIGN KEY (`fk_id_temas_grupo`) REFERENCES `temas_grupo` (`id_temas_grupo`);
-
---
--- Restrições para tabelas `tb_post`
---
-ALTER TABLE `tb_post`
-  ADD CONSTRAINT `tb_post_ibfk_1` FOREIGN KEY (`fk_id_user`) REFERENCES `tb_user` (`id_user`),
-  ADD CONSTRAINT `tb_post_ibfk_2` FOREIGN KEY (`fk_id_tipo_post`) REFERENCES `tb_tipo_post` (`id_tipo_post`);
-
---
--- Restrições para tabelas `user_grupo`
---
-ALTER TABLE `user_grupo`
-  ADD CONSTRAINT `user_grupo_ibfk_1` FOREIGN KEY (`fk_id_user`) REFERENCES `tb_user` (`id_user`),
-  ADD CONSTRAINT `user_grupo_ibfk_2` FOREIGN KEY (`fk_id_grupo`) REFERENCES `tb_grupo` (`id_grupo`);
+ALTER TABLE `tb_evento`
+  ADD CONSTRAINT `tb_evento_ibfk_1` FOREIGN KEY (`fk_id_criador`) REFERENCES `tb_user` (`id_user`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
