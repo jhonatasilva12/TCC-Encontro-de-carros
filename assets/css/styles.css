@@ -146,9 +146,63 @@
     position: relative;
     transition: 0.3s;
   }
+
+  /****************************post e interiores*******************************/
+
+  .post, .p-nome, .p-subnome, .p-titulo, .p-text, .p-img, .p-botao, .p-fotinha, .p-subfotinha, .p-identifica{
+    border-width: 5px;
+    border-color: rgb(62, 65, 158);
+    color: rgb(29, 19, 6);
+  }
+
+  .post {
+    width: 40vw;
+    height: auto;
+    border-radius: 1em;
+    background-color: white;
+  }
+
+  .p-fotinha, .p-subfotinha {
+    width: 25px;
+    height: 25px;
+    border-radius: 3em;
+  }
+
+  .p-identifica {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: baseline;
+  }
+
+  .p-superior {
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    align-items: baseline;
+    width: 100vh;
+  }
+
+  .p-centro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    height: fit-content;
+  }
+
+  .p-img {
+    width: 39vw;
+    border-radius: 1.5em;
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+  }
+
+  /*************************fim post e interiores******************************/
   
 
-  /********************aqui começa o css pra mobile***********************/
+  /********************aqui começa o css pra mobile****************************/
   @media (max-width: 750px) {
     .nav-title {
       font-size: 0px;
