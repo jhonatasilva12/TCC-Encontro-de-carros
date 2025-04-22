@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 12-Mar-2025 às 01:01
+-- Tempo de geração: 23-Abr-2025 às 01:14
 -- Versão do servidor: 10.4.27-MariaDB
 -- versão do PHP: 8.2.0
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `bd_meetcar`
+-- Banco de dados: `db_meetcar`
 --
 
 -- --------------------------------------------------------
@@ -46,13 +46,34 @@ CREATE TABLE `grupo_tegru` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `likes_comentario`
+--
+
+CREATE TABLE `likes_comentario` (
+  `fk_id_user` int(11) NOT NULL,
+  `fk_id_comentario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `likes_post`
+--
+
+CREATE TABLE `likes_post` (
+  `fk_id_user` int(11) NOT NULL,
+  `fk_id_post` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `tb_comentario`
 --
 
 CREATE TABLE `tb_comentario` (
   `id_comentario` int(11) NOT NULL,
   `texto_comentario` varchar(300) NOT NULL,
-  `likes_comentario` int(11) NOT NULL,
   `imagem_comentario` varchar(36) DEFAULT NULL,
   `data_comentario` datetime NOT NULL,
   `fk_id_user` int(11) NOT NULL,
@@ -99,7 +120,6 @@ CREATE TABLE `tb_post` (
   `imagem_post` varchar(36) DEFAULT NULL,
   `texto_post` varchar(500) NOT NULL,
   `data_post` datetime NOT NULL,
-  `likes_post` int(11) NOT NULL,
   `fk_id_user` int(11) NOT NULL,
   `fk_id_tipo_post` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -172,6 +192,20 @@ ALTER TABLE `evento_user`
 ALTER TABLE `grupo_tegru`
   ADD KEY `fk_id_grupo` (`fk_id_grupo`),
   ADD KEY `fk_id_temas_grupo` (`fk_id_temas_grupo`);
+
+--
+-- Índices para tabela `likes_comentario`
+--
+ALTER TABLE `likes_comentario`
+  ADD KEY `fk_id_user` (`fk_id_user`),
+  ADD KEY `fk_id_comentario` (`fk_id_comentario`);
+
+--
+-- Índices para tabela `likes_post`
+--
+ALTER TABLE `likes_post`
+  ADD KEY `fk_id_user` (`fk_id_user`),
+  ADD KEY `fk_id_post` (`fk_id_post`);
 
 --
 -- Índices para tabela `tb_comentario`
@@ -291,6 +325,20 @@ ALTER TABLE `evento_user`
 ALTER TABLE `grupo_tegru`
   ADD CONSTRAINT `grupo_tegru_ibfk_1` FOREIGN KEY (`fk_id_grupo`) REFERENCES `tb_grupo` (`id_grupo`),
   ADD CONSTRAINT `grupo_tegru_ibfk_2` FOREIGN KEY (`fk_id_temas_grupo`) REFERENCES `temas_grupo` (`id_temas_grupo`);
+
+--
+-- Limitadores para a tabela `likes_comentario`
+--
+ALTER TABLE `likes_comentario`
+  ADD CONSTRAINT `likes_comentario_ibfk_1` FOREIGN KEY (`fk_id_user`) REFERENCES `tb_user` (`id_user`),
+  ADD CONSTRAINT `likes_comentario_ibfk_2` FOREIGN KEY (`fk_id_comentario`) REFERENCES `tb_comentario` (`id_comentario`);
+
+--
+-- Limitadores para a tabela `likes_post`
+--
+ALTER TABLE `likes_post`
+  ADD CONSTRAINT `likes_post_ibfk_1` FOREIGN KEY (`fk_id_user`) REFERENCES `tb_user` (`id_user`),
+  ADD CONSTRAINT `likes_post_ibfk_2` FOREIGN KEY (`fk_id_post`) REFERENCES `tb_post` (`id_post`);
 
 --
 -- Limitadores para a tabela `tb_comentario`
