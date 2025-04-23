@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 23-Abr-2025 às 01:14
+-- Tempo de geração: 23-Abr-2025 às 02:45
 -- Versão do servidor: 10.4.27-MariaDB
 -- versão do PHP: 8.2.0
 
@@ -145,7 +145,7 @@ CREATE TABLE `tb_user` (
   `id_user` int(11) NOT NULL,
   `nome_user` varchar(50) NOT NULL,
   `sobrenome_user` varchar(50) DEFAULT NULL,
-  `data_nasc_user` date NOT NULL,
+  `data_nasc_user` date DEFAULT NULL,
   `telefone_user` varchar(15) DEFAULT NULL,
   `cpf_user` varchar(14) DEFAULT NULL,
   `email_user` varchar(100) NOT NULL,
