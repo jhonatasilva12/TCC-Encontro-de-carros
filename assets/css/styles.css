@@ -6,7 +6,13 @@
 .hero{
   height: 100vh;
   width: 100vw;
-  background: center / cover no-repeat url(../images/fundo_provisorio.webp);
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(255, 255, 255);
+  /*background: center / cover no-repeat url(../images/fundo_provisorio.webp);*/
+  padding: 20px;
+  align-items: center;
+  right: 10%;
 }
 
 * {
@@ -23,17 +29,16 @@
     flex-direction: column;
     display: flex;
     justify-content: space-between;
-    background: #1a1b30;
-    padding-inline-end: 16px;
-    padding-inline-start: 16px;
+    background: #9fa3cf;
+    position: fixed;
   }
   
   .nav {
     width: 100px;
-    height: 100%;
+    height: 100vh;
     
-    margin-inline-end: auto;
-    margin-inline-start: auto;
+    margin-inline-end: 16px;
+    margin-inline-start: 16px;
   
     display: flex;
     justify-content: space-around;
@@ -41,8 +46,13 @@
     transition: 1s;
   }
 
-  .nav:hover{
+  .header:hover > .nav{
     width: 200px;
+    transition: 1s;
+  }
+
+  .nav:hover > .hero{
+    padding-left: 220px;
     transition: 1s;
   }
 
@@ -56,12 +66,6 @@
     height: 65px;
     width: 100px;
   }
-
-  .nav-title{
-    color: #c152fd;
-    font-family:'Courier New', Courier, monospace;
-    font-weight: bold;
-  }
   
   .nav-list {
     display: flex;
@@ -73,22 +77,32 @@
   }
   
   .nav-list a {
-    font-size: 18px;
+    font-size: 22px;
     color: #fff;
+    width: 200px;
     padding-block-end: 16px;
     padding-block-start: 16px;
+  }
+
+  .nav-list a:hover {
+    background-color: #8286b1;
+  }
+
+  .nav-list:hover {
+    width: 200px;
   }
 
   /**************************barra de pesquisa******************************/
 
   .search-box {
-    top: 50%;
-    left: 50%;
+    margin-top: 20px;
+    right: 2vw;
     background: #262738;
     height: 40px;
     width: 10;
     border-radius: 40px;
     padding: 10px;
+    position: fixed;
   }
 
   .search-btn {
@@ -125,7 +139,7 @@
 
   }
 
-  /**********************barra de pesquisa******************************/
+  /**********************fim barra de pesquisa******************************/
   
   .hamburger {
     display: none;
@@ -149,17 +163,14 @@
 
   /****************************post e interiores*******************************/
 
-  .post, .p-nome, .p-subnome, .p-titulo, .p-text, .p-img, .p-botao, .p-fotinha, .p-subfotinha, .p-identifica{
-    border-width: 5px;
-    border-color: rgb(62, 65, 158);
-    color: rgb(29, 19, 6);
-  }
-
   .post {
     width: 40vw;
     height: auto;
     border-radius: 1em;
-    background-color: white;
+    background-color: rgb(255, 236, 236);
+    padding: 20px;
+    border: 2px, #2d2738, solid;
+    margin-bottom: 20px;
   }
 
   .p-fotinha, .p-subfotinha {
@@ -203,6 +214,7 @@
     border-radius: 1.5em;
     margin-top: 1vw;
     margin-bottom: 1vw;
+    border: 2px, #2d2738, solid;
   }
 
   .p-inferior {
@@ -227,14 +239,19 @@
     min-width: 10%;
     height: 30px;
     background-color: #fdf5eb;
-    border-style:groove;
     border-radius: 30px;
-    margin: 3px;
     padding: 4px;
+  }
+
+  .p-comentario {
+    height: fit-content;
   }
 
   /*************************fim post e interiores******************************/
   
+
+
+
 
   /********************aqui começa o css pra mobile****************************/
   @media (max-width: 750px) {
@@ -242,7 +259,7 @@
       font-size: 0px;
     }
 
-    .search-box:hover > .search-txt {
+    .search-txt {
       width: 100px;
       height: 35px;
       padding: 0 6px;
