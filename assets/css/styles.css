@@ -41,18 +41,13 @@
     margin-inline-start: 16px;
   
     display: flex;
-    justify-content: space-around;
     align-items: center;
     transition: 1s;
   }
 
   .header:hover > .nav{
     width: 200px;
-    transition: 1s;
-  }
-
-  .nav:hover > .hero{
-    padding-left: 220px;
+    padding-left: 22%;
     transition: 1s;
   }
 
@@ -63,8 +58,9 @@
   }
   
   .logo {
-    height: 65px;
+    height: 120px;
     width: 100px;
+    /*filter: invert(100%) saturate(0%);*/ /*apague esse comentario e a logo fica branca*/
   }
   
   .nav-list {
@@ -78,18 +74,19 @@
   
   .nav-list a {
     font-size: 22px;
-    color: #fff;
-    width: 200px;
+    color: #ffffff;
+    width: 100%;
+    margin-top: 30px;
     padding-block-end: 16px;
     padding-block-start: 16px;
+    transition: 0.4s;
   }
 
   .nav-list a:hover {
     background-color: #8286b1;
-  }
-
-  .nav-list:hover {
-    width: 200px;
+    padding-inline-start: 90px;
+    padding-inline-end: 100px;
+    transition: 0.4s;
   }
 
   /**************************barra de pesquisa******************************/
@@ -110,7 +107,7 @@
     float: right;
     width: 35px;
     height: 35px;
-    border-radius: 50%;
+    border-radius: 100%;
     background: #262738;
     display: flex;
     justify-content: center;
@@ -173,10 +170,15 @@
     margin-bottom: 20px;
   }
 
-  .p-fotinha, .p-subfotinha {
-    width: 25px;
-    height: 25px;
+  .p-fotinha {
+    width: 30px;
+    height: 30px;
     border-radius: 3em;
+    margin-right: 7px;
+  }
+  
+  .p-nome {
+    font: bolder;
   }
 
   .p-identifica {
