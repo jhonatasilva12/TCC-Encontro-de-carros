@@ -8,7 +8,7 @@
   width: 100vw;
   display: flex;
   flex-direction: column;
-  background-color: rgb(255, 255, 255);
+  background-color: #fffefe;
   /*background: center / cover no-repeat url(../images/fundo_provisorio.webp);*/
   padding: 20px;
   align-items: center;
@@ -69,21 +69,31 @@
     align-items: baseline; 
     justify-content: space-around;
     height: 70vh;
+    max-width: 100%;
   }
 
   .header:hover > .nav{
     width: 200px;
-    padding-left: 20%;
+    padding-left: 15%;
     transition: 1s;
   }
     
   .nav-list a {
     font-size: 0px;
-    color: #ffffff;
-    width: 100%;
+    color: #000000;
+    font-weight: 600;
     padding-block-end: 16px;
     padding-block-start: 16px;
     transition: 0.2s;
+  }
+
+  .header:hover > .nav a {
+    font-size: 22px;
+    width: 100%;
+  }
+
+  .header:hover > .nav li {
+    width: 150px;
   }
 
   .nav-list i {
@@ -99,6 +109,7 @@
     padding-inline-start: 90px;
     padding-inline-end: 100px;
     transition: 0.4s;
+    color: #fff;
   }
 
   .header:hover i {
@@ -106,14 +117,9 @@
     transition: 0.5s;
   }
 
-  .header:hover > .nav a {
-    font-size: 22px;
-  }
-
 
   .nav-list li {
     display: flex;
-    width: 150px;
   }
 
   /**************************barra de pesquisa******************************/
@@ -123,7 +129,7 @@
     right: 2vw;
     background: #262738;
     height: 40px;
-    width: 10;
+    width: 15;
     border-radius: 40px;
     padding: 10px;
     position: fixed;
@@ -191,10 +197,11 @@
     width: 40vw;
     height: auto;
     border-radius: 1em;
-    background-color: rgb(255, 236, 236);
+    background-color: #ffecec;
     padding: 20px;
-    border: 2px, #2d2738, solid;
+    border: 2px, #d6c1c1, solid;
     margin-bottom: 20px;
+    box-shadow: -2px 2px 4px #9c8c8c;
   }
 
   .p-fotinha {
@@ -202,6 +209,8 @@
     height: 30px;
     border-radius: 3em;
     margin-right: 7px;
+    border: 1px #d6c1c1 solid;
+    box-shadow: 0px 0px 4px #9c8c8c;
   }
   
   .p-nome {
@@ -223,6 +232,18 @@
     width: 100%;
   }
 
+  .p-titulo {
+    font-size: 1.7em;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+
+  .p-texto {
+    font-size: 1em;
+    font-weight: normal;
+    color: #312e38;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+
   .p-centro {
     display: flex;
     flex-direction: column;
@@ -237,7 +258,7 @@
     border-radius: 1.5em;
     margin-top: 1vw;
     margin-bottom: 1vw;
-    border: 2px, #2d2738, solid;
+    border: 2px, #6b5c5c, solid;
   }
 
   .p-inferior {
@@ -260,8 +281,10 @@
 
   .mais {
     border-radius: 100px;
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    color: #464040;
   }
 
   .p-vote, .p-comentario {
