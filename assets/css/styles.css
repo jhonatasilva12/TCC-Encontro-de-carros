@@ -43,7 +43,7 @@
   
     display: flex;
     align-items: center;
-    transition: 1s;
+    transition: 1s ease;
   }
 
   .con-logo {
@@ -75,7 +75,6 @@
   .header:hover > .nav{
     width: 200px;
     padding-left: 15%;
-    transition: 1s;
   }
     
   .nav-list a {
@@ -84,7 +83,7 @@
     font-weight: 600;
     padding-block-end: 16px;
     padding-block-start: 16px;
-    transition: 0.2s;
+    transition: 0.4s ease;
   }
 
   .header:hover > .nav a {
@@ -101,20 +100,18 @@
     margin-right: 5px;
     position: relative;
     left: 30px;
-    transition: 0.5s;
+    transition: 0.5s ease;
   }
 
   .nav-list a:hover {
     background-color: #8286b1;
     padding-inline-start: 90px;
     padding-inline-end: 100px;
-    transition: 0.4s;
     color: #fff;
   }
 
   .header:hover i {
     left: 0px;
-    transition: 0.5s;
   }
 
 
@@ -297,10 +294,75 @@
   }
 
   /*************************fim post e interiores******************************/
+
+
+  /*************************criação (post, grupos e eventos)******************************/
+
+  .criacao {
+    position: fixed;
+    display: flex;
+    flex-direction: row-reverse;
+    right: 2vw;
+    bottom: 2vw;
+  }
   
+  #criar{
+    background-color: #8286b1;
+    color: #ffecec;
+    border-radius: 100px;
+    position: fixed;
+    width: 3vw;
+    height: 3vw;
+    right: 2vw;
+    bottom: 2vw;
+    font-size: x-large;
+    z-index: 2;
 
+    transform: rotate(0deg);
+    transition: 0.3s ease;
+    cursor: pointer;
+  }
+  
+  #criar.ativo{
+    background-color: #ffffff;
+    transform: rotate(45deg);
+    right: 4vw;
+    bottom: 3vw;
+    width: 4vw;
+    height: 4vw;
+  }
 
+  .criar-post, .criar-grupo, .criar-evento {
+    width: 0px;
+    height: 0px;
+    font-size: 0;
+    position: fixed;
+    border-radius: 100px;
+    background-color: #8286b1;
+    transition: 0.3s ease;
+    right: 2vw;
+    bottom: 2vw;
+  }
 
+  #criar.ativo ~ .criar-post, #criar.ativo ~ .criar-grupo, #criar.ativo ~ .criar-evento{
+    width: 4vw;
+    height: 4vw;
+    font-size: x-large;
+  }
+
+  #criar.ativo ~ .criar-post{
+    transition-delay: 0.2s;
+  }
+
+  #criar.ativo ~ .criar-grupo{
+    transition-delay: 0.4s;
+  }
+
+  #criar.ativo ~ .criar-evento{
+    transition-delay: 0.6s;
+  }
+
+  /*************************fim criação******************************/
 
   /********************aqui começa o css pra mobile****************************/
   @media (max-width: 750px) {
