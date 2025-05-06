@@ -123,8 +123,8 @@
 
   .search-box {
     margin-top: 20px;
-    right: 2vw;
-    background: #262738;
+    right: 4vh;
+    background: #9FA3CF;
     height: 40px;
     width: 15;
     border-radius: 40px;
@@ -133,16 +133,21 @@
   }
 
   .search-btn {
-    color: #c152fd;
+    color: #000;
     float: right;
     width: 35px;
     height: 35px;
     border-radius: 100%;
-    background: #262738;
+    background: #9FA3CF;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: 2s;
+  }
+
+  .search-btn:hover {
+    background-color: #8286B1;
+    transition: none !important;
   }
 
   .search-txt {
@@ -151,8 +156,8 @@
     outline: none;
     float: left;
     padding: 0;
-    color: #fff;
-    font-size: 16px;
+    color: #000;
+    font-size: 18px;
     transition: 0.4s;
     line-height: 35px;
     width: 0px;
@@ -164,6 +169,10 @@
     height: 35px;
     padding: 0 6px;
   }
+
+  ::-webkit-input-placeholder {
+    color: #494949;
+ }
 
   /**********************fim barra de pesquisa******************************/
   
@@ -310,8 +319,8 @@
     color: #000000;
     border-radius: 100px;
     position: fixed;
-    width: 3vw;
-    height: 3vw;
+    width: 6vh;
+    height: 6vh;
     right: 2vw;
     bottom: 2vw;
     font-size: 1.5vw;
@@ -328,8 +337,8 @@
     transform: rotate(45deg);
     right: 4vw;
     bottom: 3vw;
-    width: 4vw;
-    height: 4vw;
+    width: 8vh;
+    height: 8vh;
     font-size: 2vw;
     transition: 0.4s;
     border: 2px #363030 solid;
@@ -366,8 +375,8 @@
   }
 
   #criar.ativo ~ .criar-post, #criar.ativo ~ .criar-grupo, #criar.ativo ~ .criar-evento{
-    width: 4vw;
-    height: 4vw;
+    width: 8vh;
+    height: 8vh;
     font-size: 1.5vw;
     color: #000000;
     display: flex;
@@ -379,21 +388,21 @@
 
   #criar.ativo ~ .criar-post{
     transition-delay: 0.2s;
-    right: calc(4vw - 20px);
-    bottom: calc(3vw + 90px);
+    right: calc(4vw - 25px);
+    bottom: calc(3vw + 11vh);
 
   }
 
   #criar.ativo ~ .criar-grupo{
     transition-delay: 0.4s;
-    right: calc(4vw + 70px);
-    bottom: calc(3vw + 70px);
+    right: calc(4vw + 8vh);
+    bottom: calc(3vw + 8vh);
   }
 
   #criar.ativo ~ .criar-evento{
     transition-delay: 0.6s;
-    right: calc(4vw + 90px);
-    bottom: calc(3vw - 20px);
+    right: calc(4vw + 11vh);
+    bottom: calc(3vw - 25px);
   }
 
   /*************************fim criação******************************/
