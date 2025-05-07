@@ -16,7 +16,7 @@ body {
 }
 
 .container {
-    width: 80%;
+    width: 80vw;
     height: 80vh;
     display: flex;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.212);
@@ -32,14 +32,14 @@ body {
 }
 
 .form-image img {
-    width: 31rem;
+    width: 100%;
 }
 
 .form {
     width: 50%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     background-color: #fff;
     padding: 3rem;
@@ -47,7 +47,10 @@ body {
 
 .form-header {
     margin-bottom: 3rem;
+    width: 100%;
     display: flex;
+    flex-direction: row;
+    align-items: center;
     justify-content: space-between;
 }
 
@@ -148,7 +151,7 @@ body {
     color: #000000c0;
 }
 
-.continue-button button {
+.continue-button {
     width: 100%;
     margin-top: 2.5rem;
     border: none;
@@ -156,17 +159,14 @@ body {
     padding: 0.62rem;
     border-radius: 5px;
     cursor: pointer;
-}
-
-.continue-button button:hover {
-    background-color: #6b63fff1;
-}
-
-.continue-button button a {
     text-decoration: none;
     font-size: 0.93rem;
     font-weight: 500;
     color: #fff;
+}
+
+.continue-button:hover {
+    background-color: #6b63fff1;
 }
 
 @media screen and (max-width: 1330px) {
@@ -174,7 +174,7 @@ body {
         display: none;
     }
     .container {
-        width: 50%;
+        width: 60%;
     }
     .form {
         width: 100%;
@@ -184,7 +184,7 @@ body {
 @media screen and (max-width: 1064px) {
     .container {
         width: 90%;
-        height: auto;
+        height: 90%;
     }
     .input-group {
         flex-direction: column;
