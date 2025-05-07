@@ -4,39 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Encontro de Carros</title>
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="./assets/css/cadastro.css">
 </head>
 <body>
-    <header>
-        <h1>Login</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="sobre.html">Sobre</a></li>
-                <li><a href="contato.html">Contato</a></li>
-                <li><a href="login.html">Login</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <main>
-        <section>
-            <form action="#">
-                <label for="username">Usuário</label>
-                <input type="text" id="username" name="username">
-                
-                <label for="password">Senha</label>
-                <input type="password" id="password" name="password">
-                
-                <button type="submit">Entrar</button>
+    <script src="./assets/js/index.js"></script>
+
+    <div class="container">
+
+        <div class="form-image">
+            <img src="./assets/images/fotss.jpg" alt="">
+        </div>
+
+        <div class="form">
+
+            <div class="form-header">
+                <div class="title">
+                    <h1>Cadastre-se</h1>
+                </div>
+            </div>
+
+            <form action="#" method="post"></form>
+
+                <div class="input-group">
+
+
+                    <div class="input-box">
+                        <label for="email">Email do Usuário</label>
+                        <input type="text" id="email" name="emailo" placeholder="Insira seu email...">
+                    </div>
+                            
+                    <div class="input-box">
+                        <label for="password">Senha</label>
+                        <input type="password" id="password" name="password" placeholder="Insira sua senha...">
+                    </div>
+
+                </div>
+
+                <button type="submit" class="continue-button">Entrar</button>
+
             </form>
-        </section>
-    </main>
 
-    <footer>
-        <p>&copy; 2024 Encontro de Carros</p>
-    </footer>
+        </div>
 
-    <script src="assets/js/scripts.js"></script>
+    </div>
+
 </body>
 </html>
