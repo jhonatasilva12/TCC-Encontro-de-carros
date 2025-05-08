@@ -1,18 +1,33 @@
 <?php
-include_once('./db_connect.php');
+include_once('./../conexao.php');
 
-$descricao_temas = $_POST['descricao_temas'];
+// Inicialização de variáveis
+$nome_temas = "";
+$descricao_temas = "";
+
+// Dados do formulário
 $nome_temas = $_POST['nome_temas'];
+$descricao_temas = $_POST['descricao_temas'];
 
-$query = "INSERT INTO temas_grupo (descricao_temas, nome_temas) VALUES (?, ?)";
+// Validação básica
+if (empty($nome_temas)) {
+    die("Nome do tema é obrigatório!");
+}
+
+// Query completa
+$query = "INSERT INTO temas_grupo (
+    nome_temas,
+    descricao_temas
+) VALUES (?, ?)";
+
 $stmt = $pdo->prepare($query);
-$stmt->bindValue(1, $descricao_temas);
-$stmt->bindValue(2, $nome_temas);
+$stmt->bindValue(1, $nome_temas);
+$stmt->bindValue(2, $descricao_temas);
 
 if ($stmt->execute()) {
-    echo "Tema de grupo inserido com sucesso!";
+    header("Location: lista_temas.php?sucesso=1");
 } else {
     print_r($stmt->errorInfo());
-    echo "Erro ao inserir tema de grupo.";
+    echo "Erro ao cadastrar tema.";
 }
 ?>
