@@ -125,11 +125,10 @@
     margin-top: 20px;
     right: 4vh;
     background: #9FA3CF;
-    height: 40px;
-    width: 15;
     border-radius: 40px;
     padding: 10px;
     position: fixed;
+    border: 2px #363030 solid;
   }
 
   .search-btn {
@@ -138,16 +137,18 @@
     width: 35px;
     height: 35px;
     border-radius: 100%;
+    border: none;
     background: #9FA3CF;
+    font-size: 18px;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: 2s;
+    transition: 0.5s ease;
   }
 
   .search-btn:hover {
     background-color: #8286B1;
-    transition: none !important;
+    color: #fff;
   }
 
   .search-txt {
