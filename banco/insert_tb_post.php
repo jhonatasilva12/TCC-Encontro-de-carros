@@ -1,30 +1,54 @@
-// insert_tb_post.php
 <?php
-include_once('./db_connect.php');
+include_once('./../conexao.php');
 
-$data_post = $_POST['data_post'];
-$fk_id_tipo_post = $_POST['fk_id_tipo_post'];
-$fk_id_user = $_POST['fk_id_user'];
-$imagem_post = $_POST['imagem_post'] ?? null; // Opcional
-$likes_post = $_POST['likes_post'];
+// Inicializa variáveis
+$titulo_post = "";
+$texto_post = "";
+$imagem_post = null;
+$likes_post = 0; // Valor padrão para novos posts
+
+// Processa upload da imagem (se existir)
+if (isset($_FILES['imagem_post']) && $_FILES['imagem_post']['error'] == 0) {
+    $extensao = pathinfo($_FILES['imagem_post']['name'], PATHINFO_EXTENSION);
+    $nome_imagem = uniqid() . '.' . $extensao; 
+    $diretorio = "../uploads/posts/";
+
+    if (move_uploaded_file($_FILES['imagem_post']['tmp_name'], $diretorio . $nome_imagem)) {
+        $imagem_post = $nome_imagem;
+    } else {
+        die("Erro ao enviar imagem.");
+    }
+}
+
+// Dados do formulário
+$titulo_post = $_POST['titulo_post'] ?? null;
 $texto_post = $_POST['texto_post'];
-$titulo_post = $_POST['titulo_post'] ?? null; // Opcional
+$fk_id_user = $_POST['fk_id_user'];
+$fk_id_tipo_post = $_POST['fk_id_tipo_post'];
 
-$query = "INSERT INTO tb_post (data_post, fk_id_tipo_post, fk_id_user, imagem_post, likes_post, texto_post, titulo_post) 
-          VALUES (?, ?, ?, ?, ?, ?, ?)";
+// Query COMPLETA 
+$query = "INSERT INTO tb_post (
+    fk_id_user, 
+    fk_id_tipo_post, 
+    texto_post, 
+    imagem_post, 
+    titulo_post, 
+    likes_post, 
+    data_post
+) VALUES (?, ?, ?, ?, ?, ?, NOW())";
+
 $stmt = $pdo->prepare($query);
-$stmt->bindValue(1, $data_post);
+$stmt->bindValue(1, $fk_id_user);
 $stmt->bindValue(2, $fk_id_tipo_post);
-$stmt->bindValue(3, $fk_id_user);
+$stmt->bindValue(3, $texto_post);
 $stmt->bindValue(4, $imagem_post);
-$stmt->bindValue(5, $likes_post);
-$stmt->bindValue(6, $texto_post);
-$stmt->bindValue(7, $titulo_post);
+$stmt->bindValue(5, $titulo_post);
+$stmt->bindValue(6, $likes_post);
 
 if ($stmt->execute()) {
-    echo "Post inserido com sucesso!";
+    header("Location: feed.php?sucesso=1");
 } else {
     print_r($stmt->errorInfo());
-    echo "Erro ao inserir post.";
+    echo "Erro ao criar post.";
 }
 ?>
