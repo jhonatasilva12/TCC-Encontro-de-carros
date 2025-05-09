@@ -17,9 +17,8 @@ body {
 
 .container {
     width: 80vw;
-    height: 80vh;
     display: flex;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.212);
+    box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.212);
 }
 
 .form-image {
@@ -42,7 +41,7 @@ body {
     justify-content: space-between;
     align-items: center;
     background-color: #fff;
-    padding: 3rem;
+    padding: 2rem;
 }
 
 .form-header {
@@ -57,9 +56,6 @@ body {
 .login-button {
     display: flex;
     align-items: center;
-}
-
-.login-button button {
     border: none;
     background-color: #6c63ff;
     padding: 0.4rem 1rem;
@@ -67,11 +63,20 @@ body {
     cursor: pointer;
 }
 
-.login-button button:hover {
+.login-button:hover {
     background-color: #6b63fff1;
 }
 
-.login-button button a {
+.title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1;
+    width: 50%;
+    justify-content: space-between;
+}
+
+.login-button a {
     text-decoration: none;
     font-weight: 500;
     color: #fff;
@@ -101,7 +106,6 @@ body {
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: space-between;
-    padding: 1rem 0;
     width: 100%;
 }
 
@@ -130,7 +134,7 @@ body {
 
 .input-box label,
 .gender-title h6 {
-    font-size: 0.75rem;
+    font-size: 1rem;
     font-weight: 600;
     color: #000000c0;
 }
@@ -196,19 +200,29 @@ body {
         width: 90%;
         height: 90%;
     }
-    .input-group {
-        flex-direction: column;
-        z-index: 5;
-        padding-right: 5rem;
-        max-height: 10rem;
+    .form form {
         overflow-y: scroll;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        border: #6c63ff 3px solid;
+    }
+    .input-group, .input-group-login {
+        flex-direction: column;
+        z-index: 6;
+        padding-right: 5rem;
         flex-wrap: nowrap;
+        width: 100%;
     }
     .gender-inputs {
         margin-top: 2rem;
+        width: 100%;
     }
     .gender-group {
-        flex-direction: column;
+        flex-direction: row;
+        width: 100%;
     }
     .gender-title h6 {
         margin: 0;
