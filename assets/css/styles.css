@@ -269,9 +269,10 @@
   .superior-direita {
     display: flex;
     flex-direction: row;
+    position: relative;
   }
 
-  #mais {
+  .mais {
     border-radius: 100px;
     width: 30px;
     height: 30px;
@@ -281,20 +282,26 @@
   }
 
   .pop-mais {
-    width: 0px;
-    height: 0px;
-    font-size: 0;
-    border: none;
-    transition: 1s ease;
-    position: sticky;
-    left: 10px;
+    position: absolute;
+    left: calc(100% + 10px); /* Aparece à direita do botão */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    z-index: 100;
   }
 
-  #mais.ativo ~ .pop-mais {
-    width: 20vw;
-    height: 30vw;
-    font-size: medium;
-    border: #000 2px solid;
+  .mais.ativo ~ .pop-mais {
+    width: 200px; /* Ajuste conforme necessário */
+    height: auto;
+    min-height: 100px;
+    padding: 10px;
+    border: 2px solid #000000;
   }
 
   .p-vote, .p-comentario {
@@ -319,7 +326,7 @@
     bottom: 2vw;
   }
   
-  #criar{
+  .criar{
     background-color: #9fa3cf;
     color: #000000;
     border-radius: 100px;
@@ -338,7 +345,7 @@
     cursor: pointer;
   }
   
-  #criar.ativo{
+  .criar.ativo{
     transform: rotate(45deg);
     right: 4vw;
     bottom: 3vw;
@@ -349,7 +356,7 @@
     border: 2px #363030 solid;
   }
 
-  #criar:hover {
+  .criar:hover {
     background-color: #8286b1;
     color: #fff;
   }
@@ -379,7 +386,7 @@
     transition-delay: 0s !important;
   }
 
-  #criar.ativo ~ .criar-post, #criar.ativo ~ .criar-grupo, #criar.ativo ~ .criar-evento{
+  .criar.ativo ~ .criar-post, .criar.ativo ~ .criar-grupo, .criar.ativo ~ .criar-evento{
     width: 8vh;
     height: 8vh;
     font-size: 1.5vw;
@@ -391,20 +398,20 @@
     transition-delay: 0s;
   }
 
-  #criar.ativo ~ .criar-post{
+  .criar.ativo ~ .criar-post{
     transition-delay: 0.2s;
     right: calc(4vw - 25px);
     bottom: calc(3vw + 11vh);
 
   }
 
-  #criar.ativo ~ .criar-grupo{
+  .criar.ativo ~ .criar-grupo{
     transition-delay: 0.4s;
     right: calc(4vw + 8vh);
     bottom: calc(3vw + 8vh);
   }
 
-  #criar.ativo ~ .criar-evento{
+  .criar.ativo ~ .criar-evento{
     transition-delay: 0.6s;
     right: calc(4vw + 11vh);
     bottom: calc(3vw - 25px);
