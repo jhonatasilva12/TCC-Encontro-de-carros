@@ -2,6 +2,10 @@ document.getElementById('criar').addEventListener('click', function() {
     this.classList.toggle('ativo');
   });
 
+  document.getElementById('mais').addEventListener('click', function() {
+    this.classList.toggle('ativo');
+  });
+
 
 
 function validaSenha (input){ 
