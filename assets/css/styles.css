@@ -31,6 +31,7 @@
     justify-content: space-between;
     background: #9fa3cf;
     position: fixed;
+    z-index: 100;
   }
   
   .nav {
@@ -77,7 +78,7 @@
     padding-left: 15%;
   }
     
-  .nav-list a {
+  .nav-list .letter-list {
     font-size: 0px;
     color: #000000;
     font-weight: 600;
@@ -86,7 +87,14 @@
     transition: 0.4s ease;
   }
 
-  .header:hover > .nav a {
+  .letter-list:hover {
+    background-color: #8286b1;
+    padding-inline-start: 90px;
+    padding-inline-end: 100px;
+    color: #fff;
+  }
+
+  .header:hover > .nav .letter-list {
     font-size: 22px;
     width: 100%;
   }
@@ -101,13 +109,7 @@
     position: relative;
     left: 30px;
     transition: 0.5s ease;
-  }
-
-  .nav-list a:hover {
-    background-color: #8286b1;
-    padding-inline-start: 90px;
-    padding-inline-end: 100px;
-    color: #fff;
+    color: #000;
   }
 
   .header:hover i {
@@ -221,6 +223,7 @@
   .p-titulo {
     font-size: 1.6em;
     font-family: Helvetica, Arial, sans-serif;
+    cursor: default;
   }
 
   .p-texto {
@@ -228,6 +231,7 @@
     font-weight: normal;
     color: #312e38;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    cursor: default;
   }
 
   .p-centro {
@@ -279,21 +283,22 @@
     background-color: #fff;
     color: #464040;
     position: sticky;
+    cursor: pointer;
   }
 
   .pop-mais {
     position: absolute;
-    left: calc(100% + 10px); /* Aparece à direita do botão */
+    left: calc(100% + 10px);
     top: 50%;
     transform: translateY(-50%);
     width: 0;
     height: 0;
     overflow: hidden;
     background: #fff;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
-    z-index: 100;
+    z-index: 10;
   }
 
   .mais.ativo ~ .pop-mais {
@@ -311,6 +316,7 @@
     color: #464040;
     border-radius: 30px;
     padding: 4px;
+    cursor: pointer;
   }
 
   /*************************fim post e interiores******************************/
@@ -422,10 +428,39 @@
   /********************aqui começa o css pra mobile****************************/
   @media (max-width: 750px) {
 
+    .search-box {
+
+    }
+
     .search-txt {
-      width: 100px;
-      height: 35px;
+      width: 100vw;
+      height: 15px;
       padding: 0 6px;
+    }
+
+    .search-btn {
+      color: #000;
+      float: right;
+      width: 35px;
+      height: 35px;
+      border-radius: 100%;
+      border: none;
+      background: #9FA3CF;
+      font-size: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 0.5s ease;
+    }
+
+    .search-box:hover > .search-txt {
+      width: 100vw;
+      height: 15px;
+      padding: 0 6px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
     }
 
     .header {
@@ -438,11 +473,13 @@
     
     .nav {
       width: 100vw;
-      height: 5vh;
+      height: 100px;
       
       margin-inline-end: 16px;
       margin-inline-start: 16px;
       margin-top: 50px;
+
+      border: #000 3px solid;
 
       align-items: center;
       transition: 1s ease;
@@ -456,10 +493,10 @@
     .nav-list {
       list-style: none;
       flex-direction: row; 
-      align-items: baseline; 
-      justify-content: space-around;
-      height: 70vh;
-      max-width: 100%;
+      align-items: center; 
+      justify-content: center;
+      height: 3vh;
+      width: 100vw;
     }
   
     .header:hover > .nav{
@@ -467,18 +504,12 @@
       padding-left: 0px;
     }
       
-    .nav-list a {
-      font-size: 22px;
-      color: #000000;
-      font-weight: 600;
-      padding-block-end: 16px;
-      padding-block-start: 16px;
-      transition: 0.4s ease;
+    .nav-list > .letter-list {
+      font-size: 0px;
     }
   
-    .header:hover > .nav a {
-      font-size: 22px;
-      width: 100%;
+    .header:hover > .letter-list {
+      font-size: 0px;
     }
   
     .header:hover > .nav li {
@@ -491,13 +522,13 @@
       position: relative;
       left: 30px;
       transition: 0.5s ease;
+      padding-block-end: 16px;
+      padding-block-start: 16px;
     }
   
-    .nav-list a:hover {
-      background-color: #8286b1;
-      padding-inline-start: 90px;
-      padding-inline-end: 100px;
-      color: #fff;
+    .nav-list .letter-list:hover {
+      padding-inline-start: 0px;
+      padding-inline-end: 0px;
     }
   
     .header:hover i {
