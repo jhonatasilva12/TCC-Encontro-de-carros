@@ -428,10 +428,6 @@
   /********************aqui começa o css pra mobile****************************/
   @media (max-width: 750px) {
 
-    .search-box {
-
-    }
-
     .search-txt {
       width: 100vw;
       height: 15px;
