@@ -87,7 +87,7 @@
     transition: 0.4s ease;
   }
 
-  .letter-list:hover {
+  .nav-list .letter-list:hover {
     background-color: #8286b1;
     padding-inline-start: 90px;
     padding-inline-end: 100px;
@@ -250,6 +250,7 @@
     margin-top: 1vw;
     margin-bottom: 1vw;
     border: 2px, #6b5c5c, solid;
+    box-shadow: 0px 0px 4px #9c8c8c;
   }
 
   .p-inferior {
@@ -276,6 +277,16 @@
     position: relative;
   }
 
+  .p-vote, .p-comentario {
+    height: 40px;
+    width: 40px;
+    background-color: #ffffff;
+    color: #464040;
+    border-radius: 30px;
+    padding: 4px;
+    cursor: pointer;
+  }
+
   .mais {
     border-radius: 100px;
     width: 30px;
@@ -289,34 +300,56 @@
   .pop-mais {
     position: absolute;
     left: calc(100% + 10px);
-    top: 50%;
+    top: 160%;
     transform: translateY(-50%);
     width: 0;
     height: 0;
     overflow: hidden;
-    background: #fff;
+    background-color: #9FA3CF;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: -2px 2px 4px #9c8c8c;
     transition: all 0.3s ease;
     z-index: 10;
+    display: flex;
+    flex-direction: column;
   }
 
   .mais.ativo ~ .pop-mais {
-    width: 200px; /* Ajuste conforme necessário */
-    height: auto;
-    min-height: 100px;
-    padding: 10px;
+    width: 150px;
+    height: max-content;
     border: 2px solid #000000;
   }
 
-  .p-vote, .p-comentario {
-    height: 40px;
-    width: 40px;
-    background-color: #ffffff;
-    color: #464040;
-    border-radius: 30px;
-    padding: 4px;
-    cursor: pointer;
+  .pop-list, .pop-i-list {
+    list-style: none;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    justify-content: space-around;
+    height: 100px;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .pop-i-list {
+    align-items: baseline;
+    position: absolute;
+    width: fit-content;
+    left: 4px;
+    z-index: 2;
+  }
+
+  .pop-list .letter-list {
+    padding-block-end: 16px;
+    padding-block-start: 16px;
+    padding-inline: 75px;
+    transition: 0.5s ease;
+    color: #000;
+  }
+
+  .pop-list .letter-list:hover {
+    color: #fff;
+    background-color: #8286B1;
   }
 
   /*************************fim post e interiores******************************/
@@ -344,6 +377,7 @@
     font-size: 1.5vw;
     z-index: 2;
     border: 2px #363030 solid;
+    box-shadow: -1px 1px 4px #9c8c8c;
 
     transform: rotate(0deg);
     transition: 0.3s;
@@ -382,6 +416,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: -1px 1px 4px #9c8c8c;
   }
 
   .criar-post:hover, .criar-grupo:hover, .criar-evento:hover {
@@ -428,35 +463,58 @@
   /********************aqui começa o css pra mobile****************************/
   @media (max-width: 750px) {
 
-    .search-txt {
-      width: 100vw;
-      height: 15px;
-      padding: 0 6px;
+    .search-box {
+      margin-top: 20px;
+      right: 1vh;
+      border-radius: 40px;
+      padding: 10px;
+      position: fixed;
+      border: 2px #363030 solid;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
     }
 
     .search-btn {
       color: #000;
       float: right;
-      width: 35px;
-      height: 35px;
+      width: 15px;
+      height: 15px;
       border-radius: 100%;
+      padding: 10px;
       border: none;
       background: #9FA3CF;
-      font-size: 18px;
+      font-size: 15px;
       display: flex;
       justify-content: center;
       align-items: center;
       transition: 0.5s ease;
     }
 
+    .search-btn:hover {
+      background-color: #8286B1;
+      color: #fff;
+    }
+
+    .search-txt {
+      border: none;
+      background: none;
+      outline: none;
+      float: left;
+      padding: 0;
+      color: #000;
+      font-size: 15px;
+      transition: 0.4s;
+      line-height: 35px;
+      width: 85vw;
+      max-width: 100%;
+      height: 100%;
+    }
+
     .search-box:hover > .search-txt {
-      width: 100vw;
-      height: 15px;
+      width: 85vw;
+      height: 100%;
       padding: 0 6px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
     }
 
     .header {
@@ -473,7 +531,7 @@
       
       margin-inline-end: 16px;
       margin-inline-start: 16px;
-      margin-top: 50px;
+      margin-top: 0px;
 
       border: #000 3px solid;
 
