@@ -1,6 +1,6 @@
 <?php
-  require_once 'procura.php';
-?>
+require_once 'banco/autentica.php';
+require_once 'banco/procura.php'; ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">

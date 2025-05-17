@@ -33,7 +33,7 @@
         </div>
       </div>
 
-      <form action="#" method="post">
+      <form action="banco/insert_tb_user.php" method="post">
         
         <div class="input-group">
 
@@ -135,6 +135,30 @@
     </div>
 
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const senhaInput = document.getElementById('password');
+        const confirmaSenhaInput = document.getElementById('rep_password');
+
+        confirmaSenhaInput.addEventListener('input', function() {
+            if (senhaInput.value !== confirmaSenhaInput.value) {
+                confirmaSenhaInput.setCustomValidity('As senhas não coincidem');
+            } else {
+                confirmaSenhaInput.setCustomValidity('');
+            }
+        });
+        
+        
+        form.addEventListener('submit', function(event) {
+            if (senhaInput.value !== confirmaSenhaInput.value) {
+                alert('As senhas não coincidem!');
+                event.preventDefault(); // Impede o envio do formulário
+            }
+        });
+    });
+  </script>
 
 
 </body>

@@ -222,6 +222,7 @@
 
   .p-titulo {
     font-size: 1.6em;
+    text-align: left;
     font-family: Helvetica, Arial, sans-serif;
     cursor: default;
     width: 100%;
@@ -230,6 +231,7 @@
   .p-texto {
     font-size: 1em;
     font-weight: normal;
+    text-align: left;
     color: #312e38;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     cursor: default;
@@ -242,7 +244,6 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
   }
 
   .p-img {
@@ -253,6 +254,12 @@
     margin-bottom: 1vw;
     border: 2px, #6b5c5c, solid;
     box-shadow: 0px 0px 4px #9c8c8c;
+  }
+
+  .superior-direita {
+    display: flex;
+    flex-direction: row;
+    position: relative;
   }
 
   .p-inferior {
@@ -268,18 +275,29 @@
   .inferior-esquerda {
     display: flex;
     flex-direction: row;
-    justify-content: baseline;
+    justify-content: space-around;
     align-items: center;
-    width: 40vw;
+    width: calc(fit-content + 10px);
+    overflow: hidden;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border: #312e38 solid 2px;
   }
 
-  .superior-direita {
-    display: flex;
-    flex-direction: row;
-    position: relative;
+  .p-vote {
+    border: none;
+    background: none;
+    padding: 10px;
+    width: 50%;
   }
 
-  .p-vote, .p-comentario {
+  .p-vote:hover {
+    background-color: #9FA3CF;
+  }
+
+  .p-comentario {
     height: 40px;
     width: 40px;
     background-color: #ffffff;
@@ -307,8 +325,10 @@
     width: 0;
     height: 0;
     overflow: hidden;
-    background-color: #9FA3CF;
+    background-color: #ffecec;
     border-radius: 10px;
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 0px;
     box-shadow: -2px 2px 4px #9c8c8c;
     transition: all 0.3s ease;
     z-index: 10;
@@ -319,7 +339,7 @@
   .mais.ativo ~ .pop-mais {
     width: 150px;
     height: max-content;
-    border: 2px solid #000000;
+    border: 2px, #d6c1c1, solid;
   }
 
   .pop-list, .pop-i-list {
@@ -345,13 +365,13 @@
     padding-block-end: 16px;
     padding-block-start: 16px;
     padding-inline: 75px;
-    transition: 0.5s ease;
+    transition: 0.3s ease;
     color: #000;
   }
 
   .pop-list .letter-list:hover {
     color: #fff;
-    background-color: #8286B1;
+    background-color: #bbabab;
   }
 
   /*************************fim post e interiores******************************/
@@ -371,6 +391,8 @@
     background-color: #9fa3cf;
     color: #000000;
     border-radius: 100px;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     width: 6vh;
     height: 6vh;
@@ -388,7 +410,7 @@
   }
   
   .criar.ativo{
-    transform: rotate(45deg);
+    transform: rotate(135deg);
     right: 4vw;
     bottom: 3vw;
     width: 8vh;

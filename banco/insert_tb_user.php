@@ -1,63 +1,59 @@
 <?php
-include_once('./../conexao.php');
+session_start();
+require_once 'db_connect.php'; // Arquivo com configurações do banco
 
-// Inicialização de variáveis 
-$nome_user = "";
-$sobrenome_user = "";
-$email_user = "";
-$senha_user = "";
-$cpf_user = "";
-$data_nasc_user = "";
-$telefone_user = "";
-$imagem_user = null;
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Coletar dados do formulário
+    $nome = $_POST['firstiname'] ?? '';
+    $sobrenome = $_POST['lastname'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $telefone = $_POST['number'] ?? '';
+    $senha = $_POST['password'] ?? '';
+    $confirmacao = $_POST['confirmpassword'] ?? '';
+    $genero = $_POST['gender'] ?? '';
 
-// Processamento da foto 
-if (isset($_FILES['imagem_user']) && $_FILES['imagem_user']['error'] == 0) {
-    $ext = pathinfo($_FILES['imagem_user']['name'], PATHINFO_EXTENSION);
-    $nome_imagem = 'user_' . md5(time()) . '.' . $ext;
-    $diretorio = "../uploads/usuarios/";
-
-    if (!move_uploaded_file($_FILES['imagem_user']['tmp_name'], $diretorio . $nome_imagem)) {
-        die("Erro ao salvar a imagem.");
+    // Validações básicas
+    if (empty($nome) || empty($email) || empty($senha)) {
+        die("Preencha todos os campos obrigatórios");
     }
-    $imagem_user = $nome_imagem;
-}
 
-// Dados do formulário
-$nome_user = $_POST['nome_user'];
-$sobrenome_user = $_POST['sobrenome_user'] ?? null;
-$email_user = $_POST['email_user'];
-$senha_user = password_hash($_POST['senha_user'], PASSWORD_BCRYPT);
-$cpf_user = $_POST['cpf_user'] ?? null;
-$data_nasc_user = $_POST['data_nasc_user'] ?? null;
-$telefone_user = $_POST['telefone_user'] ?? null;
+    if ($senha !== $confirmacao) {
+        die("As senhas não coincidem");
+    }
 
-// Query completa 
-$query = "INSERT INTO tb_user (
-    nome_user,
-    sobrenome_user,
-    email_user,
-    senha_user,
-    cpf_user,
-    data_nasc_user,
-    telefone_user,
-    imagem_user
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        die("Email inválido");
+    }
 
-$stmt = $pdo->prepare($query);
-$stmt->bindValue(1, $nome_user);
-$stmt->bindValue(2, $sobrenome_user);
-$stmt->bindValue(3, $email_user);
-$stmt->bindValue(4, $senha_user);
-$stmt->bindValue(5, $cpf_user);
-$stmt->bindValue(6, $data_nasc_user);
-$stmt->bindValue(7, $telefone_user);
-$stmt->bindValue(8, $imagem_user);
+    // Conexão com o banco
+    try {
+        $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-if ($stmt->execute()) {
-    header("Location: login.php?cadastro=sucesso");
-} else {
-    print_r($stmt->errorInfo());
-    echo "Erro ao cadastrar usuário.";
+        // Verificar se email já existe
+        $stmt = $conn->prepare("SELECT id_user FROM tb_user WHERE email_user = ?");
+        $stmt->execute([$email]);
+        
+        if ($stmt->rowCount() > 0) {
+            die("Este email já está cadastrado");
+        }
+
+        // Hash da senha (nunca armazene senhas em texto puro)
+        $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+
+        // Inserir novo usuário
+        $stmt = $conn->prepare("INSERT INTO tb_user 
+                               (nome_user, sobrenome_user, email_user, telefone_user, senha_user) 
+                               VALUES (?, ?, ?, ?, ?)");
+        
+        $stmt->execute([$nome, $sobrenome, $email, $telefone, $senhaHash]);
+
+        // Redirecionar para login com sucesso
+        header("Location: ../login.html?cadastro=sucesso");
+        exit();
+        
+    } catch(PDOException $e) {
+        die("Erro no cadastro: " . $e->getMessage());
+    }
 }
 ?>
