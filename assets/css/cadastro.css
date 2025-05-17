@@ -217,6 +217,14 @@ input:valid {
         width: 90%;
         height: 90%;
     }
+
+    .form-header {
+        width: 80vw;
+        left: 10vw;
+        background-color: white;
+        z-index: 200;
+    }
+
     .form form {
         overflow-y: scroll;
         display: flex;
@@ -224,7 +232,7 @@ input:valid {
         justify-content: center;
         align-items: center;
         width: 100%;
-        border: #6c63ff 3px solid;
+        height: 80%;
     }
     .input-group, .input-group-login {
         flex-direction: column;

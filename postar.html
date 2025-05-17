@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+  <link rel="stylesheet" href="./assets/css/cadastro.css">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <div class="container">
+
+    <div class="form">
+
+      <div class="form-header">
+        <div class="title">
+          <h1>Cadastre-se</h1>
+        </div>
+      </div>
+
+      <form action="banco/insert_tb_post.php" method="post">
+        
+        <div class="input-group">
+
+
+
+          <div class="input-box">
+            <label for="firstiname">Primeiro nome</label>
+            <input id="firstiname" type="text" name="firstiname" placeholder="digite seu primeiro nome" required>
+          </div>
+
+
+
+          <div class="input-box">
+            <label for="lastname">sobrenome</label>
+            <input id="lastname" type="text" name="lastname" placeholder="digite seu sobrenome" required>
+          </div>
+
+
+          <div class="input-box">
+            <label for="email">email</label>
+            <input id="email" type="email" name="email" placeholder="digite seu email" required>
+          </div>
+
+
+
+          <div class="input-box">
+            <label for="number">celular</label>
+            <input id="number" type="tel" name="number" placeholder="(xx) xxxxx-xxxx" required>
+          </div>
+
+            
+          <script type="text/javascript">
+            $("#number").mask("(00) 00000-0000");
+          </script>
+
+
+          <div class="input-box">
+            <label for="password">Senha</label>
+            <input id="password" type="password" name="password" placeholder="Digite sua senha" required>
+          </div>
+
+
+
+          <div class="input-box">
+            <label for="rep_password">confirme sua Senha</label>
+            <input id="rep_password" type="password" name="confirmpassword" placeholder="Confirme sua senha" required>
+          </div>
+
+        </div>
+
+        <button type="submit" class="continue-button">cadastrar</button>
+
+      </form>
+    </div>
+
+  </div>
+
+
+</body>
+
+</html>

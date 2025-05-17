@@ -1,4 +1,5 @@
 <?php
+require_once 'funcoes.php';
 require_once 'banco/autentica.php';
 require_once 'banco/procura.php'; ?>
 
@@ -88,7 +89,12 @@ require_once 'banco/procura.php'; ?>
                     <button class="p-vote"><i class="fas fa-thumbs-up"></i></button>
                     <button class="p-vote"><i class="fas fa-thumbs-down"></i></button>
                 </div>
-                <button class="p-comentario"><i class="fas fa-comment"></i></button>
+                <div class="inferior-direita">
+                    <span class="p-tempo" data-tempo="<?php echo $post['data_post']; ?>">
+                        <?php echo tempoDecorrido($post['data_post']); ?>
+                    </span>
+                    <button class="p-comentario"><i class="fas fa-comment"></i></button>
+                </div>
             </div>
         </div>
         <?php endforeach; ?>

@@ -22,11 +22,36 @@ document.querySelector('.criar').addEventListener('click', function() {
   });
 
 
+function atualizarTempos() {
+    document.querySelectorAll('.p-tempo').forEach(elemento => {
+        const dataPost = elemento.getAttribute('data-tempo');
+        elemento.textContent = calcularTempoDecorrido(dataPost);
+    });
+}
 
-function validaSenha (input){ 
-  if (input.value != document.getElementById('txtSenha').value) {
-    input.setCustomValidity('Repita a senha corretamente');
-  } else {
-    input.setCustomValidity('');
-  }
-} 
+function calcularTempoDecorrido(dataString) {
+    const dataPost = new Date(dataString);
+    const agora = new Date();
+    const diff = Math.floor((agora - dataPost) / 1000); // diferença em segundos
+    
+    if (diff < 60) return 'há poucos segundos';
+    if (diff < 3600) return `há ${Math.floor(diff/60)} minuto${Math.floor(diff/60) !== 1 ? 's' : ''}`;
+    if (diff < 86400) return `há ${Math.floor(diff/3600)} hora${Math.floor(diff/3600) !== 1 ? 's' : ''}`;
+    if (diff < 2592000) return `há ${Math.floor(diff/86400)} dia${Math.floor(diff/86400) !== 1 ? 's' : ''}`;
+    if (diff < 31536000) return `há ${Math.floor(diff/2592000)} mês${Math.floor(diff/2592000) !== 1 ? 'es' : ''}`;
+    return `há ${Math.floor(diff/31536000)} ano${Math.floor(diff/31536000) !== 1 ? 's' : ''}`;
+}
+
+// Atualize a cada minuto
+setInterval(atualizarTempos, 60000);
+
+// Inicialize quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    // Adicione data-tempo aos elementos
+    document.querySelectorAll('.p-tempo').forEach(el => {
+        if (!el.getAttribute('data-tempo')) {
+            el.setAttribute('data-tempo', el.textContent);
+        }
+    });
+    atualizarTempos();
+});
