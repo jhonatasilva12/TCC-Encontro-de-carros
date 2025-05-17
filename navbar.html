@@ -1,11 +1,15 @@
+<?php
+  require_once 'procura.php';
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/5d7149073d.js" crossorigin="anonymous"></script>
     <title>Navbar</title>
-    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/styles.css">
     
   </head>
   <body>
@@ -43,107 +47,52 @@
     <main class="hero">
 
 <!---------------------------------------------------post-------------------------------------------------------------------->
+    <?php foreach ($posts as $post): ?>
         <div class="post">
+            <div class="p-superior">
+                <div class="p-identifica">
+                    <!-- Você pode adicionar uma imagem de perfil do usuário aqui -->
+                    <img src="assets/images/verde.png" class="p-fotinha">
+                    <p class="p-nome">
+                        <?php echo htmlspecialchars($post['nome_user']) . ' ' . htmlspecialchars($post['sobrenome_user']); ?>
+                    </p>
+                </div>
 
-          <div class="p-superior">
-
-              <div class="p-identifica">
-                <img src="assets/images/verde.png" class="p-fotinha">
-                <p class="p-nome">nome</p>
-              </div>
-
-            <div class="superior-direita">
-
-              <button class="mais"><i class="fas fa-ellipsis-v"></i></button>
-
-              <div class="pop-mais">
-
-                <ul class="pop-i-list">
-                  <li><i class="fas fa-share"></i></li>
-                  <li><i class="fas fa-exclamation-triangle"></i></li>
-                </ul>
-                
-                <ul class="pop-list">
-                  <li><a href="#" class="letter-list">compartilhar</a></li>
-                  <li><a href="#" class="letter-list">denunciar</a></li>
-                </ul>
-
-              </div>
-
+                <div class="superior-direita">
+                    <button class="mais"><i class="fas fa-ellipsis-v"></i></button>
+                    <div class="pop-mais">
+                        <ul class="pop-i-list">
+                            <li><i class="fas fa-share"></i></li>
+                            <li><i class="fas fa-exclamation-triangle"></i></li>
+                        </ul>
+                        <ul class="pop-list">
+                            <li><a href="#" class="letter-list">compartilhar</a></li>
+                            <li><a href="#" class="letter-list">denunciar</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-          </div>
-
-          <div class="p-centro">
-            <h3 class="p-titulo">isso é um titulo</h3>
-            <p class="p-texto">enquanto, por outro lado, isso aqui é um texto feito unica e exclusivamente para o teste geral de maximo de tamanho. ao qual foi definido para (se eu não me engano) 400 caracteres, sendo eles os mais d1v3r$0$ possiveis. bem... vendo agora, eu pretendo deixar que um texto tenha, no maximo, 5 linhas de altura, tornando essa uma tarefa um pouco mais complexa, principalmente levando em conta que pessoas poderâo adicionar paragrafos.</p>
-            <img src="assets/images/vermelho.png" class="p-img">
-          </div>
-
-          <div class="p-inferior">
-            <div class="inferior-esquerda">
-              <button class="p-vote"><i class="fas fa-thumbs-up"></i></button>
-              <button class="p-vote"><i class="fas fa-thumbs-down"></i></button>
+            <div class="p-centro">
+                <?php if (!empty($post['titulo_post'])): ?>
+                <h3 class="p-titulo"><?php echo htmlspecialchars($post['titulo_post']); ?></h3>
+                <?php endif; ?>
+                <p class="p-texto"><?php echo htmlspecialchars($post['texto_post']); ?></p>
+                <?php if (!empty($post['imagem_post'])): ?>
+                <img src="assets/uploads/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="p-img">
+                <?php endif; ?>
             </div>
-                
-            <button class="p-comentario"><i class="fas fa-comment"></i></button>
 
-          </div>
-
+            <div class="p-inferior">
+                <div class="inferior-esquerda">
+                    <button class="p-vote"><i class="fas fa-thumbs-up"></i></button>
+                    <button class="p-vote"><i class="fas fa-thumbs-down"></i></button>
+                </div>
+                <button class="p-comentario"><i class="fas fa-comment"></i></button>
+            </div>
         </div>
+        <?php endforeach; ?>
 <!-------------------------------------------fim post principal--------------------------------------------------------------->
-        <div class="post">
-
-          <div class="p-superior">
-
-            <div class="superior-esquerda">
-
-              <div class="p-identifica">
-                <img src="assets/images/verde.png" class="p-fotinha">
-                <p class="p-nome">nome</p>
-              </div>
-
-            </div>
-
-            <div class="superior-direita">
-
-              <button class="mais"><i class="fas fa-ellipsis-v"></i></button>
-
-              <div class="pop-mais">
-
-                <ul class="pop-list">
-                  <li><a href="#" class="icon-list"><i class="fas fa-alert"></i></i></a></li>
-                  <li><a href="#" class="icon-list"></a></li>
-                </ul>
-                
-                <ul class="pop-list">
-                  <li><a href="#" class="letter-list">compartilhar</a></li>
-                  <li><a href="#" class="letter-list">denunciar</a></li>
-                </ul>
-
-              </div>
-
-            </div>
-
-          </div>
-
-          <div class="p-centro">
-            <h3 class="p-titulo">isso é um titulo</h3>
-            <p class="p-texto">enquanto, por outro lado, isso aqui é um texto feito unica e exclusivamente para o teste geral de maximo de tamanho. ao qual foi definido para (se eu não me engano) 400 caracteres, sendo eles os mais d1v3r$0$ possiveis. bem... vendo agora, eu pretendo deixar que um texto tenha, no maximo, 5 linhas de altura, tornando essa uma tarefa um pouco mais complexa, principalmente levando em conta que pessoas poderâo adicionar paragrafos.</p>
-            <img src="assets/images/vermelho.png" class="p-img">
-          </div>
-
-          <div class="p-inferior">
-            <div class="inferior-esquerda">
-              <button class="p-vote"><i class="fas fa-thumbs-up"></i></button>
-              <button class="p-vote"><i class="fas fa-thumbs-down"></i></button>
-            </div>
-                
-            <button class="p-comentario"><i class="fas fa-comment"></i></button>
-
-          </div>
-
-        </div>
 
     </main>
 
