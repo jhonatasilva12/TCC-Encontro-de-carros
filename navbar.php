@@ -105,29 +105,159 @@ require_once 'banco/procura.php'; ?>
 
       <button class="criar"><i class="fas fa-plus"></i></button>
 
-      <a href="#" class="criar-post"><i class="fas fa-edit"></i></a>
-      <a href="#" class="criar-grupo"><i class="fas fa-users"></i></a>
-      <a href="#" class="criar-evento"><i class="fas fa-calendar-plus"></i></a>
+      <button class="criar-post" onpress><i class="fas fa-edit"></i></button>
+      <button class="criar-grupo"><i class="fas fa-users"></i></button>
+      <button class="criar-evento"><i class="fas fa-calendar-plus"></i></button>
 
-      <div class="form-post">
-        <form action="banco/insert_tb_" method="post">
+<!----------------------------------->
 
-        </form>
+      <div class="fundo-modal"></div>
+
+        <div class="form-modal">
+          
+          <div class="header-form-criacao">
+            <button class="fecha-modal">X</button>
+            <h2>Criar Novo Post</h2>
+          </div>
+          
+          <form class="container-modal" method="post" action="banco/insert_tb_post">
+
+            <div class="form-group">
+              <label for="titulo-post">Título (opcional)</label>
+              <input type="text" id="post-title" maxlength="50">
+            </div>
+            
+            <div class="form-group">
+              <label for="texto-post">Texto*</label>
+              <textarea id="post-text" maxlength="600" required></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="imagem-post">Imagem</label>
+              <input type="file" id="imagem-post" accept="image/*">
+            </div>
+            
+            <div class="form-group">
+              <label for="tipo-post">Tipo de Post</label>
+              <select id="tipo-post" required>
+                <!-- Opções serão preenchidas via JavaScript -->
+              </select>
+            </div>
+            
+            <button type="submit">Publicar</button>
+          </form>
+        </div>
       </div>
 
-      <div class="form-grupo">
-        <form action="banco/insert_tb_grupo" method="post">
+<!----------------------------------->
 
-        </form>
+      <div class="fundo-modal"></div>
+
+        <div class="form-modal">
+          
+          <div class="header-form-criacao">
+            <button class="fecha-modal">X</button>
+            <h2>Criar Novo Grupo</h2>
+          </div>
+          
+          <form class="modal-container" action="banco/insert_tb_grupo" method="post">
+            
+            <div class="form-group">
+              <label for="group-name">Nome do Grupo*</label>
+              <input type="text" id="group-name" maxlength="50" required>
+            </div>
+            
+            <div class="form-group">
+              <img id="preview" src="./../img/userPadrao.png" style="height:250px; object-fit: cover;" >
+              <div>
+                <label for="form-foto"> Carregar Imagem</label>
+                <input type="file" id="form-foto" name="foto" accept="image/*" class="custom-file-input" style="display: none">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="group-description">Descrição</label>
+              <textarea id="group-description" maxlength="600"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="group-theme">Tema do Grupo</label>
+              <select id="group-theme">
+                <!-- Opções serão preenchidas via JavaScript -->
+              </select>
+            </div>
+            
+            <button type="submit">Criar Grupo</button>
+          </form>
+        </div>
       </div>
 
-      <div class="form-evento">
-        <form action="banco/insert_tb_evento" method="post">
+<!----------------------------------->
 
-        </form>
+      <div class="fundo-modal"></div>
+
+        <div class="form-modal">
+          
+          <div class="header-form-criacao">
+            <button class="fecha-modal">X</button>
+            <h2>Criar Novo Evento</h2>
+          </div>
+          
+          <form class="modal-container" action="banco/insert_tb_evento" method="post">
+            
+            <div class="form-group">
+              <label for="event-name">Nome do Evento*</label>
+              <input type="text" id="event-name" maxlength="30" required>
+            </div>
+            
+            <div class="form-group">
+              <img id="preview" src="./../img/userPadrao.png" style="height:250px; object-fit: cover;" >
+              <div>
+                <label for="form-foto"> Carregar Imagem</label>
+                <input type="file" id="form-foto" name="foto" accept="image/*" class="custom-file-input" style="display: none">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="event-description">Descrição*</label>
+              <textarea id="event-description" maxlength="300" required></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="event-start-date">Data de Início*</label>
+              <input type="date" id="event-start-date" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="event-end-date">Data de Término (opcional)</label>
+              <input type="date" id="event-end-date">
+            </div>
+            
+            <div class="form-group">
+              <label for="event-start-time">Horário de Início</label>
+              <input type="time" id="event-start-time">
+            </div>
+            
+            <div class="form-group">
+              <label for="event-end-time">Horário de Término (opcional)</label>
+              <input type="time" id="event-end-time">
+            </div>
+            
+            <div class="form-group">
+              <label for="event-pedestrian-price">Valor para Pedestres*</label>
+              <input type="text" id="event-pedestrian-price" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="event-exhibition-price">Valor para Exposição*</label>
+              <input type="text" id="event-exhibition-price" required>
+            </div>
+            
+            <button type="submit">Criar Evento</button>
+          </form>
+        </div>
       </div>
-
-      
+<!----------------------------------->
 
     </div>
 
@@ -139,10 +269,8 @@ require_once 'banco/procura.php'; ?>
         </button>
       </form>
     </div>
-
-    
-
-  </div>
+  
+  </div> <!--fim geral-->
 
     
   </body>

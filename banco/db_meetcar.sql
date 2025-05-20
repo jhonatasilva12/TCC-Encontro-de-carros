@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 18/05/2025 às 00:22
+-- Tempo de geração: 20/05/2025 às 17:25
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -75,7 +75,7 @@ CREATE TABLE `tb_comentario` (
   `id_comentario` int(11) NOT NULL,
   `texto_comentario` varchar(300) NOT NULL,
   `imagem_comentario` varchar(36) DEFAULT NULL,
-  `data_comentario` datetime NOT NULL,
+  `data_comentario` timestamp NOT NULL DEFAULT current_timestamp(),
   `fk_id_user` int(11) NOT NULL,
   `fk_id_post` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -88,11 +88,16 @@ CREATE TABLE `tb_comentario` (
 
 CREATE TABLE `tb_evento` (
   `id_evento` int(11) NOT NULL,
-  `nome_evento` varchar(30) NOT NULL,
-  `descricao_evento` varchar(300) NOT NULL,
+  `nome_evento` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `img_evento` int(36) DEFAULT NULL,
+  `descricao_evento` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `data_post` timestamp NOT NULL DEFAULT current_timestamp(),
   `data_inicio_evento` datetime NOT NULL,
-  `duracao_evento` varchar(15) DEFAULT NULL,
+  `data_termino_evento` date DEFAULT NULL,
+  `horario_inicio` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `hora_termino` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `valor_pedestre` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `valor_exposicao` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `fk_id_criador` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -104,8 +109,10 @@ CREATE TABLE `tb_evento` (
 
 CREATE TABLE `tb_grupo` (
   `id_grupo` int(11) NOT NULL,
-  `nome_grupo` varchar(30) NOT NULL,
-  `descricao_grupo` varchar(350) DEFAULT NULL,
+  `nome_grupo` varchar(50) NOT NULL,
+  `img_grupo` varchar(36) DEFAULT NULL,
+  `descricao_grupo` varchar(600) DEFAULT NULL,
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
   `fk_id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -117,7 +124,7 @@ CREATE TABLE `tb_grupo` (
 
 CREATE TABLE `tb_post` (
   `id_post` int(11) NOT NULL,
-  `titulo_post` varchar(20) DEFAULT NULL,
+  `titulo_post` varchar(50) DEFAULT NULL,
   `imagem_post` varchar(36) DEFAULT NULL,
   `texto_post` varchar(500) NOT NULL,
   `data_post` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -133,16 +140,10 @@ CREATE TABLE `tb_post` (
 
 CREATE TABLE `tb_tipo_post` (
   `id_tipo_post` int(11) NOT NULL,
-  `nome_tipo_post` char(15) DEFAULT NULL
+  `nome_tipo_post` char(15) DEFAULT NULL,
+  `cor_fundo` varchar(7) DEFAULT NULL,
+  `cor_letra` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tb_tipo_post`
---
-
-INSERT INTO `tb_tipo_post` (`id_tipo_post`, `nome_tipo_post`) VALUES
-(1, 'avulso'),
-(2, 'aviso');
 
 -- --------------------------------------------------------
 
@@ -154,12 +155,20 @@ CREATE TABLE `tb_user` (
   `id_user` int(11) NOT NULL,
   `nome_user` varchar(50) NOT NULL,
   `sobrenome_user` varchar(50) DEFAULT NULL,
+  `img_user` varchar(36) DEFAULT NULL,
   `data_nasc_user` date DEFAULT NULL,
   `telefone_user` varchar(15) DEFAULT NULL,
   `cpf_user` varchar(14) DEFAULT NULL,
   `email_user` varchar(100) NOT NULL,
   `senha_user` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tb_user`
+--
+
+INSERT INTO `tb_user` (`id_user`, `nome_user`, `sobrenome_user`, `img_user`, `data_nasc_user`, `telefone_user`, `cpf_user`, `email_user`, `senha_user`) VALUES
+(6, 'david', 'de jesus almeida', '', NULL, '(11) 22222-2222', NULL, 'dwtazer@gmail.com', '$2y$10$.b4Nc9dgLuUpO7vfWXSai.aG2pJePLfIbIj8wio9.jqM/.YfRvUi6');
 
 -- --------------------------------------------------------
 
@@ -170,7 +179,9 @@ CREATE TABLE `tb_user` (
 CREATE TABLE `temas_grupo` (
   `id_temas_grupo` int(11) NOT NULL,
   `nome_temas` varchar(15) NOT NULL,
-  `descricao_temas` varchar(100) NOT NULL
+  `descricao_temas` varchar(100) NOT NULL,
+  `cor_fundo` varchar(7) DEFAULT NULL,
+  `cor_letras` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -309,7 +320,7 @@ ALTER TABLE `tb_tipo_post`
 -- AUTO_INCREMENT de tabela `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `temas_grupo`

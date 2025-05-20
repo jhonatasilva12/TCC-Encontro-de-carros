@@ -1,3 +1,4 @@
+
 .geral{
   display: flex;
   flex-direction: row;
@@ -533,7 +534,85 @@
     bottom: calc(3vw - 25px);
   }
 
-  /*************************fim criação******************************/
+  /************************modais***************************/
+
+  .fundo-modal {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    overflow: hidden;
+  }
+
+  .form-modal {
+    position: fixed;
+    width: 40vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    left: 30%;
+    top: 20px;
+    border-radius: 20px;
+    overflow: hidden;
+    padding-left: 10px;
+    padding-top: calc(30px + 1.5rem);
+    
+
+    background-color: white;
+    z-index: 1001;
+  }
+
+  .header-form-criacao {
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    font-size: 1rem;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #9ba0d3;
+    padding: 10px;
+  }
+
+  .modal-container {
+    overflow: scroll;
+    scrollbar-width: 10px;
+    max-height: 85vh;
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+  }
+
+  .fecha-modal {
+    position: absolute;
+    background: none;
+    border: none;
+    font-weight: 800;
+    font-size: 1.7em;
+    color: red;
+    right: 30px;
+    cursor: pointer;
+    text-shadow: -2px 2px 3px #000;
+  }
+
+  .modal-container button {
+    width: 100%;
+    background-color: #8286B1;
+    border: 2px #000 solid;
+    padding-block: 10px;
+    border-radius: 20px;
+    transition: 0.5s ease;
+  }
+
+  /*************************fim criação e modais******************************/
 
   /********************aqui começa o css pra mobile****************************/
   @media (max-width: 750px) {
