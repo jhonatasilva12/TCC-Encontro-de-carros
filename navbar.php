@@ -87,7 +87,6 @@ require_once 'banco/procura.php'; ?>
             <div class="p-inferior">
                 <div class="inferior-esquerda">
                     <button class="p-vote"><i class="fas fa-thumbs-up"></i></button>
-                    <button class="p-vote"><i class="fas fa-thumbs-down"></i></button>
                 </div>
                 <div class="inferior-direita">
                     <span class="p-tempo" data-tempo="<?php echo $post['data_post']; ?>">
@@ -109,6 +108,26 @@ require_once 'banco/procura.php'; ?>
       <a href="#" class="criar-post"><i class="fas fa-edit"></i></a>
       <a href="#" class="criar-grupo"><i class="fas fa-users"></i></a>
       <a href="#" class="criar-evento"><i class="fas fa-calendar-plus"></i></a>
+
+      <div class="form-post">
+        <form action="banco/insert_tb_" method="post">
+
+        </form>
+      </div>
+
+      <div class="form-grupo">
+        <form action="banco/insert_tb_grupo" method="post">
+
+        </form>
+      </div>
+
+      <div class="form-evento">
+        <form action="banco/insert_tb_evento" method="post">
+
+        </form>
+      </div>
+
+      
 
     </div>
 

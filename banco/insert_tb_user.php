@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once 'db_connect.php'; // Arquivo com configurações do banco
+require_once 'db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Coletar dados do formulário
+    // Coleta os dados do formulário
     $nome = $_POST['firstiname'] ?? '';
     $sobrenome = $_POST['lastname'] ?? '';
     $email = $_POST['email'] ?? '';
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             die("Este email já está cadastrado");
         }
 
-        // Hash da senha (nunca armazene senhas em texto puro)
+        // Hash da senha (decodificação dela)
         $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
         // Inserir novo usuário

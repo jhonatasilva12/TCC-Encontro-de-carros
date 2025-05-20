@@ -1,4 +1,4 @@
-document.querySelector('.criar').addEventListener('click', function() {
+  document.querySelector('.criar').addEventListener('click', function() {
     this.classList.toggle('ativo');
   });
 
@@ -11,7 +11,6 @@ document.querySelector('.criar').addEventListener('click', function() {
     const maisBtn = document.querySelector('.mais');
     const opCriar = document.querySelector('.criar');
 
-    // Fecha se clicar fora do botão E fora do pop-up
     if (!e.target.closest('.criacao')) {
       opCriar.classList.remove('ativo');
     }
@@ -21,6 +20,8 @@ document.querySelector('.criar').addEventListener('click', function() {
     }
   });
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function atualizarTempos() {
     document.querySelectorAll('.p-tempo').forEach(elemento => {
