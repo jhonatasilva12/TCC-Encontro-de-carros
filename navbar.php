@@ -101,17 +101,31 @@ require_once 'banco/procura.php'; ?>
 
     </main>
 
+    <div class="search-box">
+      <form action="login.html" method="get"></form>
+        <input class="search-txt" type="search" name="pesquisa" placeholder="faça a sua pesquisa">
+        <button type="submit" class="search-btn">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+    </div>
+  
+  </div> <!--fim geral-->
+
+
+  
+
     <div class="criacao">
 
       <button class="criar"><i class="fas fa-plus"></i></button>
 
-      <button class="criar-post" onpress><i class="fas fa-edit"></i></button>
+      <button class="criar-post"><i class="fas fa-edit"></i></button>
       <button class="criar-grupo"><i class="fas fa-users"></i></button>
       <button class="criar-evento"><i class="fas fa-calendar-plus"></i></button>
 
 <!----------------------------------->
 
-      <div class="fundo-modal"></div>
+      <div id="form-post" class="fundo-modal">
 
         <div class="form-modal">
           
@@ -120,7 +134,7 @@ require_once 'banco/procura.php'; ?>
             <h2>Criar Novo Post</h2>
           </div>
           
-          <form class="container-modal" method="post" action="banco/insert_tb_post">
+          <form class="modal-container" method="post" action="banco/insert_tb_post">
 
             <div class="form-group">
               <label for="titulo-post">Título (opcional)</label>
@@ -151,7 +165,7 @@ require_once 'banco/procura.php'; ?>
 
 <!----------------------------------->
 
-      <div class="fundo-modal"></div>
+      <div id="form-grupo" class="fundo-modal">
 
         <div class="form-modal">
           
@@ -168,10 +182,10 @@ require_once 'banco/procura.php'; ?>
             </div>
             
             <div class="form-group">
-              <img id="preview" src="./../img/userPadrao.png" style="height:250px; object-fit: cover;" >
+              <img id="preview-grupo" src="./../img/userPadrao.png" style="height:250px; object-fit: cover;" >
               <div>
                 <label for="form-foto"> Carregar Imagem</label>
-                <input type="file" id="form-foto" name="foto" accept="image/*" class="custom-file-input" style="display: none">
+                <input type="file" id="foto-grupo" name="foto" accept="image/*" class="custom-file-input" style="display: none">
               </div>
             </div>
             
@@ -194,7 +208,7 @@ require_once 'banco/procura.php'; ?>
 
 <!----------------------------------->
 
-      <div class="fundo-modal"></div>
+      <div id="form-evento" class="fundo-modal">
 
         <div class="form-modal">
           
@@ -211,10 +225,10 @@ require_once 'banco/procura.php'; ?>
             </div>
             
             <div class="form-group">
-              <img id="preview" src="./../img/userPadrao.png" style="height:250px; object-fit: cover;" >
+              <img id="preview-evento" src="./../img/userPadrao.png" style="height:250px; object-fit: cover;" >
               <div>
                 <label for="form-foto"> Carregar Imagem</label>
-                <input type="file" id="form-foto" name="foto" accept="image/*" class="custom-file-input" style="display: none">
+                <input type="file" id="foto-evento" name="foto" accept="image/*" class="custom-file-input" style="display: none">
               </div>
             </div>
             
@@ -260,17 +274,6 @@ require_once 'banco/procura.php'; ?>
 <!----------------------------------->
 
     </div>
-
-    <div class="search-box">
-      <form action="login.html" method="get"></form>
-        <input class="search-txt" type="search" name="pesquisa" placeholder="faça a sua pesquisa">
-        <button type="submit" class="search-btn">
-          <i class="fas fa-search"></i>
-        </button>
-      </form>
-    </div>
-  
-  </div> <!--fim geral-->
 
     
   </body>
