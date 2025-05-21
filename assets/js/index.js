@@ -77,38 +77,127 @@ document.querySelector('.formFoto').addEventListener("change", readImage, false)
   }
 
 
+
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Carrega as opções quando a página é carregada
+    carregarOpcoesFormularios();
+    
+    // Configura os listeners para quando os modais são abertos
+    document.getElementById('form-post').addEventListener('shown.bs.modal', carregarOpcoesFormularios);
+    document.getElementById('form-grupo').addEventListener('shown.bs.modal', carregarOpcoesFormularios);
+  });
+
+  function carregarOpcoesFormularios() {
+      fetch('buscar_opcoes.php')
+          .then(response => response.json())
+          .then(data => {
+              if (data.error) {
+                  console.error('Erro ao carregar opções:', data.error);
+                  return;
+              }
+              
+              // Preencher tipos de post
+              const selectTipoPost = document.getElementById('tipo-post');
+              if (selectTipoPost) {
+                  selectTipoPost.innerHTML = '<option value="">Selecione um tipo</option>';
+                  data.tiposPost.forEach(tipo => {
+                      const option = document.createElement('option');
+                      option.value = tipo.id_tipo_post;
+                      option.textContent = tipo.nome_tipo_post;
+                      // Adiciona estilo baseado nas cores do banco
+                      option.style.backgroundColor = tipo.cor_fundo;
+                      option.style.color = tipo.cor_letra ? '#fff' : '#000';
+                      selectTipoPost.appendChild(option);
+                  });
+              }
+              
+              // Preencher temas de grupo
+              const selectTemaGrupo = document.getElementById('group-theme');
+              if (selectTemaGrupo) {
+                  selectTemaGrupo.innerHTML = '<option value="">Selecione um tema</option>';
+                  data.temasGrupo.forEach(tema => {
+                      const option = document.createElement('option');
+                      option.value = tema.id_temas_grupo;
+                      option.textContent = tema.nome_temas;
+                      // Adiciona estilo baseado nas cores do banco
+                      option.style.backgroundColor = tema.cor_fundo;
+                      option.style.color = tema.cor_letras ? '#fff' : '#000';
+                      selectTemaGrupo.appendChild(option);
+                  });
+              }
+          })
+          .catch(error => console.error('Erro:', error));
+  }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function atualizarTempos() {
-  document.querySelectorAll('.p-tempo').forEach(elemento => {
-      const dataPost = elemento.getAttribute('data-tempo');
-      elemento.textContent = calcularTempoDecorrido(dataPost);
-  });
+    document.querySelectorAll('.p-tempo').forEach(elemento => {
+        const dataPost = elemento.getAttribute('data-tempo');
+        // Converter para formato ISO se necessário
+        const dataISO = dataPost.replace(' ', 'T') + 'Z';
+        elemento.textContent = calcularTempoDecorrido(dataISO);
+    });
 }
 
 function calcularTempoDecorrido(dataString) {
-  const dataPost = new Date(dataString);
-  const agora = new Date();
-  const diff = Math.floor((agora - dataPost) / 1000); // diferença em segundos
-  
-  if (diff < 60) return 'há poucos segundos';
-  if (diff < 3600) return `há ${Math.floor(diff/60)} minuto${Math.floor(diff/60) !== 1 ? 's' : ''}`;
-  if (diff < 86400) return `há ${Math.floor(diff/3600)} hora${Math.floor(diff/3600) !== 1 ? 's' : ''}`;
-  if (diff < 2592000) return `há ${Math.floor(diff/86400)} dia${Math.floor(diff/86400) !== 1 ? 's' : ''}`;
-  if (diff < 31536000) return `há ${Math.floor(diff/2592000)} mês${Math.floor(diff/2592000) !== 1 ? 'es' : ''}`;
-  return `há ${Math.floor(diff/31536000)} ano${Math.floor(diff/31536000) !== 1 ? 's' : ''}`;
+    // Garantir que a data está no formato correto
+    const dataPost = new Date(dataString);
+    const agora = new Date();
+    
+    // Verificar se a data é válida
+    if (isNaN(dataPost.getTime())) {
+        console.error('Data inválida:', dataString);
+        return '';
+    }
+
+    const diff = Math.floor((agora - dataPost) / 1000); // diferença em segundos
+    
+    if (diff < 60) return 'há poucos segundos';
+    if (diff < 3600) {
+        const mins = Math.floor(diff/60);
+        return `há ${mins} minuto${mins !== 1 ? 's' : ''}`;
+    }
+    if (diff < 86400) {
+        const horas = Math.floor(diff/3600);
+        return `há ${horas} hora${horas !== 1 ? 's' : ''}`;
+    }
+    if (diff < 2592000) {
+        const dias = Math.floor(diff/86400);
+        return `há ${dias} dia${dias !== 1 ? 's' : ''}`;
+    }
+    if (diff < 31536000) {
+        const meses = Math.floor(diff/2592000);
+        return `há ${meses} mês${meses !== 1 ? 'es' : ''}`;
+    }
+    const anos = Math.floor(diff/31536000);
+    return `há ${anos} ano${anos !== 1 ? 's' : ''}`;
 }
 
-// Atualize a cada minuto
-setInterval(atualizarTempos, 60000);
-
-// Inicialize quando a página carregar
+// Inicialização quando a página carrega
 document.addEventListener('DOMContentLoaded', function() {
-  // Adicione data-tempo aos elementos
-  document.querySelectorAll('.p-tempo').forEach(el => {
-      if (!el.getAttribute('data-tempo')) {
-          el.setAttribute('data-tempo', el.textContent);
-      }
-  });
-  atualizarTempos();
+    // Converter todos os tempos para o formato ISO no carregamento
+    document.querySelectorAll('.p-tempo').forEach(el => {
+        if (!el.getAttribute('data-tempo')) {
+            // Se não houver data-tempo, usar o texto como fallback
+            el.setAttribute('data-tempo', new Date().toISOString());
+        } else {
+            // Garantir que a data está no formato ISO
+            const rawDate = el.getAttribute('data-tempo');
+            if (!rawDate.includes('T')) {
+                const isoDate = rawDate.replace(' ', 'T') + 'Z';
+                el.setAttribute('data-tempo', isoDate);
+            }
+        }
+    });
+    
+    // Atualizar imediatamente
+    atualizarTempos();
+    
+    // Atualizar a cada minuto
+    setInterval(atualizarTempos, 60000);
 });
