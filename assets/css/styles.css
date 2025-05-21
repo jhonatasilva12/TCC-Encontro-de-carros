@@ -32,7 +32,7 @@
     justify-content: space-between;
     background: #9fa3cf;
     position: fixed;
-    z-index: 100;
+    z-index: auto;
   }
   
   .nav {
@@ -357,7 +357,6 @@
     justify-content: space-around;
     height: 100px;
     width: 100%;
-    z-index: 1;
   }
 
   .pop-i-list {
@@ -365,7 +364,6 @@
     position: absolute;
     width: fit-content;
     left: 4px;
-    z-index: 2;
   }
 
   .pop-list .letter-list {
@@ -406,7 +404,6 @@
     right: 2vw;
     bottom: 2vw;
     font-size: 1.5vw;
-    z-index: 2;
     border: 2px #363030 solid;
     box-shadow: -1px 1px 4px #9c8c8c;
 
@@ -414,6 +411,7 @@
     transition: 0.3s;
     transition-delay: 0.2s;
     cursor: pointer;
+    z-index: 50;
   }
   
   .criar.ativo{
@@ -448,6 +446,7 @@
     align-items: center;
     justify-content: center;
     box-shadow: -1px 1px 4px #9c8c8c;
+    z-index: 40;
   }
 
   .criar-evento::before {
@@ -478,7 +477,7 @@
   visibility: hidden;
   transition: all 0.2s ease !important;
   pointer-events: none;
-  z-index: 20;
+  z-index: auto;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
@@ -536,27 +535,37 @@
 
   /************************modais***************************/
 
-  .fundo-modal {
+  #form-post, #form-evento, #form-grupo {
     position: fixed;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 0vw;
+    height: 0vh;
+    overflow: hidden;
+    top: 50%;
+    right: 50%;
+    background-color: rgba(0, 0, 0, 0.527);
+    transition: 0.5s ease;
+  }
+
+  #form-post.ativo, #form-evento.ativo, #form-grupo.ativo {
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 1000;
-    overflow: hidden;
+    top: 0px;
+    right: 0px;
+    z-index: 100;
   }
 
   .form-modal {
-    position: fixed;
+    position: absolute;
     width: 40vw;
+    max-height: 98vh;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    left: 30%;
-    top: 20px;
+    top: 1vh;
     border-radius: 20px;
     overflow: hidden;
     padding-left: 10px;
@@ -564,7 +573,7 @@
     
 
     background-color: white;
-    z-index: 1001;
+    border: #9ba0d3 2px solid;
   }
 
   .header-form-criacao {
@@ -601,6 +610,7 @@
     right: 30px;
     cursor: pointer;
     text-shadow: -2px 2px 3px #000;
+    z-index: 101;
   }
 
   .modal-container button {
@@ -610,6 +620,7 @@
     padding-block: 10px;
     border-radius: 20px;
     transition: 0.5s ease;
+    cursor: pointer;
   }
 
   /*************************fim criação e modais******************************/
