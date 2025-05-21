@@ -4,7 +4,7 @@ require_once('banco/autentica.php');
 require_once('includes/search.php');
 require_once('includes/criacao.php');
 require_once('includes/navbar.php');
-require_once 'funcoes.php';
+require_once('funcoes.php');
 $meetcar = new MeetCarFunctions();
 ?>
 
