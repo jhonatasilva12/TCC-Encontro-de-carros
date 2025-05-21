@@ -1,59 +1,47 @@
 <?php
+include_once('./db_connect.php');
 session_start();
-require_once 'db_connect.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Coleta os dados do formulário
-    $nome = $_POST['firstiname'] ?? '';
-    $sobrenome = $_POST['lastname'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $telefone = $_POST['number'] ?? '';
-    $senha = $_POST['password'] ?? '';
-    $confirmacao = $_POST['confirmpassword'] ?? '';
-    $genero = $_POST['gender'] ?? '';
 
-    // Validações básicas
-    if (empty($nome) || empty($email) || empty($senha)) {
-        die("Preencha todos os campos obrigatórios");
+// Processa upload da imagem (se existir)
+if (isset($_FILES['imagem_post']) && $_FILES['imagem_post']['error'] == 0) {
+    $extensao = pathinfo($_FILES['imagem_post']['name'], PATHINFO_EXTENSION);
+    $nome_imagem = uniqid() . '.' . $extensao; 
+    $diretorio = "../assets/images/banco/";
+
+    if (move_uploaded_file($_FILES['imagem_post']['tmp_name'], $diretorio . $nome_imagem)) {
+        $imagem_post = $nome_imagem;
+    } else {
+        die("Erro ao enviar imagem.");
     }
+}
 
-    if ($senha !== $confirmacao) {
-        die("As senhas não coincidem");
-    }
+// Dados do formulário
+$titulo_post = $_POST['titulo_post'] ?? null;
+$texto_post = $_POST['texto_post'];
+$fk_id_user = $_SESSION['user_id'];
+$fk_id_tipo_post = $_POST['fk_id_tipo_post'];
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die("Email inválido");
-    }
+// Query COMPLETA 
+$query = "INSERT INTO tb_post (
+    fk_id_user, 
+    fk_id_tipo_post, 
+    texto_post, 
+    imagem_post, 
+    titulo_post
+) VALUES (?, ?, ?, ?, ?, ?, NOW())";
 
-    // Conexão com o banco
-    try {
-        $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$stmt = $pdo->prepare($query);
+$stmt->bindValue(1, $fk_id_user);
+$stmt->bindValue(2, $fk_id_tipo_post);
+$stmt->bindValue(3, $texto_post);
+$stmt->bindValue(4, $imagem_post);
+$stmt->bindValue(5, $titulo_post);
 
-        // Verificar se email já existe
-        $stmt = $conn->prepare("SELECT id_user FROM tb_user WHERE email_user = ?");
-        $stmt->execute([$email]);
-        
-        if ($stmt->rowCount() > 0) {
-            die("Este email já está cadastrado");
-        }
-
-        // Hash da senha (decodificação dela)
-        $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
-
-        // Inserir novo usuário
-        $stmt = $conn->prepare("INSERT INTO tb_user 
-                               (nome_user, sobrenome_user, email_user, telefone_user, senha_user) 
-                               VALUES (?, ?, ?, ?, ?)");
-        
-        $stmt->execute([$nome, $sobrenome, $email, $telefone, $senhaHash]);
-
-        // Redirecionar para login com sucesso
-        header("Location: ../login.html?cadastro=sucesso");
-        exit();
-        
-    } catch(PDOException $e) {
-        die("Erro no cadastro: " . $e->getMessage());
-    }
+if ($stmt->execute()) {
+    header("Location: ./../navbar.php");
+} else {
+    print_r($stmt->errorInfo());
+    echo "Erro ao criar post.";
 }
 ?>
