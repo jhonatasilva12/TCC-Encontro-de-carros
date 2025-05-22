@@ -67,7 +67,7 @@
             
             <div class="inferior-direita">
                 <span class="e-data-post" data-tempo="<?php echo $evento['data_post']; ?>">
-                    Postado <?php echo tempoDecorrido($evento['data_post']); ?>
+                    Postado <?php echo MeetCarFunctions::tempoDecorrido($post['data_post']); ?>
                 </span>
             </div>
         </div>
