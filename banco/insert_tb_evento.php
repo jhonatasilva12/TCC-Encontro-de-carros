@@ -18,7 +18,7 @@ if (isset($_FILES['imagem_evento']) && $_FILES['imagem_evento']['error'] == 0) {
 
     $ext = pathinfo($_FILES['imagem_evento']['name'], PATHINFO_EXTENSION);
     $nome_imagem = 'evento_' . uniqid() . '.' . $ext;
-    $diretorio = "../uploads/eventos/";
+    $diretorio = "assets/images/posts/";
 
     if (!move_uploaded_file($_FILES['imagem_evento']['tmp_name'], $diretorio . $nome_imagem)) {
         header("Location: ../index.php?erro=mover+img");

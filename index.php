@@ -1,13 +1,10 @@
 <?php
-require_once('banco/db_connect.php'); 
 require_once('banco/autentica.php');
-require_once('includes/search.php');
-require_once('includes/criacao.php');
-require_once('includes/navbar.php');
 require_once('includes/funcoes.php');
+require_once('banco/db_connect.php');
+require_once('includes/search.php');
+require_once('includes/navbar.php');
 $meetcar = new MeetCarFunctions();
-$posts = $meetcar->buscarPosts();
-$eventos = $meetcar->buscarEventos();
 ?>
 
 <!DOCTYPE html>
@@ -19,36 +16,33 @@ $eventos = $meetcar->buscarEventos();
     <link rel="icon" href="./assets/images/logo.png">
     <title>MeetCar</title>
     <link rel="stylesheet" href="assets/css/styles.css">
-    
+
   </head>
   <body>
 
-    <script defer src="assets/js/index.js"></script>
+    <div class="geral">
 
-  <div class="geral">
+        
+      <main class="hero">
 
-    <!--local correto dos require include (caso não dê certo)-->
 
-      
-    <main class="hero">
+      <?php
+      require_once('includes/posts.php'); //evento
+      ?>
 
-<!-----------post---------->
+
     <?php
-    require_once('includes/posts.php');
+    require_once('includes/eventos.php'); //evento
     ?>
 
-<!----------evento--------->
-  <?php
-  require_once('includes/eventos.php');
-  ?>
+      </main>
 
-    </main>
+    </div> <!--fim geral-->
 
-    <!--local correto dos require include (caso não dê certo)-->
   
-  </div> <!--fim geral-->
-  <!--local correto dos require include (caso não dê certo)-->
+    <?php require_once('includes/criacao.php'); ?> <!--Ele fica aqui em baixo (antes de </body>) pra ficar sobreposto de tudo-->
 
+    <script src="assets/js/index.js"></script>
     
   </body>
 </html>

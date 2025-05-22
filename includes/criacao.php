@@ -25,20 +25,25 @@
             </div>
             
             <div class="form-group">
+                <label for="tipo-post">Tipo de Post*</label>
+                <select id="tipo-post" name="fk_id_tipo_post" required class="form-control">
+
+                </select>
+            </div>
+            
+            <div class="form-group">
               <label for="texto-post">Texto*</label>
               <textarea id="post-text" maxlength="600" required></textarea>
             </div>
             
             <div class="form-group">
-              <label for="imagem-post">Imagem</label>
-              <input type="file" id="imagem-post" accept="image/*">
-            </div>
-            
-            <div class="form-group">
-              <label for="tipo-post">Tipo de Post*</label>
-              <select id="tipo-post" name="fk_id_tipo_post" required>
-                <option value="">Selecione um tipo</option>
-              </select>
+                <div class="image-upload-container">
+                    <img id="preview-post" src="./assets/images/users/user_padrao.jpg" class="image-preview">
+                    <label for="imagem-post" class="upload-label">
+                        <i class="fas fa-camera"></i> Selecionar Imagem
+                    </label>
+                    <input type="file" id="imagem-post" name="imagem_post" accept="image/*" class="file-input">
+                </div>
             </div>
             
             <button type="submit">Publicar</button>
@@ -60,28 +65,29 @@
           <form class="modal-container" action="banco/insert_tb_grupo.php" method="post">
             
             <div class="form-group">
-              <label for="group-name">Nome do Grupo*</label>
-              <input type="text" id="group-name" maxlength="50" required>
+                <div class="image-upload-container">
+                    <img id="preview-grupo" src="./assets/images/users/user_padrao.jpg" class="image-preview">
+                    <label for="foto-grupo" class="upload-label">
+                        <i class="fas fa-camera"></i> Selecionar Imagem
+                    </label>
+                    <input type="file" id="foto-grupo" name="foto" accept="image/*" class="file-input">
+                </div>
             </div>
             
             <div class="form-group">
-              <img id="preview-grupo" src="./../img/userPadrao.png" style="height:250px; object-fit: cover;" >
-              <div>
-                <label for="form-foto"> Carregar Imagem</label>
-                <input type="file" id="foto-grupo" name="foto" accept="image/*" class="custom-file-input" style="display: none">
-              </div>
+              <label for="group-name">Nome do Grupo*</label>
+              <input type="text" id="group-name" maxlength="50" required>
+            </div>
+
+            <div class="form-group">
+              <label for="group-theme">Tema do Grupo*</label>
+              <select id="group-theme" name="fk_id_temas_grupo" required class="form-control">
+              </select>
             </div>
             
             <div class="form-group">
               <label for="group-description">Descrição</label>
               <textarea id="group-description" maxlength="600"></textarea>
-            </div>
-            
-            <div class="form-group">
-              <label for="group-theme">Tema do Grupo*</label>
-              <select id="group-theme" name="fk_id_temas_grupo" required>
-                <option value="">Selecione um tema</option>
-              </select>
             </div>
             
             <button type="submit">Criar Grupo</button>
@@ -105,14 +111,6 @@
             <div class="form-group">
               <label for="event-name">Nome do Evento*</label>
               <input type="text" id="event-name" maxlength="30" required>
-            </div>
-            
-            <div class="form-group">
-              <img id="preview-evento" src="./../img/userPadrao.png" style="height:250px; object-fit: cover;" >
-              <div>
-                <label for="form-foto"> Carregar Imagem</label>
-                <input type="file" id="foto-evento" name="foto" accept="image/*" class="custom-file-input" style="display: none; cursor: pointer">
-              </div>
             </div>
             
             <div class="form-group">
@@ -148,6 +146,16 @@
             <div class="form-group">
               <label for="event-exhibition-price">Valor para Exposição*</label>
               <input type="text" id="event-exhibition-price" required>
+            </div>
+            
+            <div class="form-group">
+                <div class="image-upload-container">
+                    <img id="preview-evento" src="./assets/images/users/user_padrao.jpg" class="image-preview">
+                    <label for="foto-evento" class="upload-label">
+                        <i class="fas fa-camera"></i> Selecionar Imagem
+                    </label>
+                    <input type="file" id="foto-evento" name="foto" accept="image/*" class="file-input">
+                </div>
             </div>
             
             <button type="submit">Criar Evento</button>

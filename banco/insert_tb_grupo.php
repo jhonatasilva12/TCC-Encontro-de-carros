@@ -13,7 +13,7 @@ if (isset($_FILES['imagem_grupo']) && $_FILES['imagem_grupo']['error'] == 0) {
 
     $ext = pathinfo($_FILES['imagem_grupo']['name'], PATHINFO_EXTENSION);
     $nome_imagem = 'grupo_' . uniqid() . '.' . $ext;
-    $diretorio = "../assets/images/groups/";
+    $diretorio = "assets/images/groups/";
 
     if (!move_uploaded_file($_FILES['imagem_grupo']['tmp_name'], $diretorio . $nome_imagem)) {
         header("Location: ../grupo.php?erro=mover+img");

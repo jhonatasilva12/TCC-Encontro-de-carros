@@ -7,7 +7,7 @@ session_start();
 if (isset($_FILES['imagem_post']) && $_FILES['imagem_post']['error'] == 0) {
     $extensao = pathinfo($_FILES['imagem_post']['name'], PATHINFO_EXTENSION);
     $nome_imagem = uniqid() . '.' . $extensao; 
-    $diretorio = "../assets/images/banco/";
+    $diretorio = "assets/images/banco/";
 
     if (move_uploaded_file($_FILES['imagem_post']['tmp_name'], $diretorio . $nome_imagem)) {
         $imagem_post = $nome_imagem;

@@ -1,3 +1,7 @@
+<?php
+$eventos = $meetcar->buscarEventos();
+?>
+
 <div class="eventos-container">
     <?php foreach ($eventos as $evento): ?>
     <div class="evento">
@@ -33,7 +37,7 @@
             <h3 class="e-titulo"><?php echo htmlspecialchars($evento['nome_evento']); ?></h3>
             
             <?php if (!empty($evento['img_evento'])): ?>
-            <img src="assets/uploads/<?php echo htmlspecialchars($evento['img_evento']); ?>" class="e-img" loading="lazy">
+            <img src="../assets/images/posts/<?php echo htmlspecialchars($evento['img_evento']); ?>" class="e-img" loading="lazy">
             <?php endif; ?>
             
             <p class="e-texto"><?php echo htmlspecialchars($evento['descricao_evento']); ?></p>

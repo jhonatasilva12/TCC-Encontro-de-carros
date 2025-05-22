@@ -14,7 +14,7 @@ $fk_id_user = "";
 if (isset($_FILES['imagem_comentario']) && $_FILES['imagem_comentario']['error'] == 0) {
     $ext = pathinfo($_FILES['imagem_comentario']['name'], PATHINFO_EXTENSION);
     $nome_imagem = 'coment_' . uniqid() . '.' . $ext;
-    $diretorio = "../uploads/comentarios/";
+    $diretorio = "assets/images/posts/";
 
     if (!move_uploaded_file($_FILES['imagem_comentario']['tmp_name'], $diretorio . $nome_imagem)) {
         die("Erro: Não foi possível salvar a imagem.");

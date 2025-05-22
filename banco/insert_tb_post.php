@@ -14,7 +14,7 @@ if (isset($_FILES['imagem_post']) && $_FILES['imagem_post']['error'] == 0) {
 
     $extensao = pathinfo($_FILES['imagem_post']['name'], PATHINFO_EXTENSION);
     $nome_imagem = uniqid() . '.' . $extensao; 
-    $diretorio = "../assets/images/posts/";
+    $diretorio = "assets/images/posts/";
 
     if (!move_uploaded_file($_FILES['imagem_post']['tmp_name'], $diretorio . $nome_imagem)) {
         header("Location: ../index.php?erro=img+grupo");

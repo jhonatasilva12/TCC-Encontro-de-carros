@@ -4,13 +4,13 @@ class MeetCarFunctions {
     private $pdo;
 
     public function __construct() {
-        // Conexão MySQLi (para compatibilidade com seu código existente)
+        // conexão MySQLi
         $this->conn = new mysqli('localhost', 'root', '', 'db_meetcar');
         if ($this->conn->connect_error) {
             die("Connection failed: " . $this->conn->connect_error);
         }
 
-        // Conexão PDO (para as novas funções)
+        // conexão PDO
         try {
             $this->pdo = new PDO('mysql:host=localhost;dbname=db_meetcar;charset=utf8mb4', 'root', '');
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -19,7 +19,7 @@ class MeetCarFunctions {
         }
     }
 
-    // Busca posts com informações do usuário e tipo de post
+    // busca posts com informações do usuário e tipo de post
     public function buscarPosts() {
         $sql = "SELECT p.*, u.nome_user, u.sobrenome_user, u.img_user, tp.nome_tipo_post, tp.cor_fundo, tp.cor_letra,
                 (SELECT COUNT(*) FROM likes_post WHERE fk_id_post = p.id_post) as likes_count,
@@ -41,7 +41,7 @@ class MeetCarFunctions {
         return $posts;
     }
 
-    // Busca eventos com informações do criador
+    // busca eventos com informações do criador
     public function buscarEventos() {
         $sql = "SELECT e.*, u.nome_user, u.sobrenome_user, u.img_user,
                 (SELECT COUNT(*) FROM evento_user WHERE fk_id_evento = e.id_evento) as participantes_count
@@ -110,7 +110,7 @@ class MeetCarFunctions {
         return $dataFormatada;
     }
 
-    // Calcula tempo restante para o evento
+    // calcula tempo restante para o evento
     public static function tempoParaEvento($dataEvento) {
         $agora = new DateTime();
         $dataEventoObj = new DateTime($dataEvento);
@@ -134,7 +134,7 @@ class MeetCarFunctions {
         }
     }
 
-    // Calcula tempo decorrido desde a postagem
+    // calcula tempo decorrido desde a postagem
     public static function tempoDecorrido($dataPost) {
         $agora = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
         $dataPost = new DateTime($dataPost, new DateTimeZone('America/Sao_Paulo'));
@@ -155,8 +155,45 @@ class MeetCarFunctions {
         }
     }
 
+    public function buscarPostPorId($id) {
+        $sql = "SELECT p.*, u.nome_user, u.sobrenome_user, u.img_user, tp.nome_tipo_post, tp.cor_fundo, tp.cor_letra,
+            (SELECT COUNT(*) FROM likes_post WHERE fk_id_post = p.id_post) as likes_count,
+            (SELECT COUNT(*) FROM tb_comentario WHERE fk_id_post = p.id_post) as comentarios_count
+            FROM tb_post p
+            JOIN tb_user u ON p.fk_id_user = u.id_user
+            JOIN tb_tipo_post tp ON p.fk_id_tipo_post = tp.id_tipo_post
+            WHERE p.id_post = ?";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        return $result->fetch_assoc();
+    }
+
+    public function buscarComentariosPorPost($postId) {
+        $sql = "SELECT c.*, u.nome_user, u.img_user
+            FROM tb_comentario c
+            JOIN tb_user u ON c.fk_id_user = u.id_user
+            WHERE c.fk_id_post = ?
+            ORDER BY c.data_comentario ASC";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $postId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $comentarios = [];
+        while ($row = $result->fetch_assoc()) {
+            $comentarios[] = $row;
+        }
+        
+        return $comentarios;
+    }
+
     public function __destruct() {
-        // Fecha a conexão MySQLi
+        // fecha a conexão MySQLi 
         if ($this->conn) {
             $this->conn->close();
         }

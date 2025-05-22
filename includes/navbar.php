@@ -1,3 +1,7 @@
+<head>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
 <header class="header">
     <nav class="nav">
 

@@ -1,14 +1,16 @@
 <?php
+$meetcar = new MeetCarFunctions();
+$posts = $meetcar->buscarPosts();
+
   if(!isset($posts)) {
     die("erro: nenhum post encontrado ou variável \$post não definida.");
   }
-?>
 
-<?php foreach ($posts as $post): ?>
+foreach ($posts as $post): ?>
       <div class="post" <?php echo htmlspecialchars($post['cor_fundo']); ?>">
           <div class="p-superior">
               <div class="p-identifica">
-                  <img src="assets/uploads/<?php echo !empty($post['img_user']) ? htmlspecialchars($post['img_user']) : 'default-user.png'; ?>" class="p-fotinha">
+                  <img src="assets/images/user/<?php echo !empty($post['img_user']) ? htmlspecialchars($post['img_user']) : 'user_padrao.jpg'; ?>" class="p-fotinha">
                   <div>
                       <p class="p-nome">
                           <?php echo htmlspecialchars($post['nome_user']) . ' ' . htmlspecialchars($post['sobrenome_user']); ?>
@@ -22,13 +24,18 @@
               <div class="superior-direita">
                   <button class="mais"><i class="fas fa-ellipsis-v"></i></button>
                   <div class="pop-mais">
-                      <ul class="pop-i-list">
-                          <li><i class="fas fa-share"></i></li>
-                          <li><i class="fas fa-exclamation-triangle"></i></li>
-                      </ul>
+
                       <ul class="pop-list">
-                          <li><a href="#">compartilhar</a></li>
-                          <li><a href="#">denunciar</a></li>
+                          <li>
+                            <a href="post.php?id=<?= $post['id_post'] ?>" class="link-share">
+                              <i class="fas fa-share"></i> Compartilhar
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                                <i class="fas fa-exclamation-triangle"></i> denunciar
+                            </a>
+                        </li>
                       </ul>
                   </div>
               </div>
@@ -40,7 +47,7 @@
               <?php endif; ?>
               <p class="p-texto"><?php echo htmlspecialchars($post['texto_post']); ?></p>
               <?php if (!empty($post['imagem_post'])): ?>
-              <img src="assets/uploads/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="p-img" loading="lazy">
+              <img src="../assets/posts/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="p-img" loading="lazy">
               <?php endif; ?>
           </div>
 
