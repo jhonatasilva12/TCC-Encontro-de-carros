@@ -4,8 +4,10 @@ require_once('banco/autentica.php');
 require_once('includes/search.php');
 require_once('includes/criacao.php');
 require_once('includes/navbar.php');
-require_once('funcoes.php');
+require_once('includes/funcoes.php');
 $meetcar = new MeetCarFunctions();
+$posts = $meetcar->buscarPosts();
+$eventos = $meetcar->buscarEventos();
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +16,8 @@ $meetcar = new MeetCarFunctions();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/5d7149073d.js" crossorigin="anonymous"></script>
-    <title>Navbar</title>
+    <link rel="icon" href="./assets/images/logo.png">
+    <title>MeetCar</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     
   </head>
@@ -30,10 +33,14 @@ $meetcar = new MeetCarFunctions();
     <main class="hero">
 
 <!-----------post---------->
-    <?require_once('includes/posts.php');?>
+    <?php
+    require_once('includes/posts.php');
+    ?>
 
 <!----------evento--------->
-  <?require_once('includes/eventos.php');?>
+  <?php
+  require_once('includes/eventos.php');
+  ?>
 
     </main>
 
