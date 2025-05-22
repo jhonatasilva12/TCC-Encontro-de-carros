@@ -1,3 +1,9 @@
+<?php
+  if(!isset($posts)) {
+    die("erro: nenhum post encontrado ou variável \$post não definida.");
+  }
+?>
+
 <?php foreach ($posts as $post): ?>
       <div class="post" <?php echo htmlspecialchars($post['cor_fundo']); ?>">
           <div class="p-superior">
@@ -47,7 +53,7 @@
               </div>
               <div class="inferior-direita">
                   <span class="p-tempo" data-tempo="<?php echo date('Y-m-d H:i:s', strtotime($post['data_post'])); ?>">
-                      <?php echo tempoDecorrido($post['data_post']); ?>
+                      <?php echo MeetCarFunctions::tempoDecorrido($post['data_post']); ?>
                   </span>
                   <button class="p-comentario">
                       <i class="fas fa-comment"></i>
