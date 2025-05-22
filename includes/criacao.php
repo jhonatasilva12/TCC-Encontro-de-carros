@@ -17,7 +17,7 @@
             <h2>Criar Novo Post</h2>
           </div>
           
-          <form class="modal-container" method="post" action="banco/insert_tb_post">
+          <form class="modal-container" method="post" action="banco/insert_tb_post.php">
 
             <div class="form-group">
               <label for="titulo-post">Título (opcional)</label>
@@ -57,7 +57,7 @@
             <h2>Criar Novo Grupo</h2>
           </div>
           
-          <form class="modal-container" action="banco/insert_tb_grupo" method="post">
+          <form class="modal-container" action="banco/insert_tb_grupo.php" method="post">
             
             <div class="form-group">
               <label for="group-name">Nome do Grupo*</label>
@@ -100,7 +100,7 @@
             <h2>Criar Novo Evento</h2>
           </div>
           
-          <form class="modal-container" action="banco/insert_tb_evento" method="post">
+          <form class="modal-container" action="banco/insert_tb_evento.php" method="post">
             
             <div class="form-group">
               <label for="event-name">Nome do Evento*</label>
@@ -111,7 +111,7 @@
               <img id="preview-evento" src="./../img/userPadrao.png" style="height:250px; object-fit: cover;" >
               <div>
                 <label for="form-foto"> Carregar Imagem</label>
-                <input type="file" id="foto-evento" name="foto" accept="image/*" class="custom-file-input" style="display: none">
+                <input type="file" id="foto-evento" name="foto" accept="image/*" class="custom-file-input" style="display: none; cursor: pointer">
               </div>
             </div>
             
