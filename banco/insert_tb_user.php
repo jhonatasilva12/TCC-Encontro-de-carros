@@ -39,7 +39,7 @@ $stmt->bindValue(4, $imagem_post);
 $stmt->bindValue(5, $titulo_post);
 
 if ($stmt->execute()) {
-    header("Location: ./../navbar.php");
+    header("Location: ../index.php");
 } else {
     print_r($stmt->errorInfo());
     echo "Erro ao criar post.";
