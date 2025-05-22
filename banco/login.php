@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['logged_in'] = true;
 
             // Redirecionar para área logada
-            header("Location: ../navbar.php");
+            header("Location: ../index.php");
             exit();
         } else {
             header("Location: ../login.html?credenciais=invalidas");
