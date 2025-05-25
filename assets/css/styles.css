@@ -2,15 +2,14 @@
 .geral{
   display: flex;
   flex-direction: row;
+  height: 100%;
 }
 
 .hero{
-  height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
-  background-color: #fff9f9;
-  /*background: center / cover no-repeat url(../images/fundo_provisorio.webp);*/
+  /*background: center / cover no-repeat url(../images/);*/
   padding: 20px;
   align-items: center;
   right: 10%;
@@ -195,7 +194,7 @@
     box-shadow: -2px 2px 4px #9c8c8c;
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    z-index: 0;
+    z-index: auto;
   }
 
   .post:hover {
@@ -274,19 +273,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    max-width: 100%;
     margin: 8px 0;
 }
 
   .p-img {
     width: 100%;
-    max-height: 50vh;
+    max-height: 400px;
     border-radius: 1em;
+    object-fit: contain;
     margin-top: 12px;
     margin-bottom: 12px;
     border: 2px solid #6b5c5c;
     box-shadow: 0px 0px 4px #9c8c8c;
-    object-fit: contain;
     background-color: #f5f5f5;
   }
 
@@ -390,7 +389,7 @@
     border-radius: 8px;
     box-shadow: -2px 2px 4px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
-    z-index: 10;
+    z-index: auto;
     display: flex;
     flex-direction: column;
     border: 1px solid #d6c1c1;
@@ -438,17 +437,8 @@
 /*************************fim post e interiores******************************/
 /****************************evento e interiores*******************************/
 
-  .eventos-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
   .evento {
-    width: 100%;
+    width: 40vw;
     height: auto;
     border-radius: 1em;
     background-color: #f0f8ff;
@@ -643,7 +633,7 @@
     height: 6vh;
     right: 2vw;
     bottom: 2vw;
-    font-size: 1.5vw;
+    font-size: 1.5rem;
     border: 2px #363030 solid;
     box-shadow: -1px 1px 4px #9c8c8c;
 
@@ -651,7 +641,7 @@
     transition: 0.3s;
     transition-delay: 0.2s;
     cursor: pointer;
-    z-index: 50;
+    z-index: 3;
   }
   
   .criar.ativo{
@@ -660,7 +650,7 @@
     bottom: 3vw;
     width: 8vh;
     height: 8vh;
-    font-size: 2vw;
+    font-size: 2rem;
     transition: 0.4s;
     border: 2px #363030 solid;
   }
@@ -686,7 +676,38 @@
     align-items: center;
     justify-content: center;
     box-shadow: -1px 1px 4px #9c8c8c;
-    z-index: 40;
+    z-index: 2;
+  }
+
+  .criar.ativo ~ .criar-post, .criar.ativo ~ .criar-grupo, .criar.ativo ~ .criar-evento{
+    width: 8vh;
+    height: 8vh;
+    font-size: 1.5rem;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px #363030 solid;
+    transition-delay: 0s;
+  }
+
+  .criar.ativo ~ .criar-post{
+    transition-delay: 0.2s;
+    right: calc(4vw - 25px);
+    bottom: calc(3vw + 11vh);
+
+  }
+
+  .criar.ativo ~ .criar-grupo{
+    transition-delay: 0.4s;
+    right: calc(4vw + 8vh);
+    bottom: calc(3vw + 8vh);
+  }
+
+  .criar.ativo ~ .criar-evento{
+    transition-delay: 0.6s;
+    right: calc(4vw + 11vh);
+    bottom: calc(3vw - 25px);
   }
 
   .criar-evento::before {
@@ -740,37 +761,6 @@
     color: #fff;
     transition: 0s !important;
     transition-delay: 0s !important;
-  }
-
-  .criar.ativo ~ .criar-post, .criar.ativo ~ .criar-grupo, .criar.ativo ~ .criar-evento{
-    width: 8vh;
-    height: 8vh;
-    font-size: 1.5vw;
-    color: #000000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px #363030 solid;
-    transition-delay: 0s;
-  }
-
-  .criar.ativo ~ .criar-post{
-    transition-delay: 0.2s;
-    right: calc(4vw - 25px);
-    bottom: calc(3vw + 11vh);
-
-  }
-
-  .criar.ativo ~ .criar-grupo{
-    transition-delay: 0.4s;
-    right: calc(4vw + 8vh);
-    bottom: calc(3vw + 8vh);
-  }
-
-  .criar.ativo ~ .criar-evento{
-    transition-delay: 0.6s;
-    right: calc(4vw + 11vh);
-    bottom: calc(3vw - 25px);
   }
 
   /************************modais***************************/
@@ -849,7 +839,6 @@
     right: 30px;
     cursor: pointer;
     text-shadow: -2px 2px 3px #000;
-    z-index: 101;
   }
 
   .modal-container button {
@@ -862,54 +851,87 @@
     cursor: pointer;
   }
 
-  .image-upload-container {
+  .micro-form-container {
+    margin-top: 10px;
     position: relative;
-    margin: 15px 0;
-    text-align: center;
   }
 
-/* Preview da imagem */
-  .image-preview {
-    max-width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 2px dashed #ddd;
-    display: block;
-    margin: 0 auto 10px;
-    background-color: #f5f5f5;
-  }
-
-/* Estilo quando tem imagem */
-  .image-preview.has-image {
-    border: 2px solid #2a6478;
-  }
-
-/* Label estilizada como botão */
-  .upload-label {
-    display: inline-block;
-    padding: 8px 15px;
-    background-color: #2a6478;
-    color: white;
-    border-radius: 5px;
+  .btn-micro-form {
+    background: #f0f0f0;
+    border: 1px dashed #ccc;
+    padding: 5px 10px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: all 0.3s;
-    font-size: 14px;
+    font-size: 12px;
   }
 
-  .upload-label:hover {
-    background-color: #1d4b5a;
+  .micro-form {
+    background: white;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   }
 
-/* Esconde o input file padrão */
-  .file-input {
-    display: none;
+  .micro-form input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #ddd;
   }
 
-/* Estilo quando há imagem selecionada */
-  .image-preview.has-image {
-    border: 2px solid #2a6478;
+  .micro-form input[type="color"] {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    cursor: pointer;
   }
+
+  .micro-form button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    font-size: 12px;
+  }
+
+  .color-picker {
+    margin: 15px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.color-picker label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.color-picker input[type="color"] {
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+}
+
+.text-color-options {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.text-color-options label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
 
   /*************************fim criação e modais******************************/
 
@@ -1047,10 +1069,30 @@
       display: flex;
     }
 
-
-
     .post {
       width: 80vw;
+    }
+
+    .form-container {
+        padding: 1.5rem;
+        margin: 1.5rem;
+        border-radius: 10px;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    input[type="text"],
+    input[type="file"],
+    textarea,
+    select {
+        padding: 0.75rem 1rem;
     }
 
   }
@@ -1210,33 +1252,4 @@ input[type="file"]::file-selector-button:hover {
     border-radius: 8px;
     border: 2px solid #e0e3f1;
     object-fit: cover;
-}
-
-/* Efeitos de transição suave */
-* {
-    transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
-}
-
-@media (max-width: 600px) {
-    .form-container {
-        padding: 1.5rem;
-        margin: 1.5rem;
-        border-radius: 10px;
-    }
-    
-    h1 {
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-    
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-    
-    input[type="text"],
-    input[type="file"],
-    textarea,
-    select {
-        padding: 0.75rem 1rem;
-    }
 }

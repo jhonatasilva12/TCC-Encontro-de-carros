@@ -21,7 +21,7 @@
 
 
 
- <div class="form-group">
+            <div class="form-group">
                 <label for="group-image">Imagem do Grupo</label>
                 <input type="file" id="group-image" name="imagem_grupo" accept="image/*">
                 <div class="image-preview" id="imagePreview">

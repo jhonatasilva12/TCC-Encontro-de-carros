@@ -86,40 +86,31 @@ class MeetCarFunctions {
         }
     }
 
-    // Formata data do evento para exibição
-    public static function formatarDataEvento($dataInicio, $dataTermino = null, $horaInicio = null, $horaTermino = null) {
-        $dataInicioObj = new DateTime($dataInicio);
-        $dataFormatada = $dataInicioObj->format('d/m/Y');
-        
-        if ($horaInicio) {
-            $dataFormatada .= ' às ' . $horaInicio;
-        }
+    public function formatarDataEventoSimples($dataInicio, $dataTermino = null) {
+        $inicio = new DateTime($dataInicio);
+        $formatado = $inicio->format('d/m/Y H:i');
         
         if ($dataTermino) {
-            $dataTerminoObj = new DateTime($dataTermino);
-            if ($dataTerminoObj->format('Y-m-d') != $dataInicioObj->format('Y-m-d')) {
-                $dataFormatada .= ' até ' . $dataTerminoObj->format('d/m/Y');
-                if ($horaTermino) {
-                    $dataFormatada .= ' às ' . $horaTermino;
-                }
-            } elseif ($horaTermino) {
-                $dataFormatada .= ' - ' . $horaTermino;
+            $termino = new DateTime($dataTermino);
+            if ($inicio->format('Y-m-d') === $termino->format('Y-m-d')) {
+                $formatado .= ' - ' . $termino->format('H:i');
+            } else {
+                $formatado .= ' a ' . $termino->format('d/m/Y H:i');
             }
         }
         
-        return $dataFormatada;
+        return $formatado;
     }
 
-    // calcula tempo restante para o evento
-    public static function tempoParaEvento($dataEvento) {
+    public function tempoParaEvento($dataEvento) {
         $agora = new DateTime();
-        $dataEventoObj = new DateTime($dataEvento);
+        $dataEvento = new DateTime($dataEvento);
         
-        if ($dataEventoObj < $agora) {
+        if ($dataEvento < $agora) {
             return 'Evento encerrado';
         }
         
-        $diferenca = $agora->diff($dataEventoObj);
+        $diferenca = $agora->diff($dataEvento);
         
         if ($diferenca->y > 0) {
             return $diferenca->y == 1 ? 'em 1 ano' : 'em ' . $diferenca->y . ' anos';
@@ -135,7 +126,7 @@ class MeetCarFunctions {
     }
 
     // calcula tempo decorrido desde a postagem
-    public static function tempoDecorrido($dataPost) {
+    function tempoDecorrido($dataPost) {
         $agora = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
         $dataPost = new DateTime($dataPost, new DateTimeZone('America/Sao_Paulo'));
         $diferenca = $agora->diff($dataPost);

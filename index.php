@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 require_once('banco/autentica.php');
 require_once('includes/funcoes.php');
@@ -7,7 +8,6 @@ require_once('includes/navbar.php');
 $meetcar = new MeetCarFunctions();
 ?>
 
-<!DOCTYPE html>
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8">
@@ -26,14 +26,9 @@ $meetcar = new MeetCarFunctions();
       <main class="hero">
 
 
-      <?php
-      require_once('includes/posts.php'); //evento
-      ?>
-
-
-    <?php
-    require_once('includes/eventos.php'); //evento
-    ?>
+        <?php
+        require_once('includes/feed.php'); //evento
+        ?>
 
       </main>
 
@@ -42,7 +37,7 @@ $meetcar = new MeetCarFunctions();
   
     <?php require_once('includes/criacao.php'); ?> <!--Ele fica aqui em baixo (antes de </body>) pra ficar sobreposto de tudo-->
 
-    <script src="assets/js/index.js"></script>
+    <script src="assets/js/index.js?v=<?= time() ?>"></script>
     
   </body>
 </html>

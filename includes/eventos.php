@@ -1,13 +1,8 @@
-<?php
-$eventos = $meetcar->buscarEventos();
-?>
-
 <div class="eventos-container">
-    <?php foreach ($eventos as $evento): ?>
     <div class="evento">
         <div class="e-superior">
             <div class="e-identifica">
-                <img src="assets/uploads/<?php echo !empty($evento['img_user']) ? htmlspecialchars($evento['img_user']) : 'default-user.png'; ?>" class="e-fotinha">
+                <img src="assets/images/users/<?php echo !empty($evento['img_user']) ? htmlspecialchars($evento['img_user']) : 'default-user.png'; ?>" class="e-fotinha">
                 <div>
                     <p class="e-nome">
                         <?php echo htmlspecialchars($evento['nome_user'] . ' ' . $evento['sobrenome_user']); ?>
@@ -37,7 +32,7 @@ $eventos = $meetcar->buscarEventos();
             <h3 class="e-titulo"><?php echo htmlspecialchars($evento['nome_evento']); ?></h3>
             
             <?php if (!empty($evento['img_evento'])): ?>
-            <img src="../assets/images/posts/<?php echo htmlspecialchars($evento['img_evento']); ?>" class="e-img" loading="lazy">
+            <img src="assets/images/posts/<?php echo htmlspecialchars($evento['img_evento']); ?>" class="e-img" loading="lazy">
             <?php endif; ?>
             
             <p class="e-texto"><?php echo htmlspecialchars($evento['descricao_evento']); ?></p>
@@ -76,5 +71,4 @@ $eventos = $meetcar->buscarEventos();
             </div>
         </div>
     </div>
-    <?php endforeach; ?>
 </div>

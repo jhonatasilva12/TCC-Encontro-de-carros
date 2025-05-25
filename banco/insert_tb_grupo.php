@@ -1,22 +1,28 @@
 <?php
-include_once('./../conexao.php');
+include_once './db_connect.php';
 session_start();
 
-// Processamento da imagem
 $imagem_grupo = null;
-if (isset($_FILES['imagem_grupo']) && $_FILES['imagem_grupo']['error'] == 0) {
+if (isset($_FILES['imagem_grupo']) && $_FILES['imagem_grupo']['error'] == UPLOAD_ERR_OK) { // Corrigido
+    
     $permitidos = ['image/jpeg', 'image/png', 'image/gif'];
-    if (!in_array($_FILES['imagem_grupo']['type'], $permitidos)) {
-        header("Location: ../grupo.php?erro=img+incompativel");
+    $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mime = finfo_file($fileInfo, $_FILES['imagem_grupo']['tmp_name']); // Corrigido
+    finfo_close($fileInfo);
+
+    if (!in_array($mime, $permitidos)) {
+        $_SESSION['erro'] = "Tipo de arquivo não permitido";
+        header("Location: ../index.php?erro=img_tipo");
         exit;
     }
 
-    $ext = pathinfo($_FILES['imagem_grupo']['name'], PATHINFO_EXTENSION);
-    $nome_imagem = 'grupo_' . uniqid() . '.' . $ext;
-    $diretorio = "assets/images/groups/";
+    $extensao = pathinfo($_FILES['imagem_grupo']['name'], PATHINFO_EXTENSION); // Corrigido
+    $nome_imagem = 'group_' . uniqid() . '.' . $extensao; 
+    $diretorio = "../assets/images/groups/";
 
-    if (!move_uploaded_file($_FILES['imagem_grupo']['tmp_name'], $diretorio . $nome_imagem)) {
-        header("Location: ../grupo.php?erro=mover+img");
+    if (!move_uploaded_file($_FILES['imagem_grupo']['tmp_name'], $diretorio . $nome_imagem)) { // Corrigido
+        $_SESSION['erro'] = "Erro ao salvar a imagem";
+        header("Location: ../index.php?erro=img_salvar");
         exit;
     }
     $imagem_grupo = $nome_imagem;
@@ -44,7 +50,7 @@ try {
     
     $grupoId = $pdo->lastInsertId();
     
-    // insere relação com tema
+    // insere relação dele com o tema
     if (!empty($_POST['fk_id_temas_grupo'])) {
         $stmtTema = $pdo->prepare("INSERT INTO grupo_tegru (fk_id_grupo, fk_id_temas_grupo) VALUES (?, ?)");
         $stmtTema->execute([$grupoId, $_POST['fk_id_temas_grupo']]);

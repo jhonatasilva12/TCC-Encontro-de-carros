@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 20/05/2025 às 17:25
+-- Tempo de geração: 25/05/2025 às 05:11
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -42,6 +42,15 @@ CREATE TABLE `grupo_tegru` (
   `fk_id_grupo` int(11) NOT NULL,
   `fk_id_temas_grupo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Despejando dados para a tabela `grupo_tegru`
+--
+
+INSERT INTO `grupo_tegru` (`fk_id_grupo`, `fk_id_temas_grupo`) VALUES
+(1, 4),
+(2, 4),
+(3, 3);
 
 -- --------------------------------------------------------
 
@@ -89,17 +98,23 @@ CREATE TABLE `tb_comentario` (
 CREATE TABLE `tb_evento` (
   `id_evento` int(11) NOT NULL,
   `nome_evento` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `img_evento` int(36) DEFAULT NULL,
+  `img_evento` varchar(36) DEFAULT NULL,
   `descricao_evento` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `data_post` timestamp NOT NULL DEFAULT current_timestamp(),
   `data_inicio_evento` datetime NOT NULL,
-  `data_termino_evento` date DEFAULT NULL,
-  `horario_inicio` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `hora_termino` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `data_termino_evento` datetime DEFAULT NULL,
   `valor_pedestre` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `valor_exposicao` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `fk_id_criador` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Despejando dados para a tabela `tb_evento`
+--
+
+INSERT INTO `tb_evento` (`id_evento`, `nome_evento`, `img_evento`, `descricao_evento`, `data_post`, `data_inicio_evento`, `data_termino_evento`, `valor_pedestre`, `valor_exposicao`, `fk_id_criador`) VALUES
+(3, 'churuminhos', NULL, 'CHURUMINHOOOOOOOOOOOOOOOOOOOOOOOOOOOOS', '2025-05-25 00:16:00', '2025-10-10 12:00:00', '2025-10-10 00:00:00', '10', '50', 6),
+(4, 'sim', 'event_68328281102f9.jpg', 'não', '2025-05-25 02:37:53', '2025-10-10 10:00:00', '2025-10-11 10:00:00', '10', '100', 6);
 
 -- --------------------------------------------------------
 
@@ -115,6 +130,15 @@ CREATE TABLE `tb_grupo` (
   `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
   `fk_id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tb_grupo`
+--
+
+INSERT INTO `tb_grupo` (`id_grupo`, `nome_grupo`, `img_grupo`, `descricao_grupo`, `data_criacao`, `fk_id_user`) VALUES
+(1, 'goodras da quebrada', NULL, 'apenas amantes do pokemon goodra hell yeahhh', '2025-05-24 23:05:26', 6),
+(2, 'belezura', NULL, 'belezura', '2025-05-25 02:04:04', 6),
+(3, 'terra', 'group_68328082ca79b.png', 'ria', '2025-05-25 02:29:22', 6);
 
 -- --------------------------------------------------------
 
@@ -168,7 +192,7 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id_user`, `nome_user`, `sobrenome_user`, `img_user`, `data_nasc_user`, `telefone_user`, `cpf_user`, `email_user`, `senha_user`) VALUES
-(6, 'david', 'de jesus almeida', '', NULL, '(11) 22222-2222', NULL, 'dwtazer@gmail.com', '$2y$10$.b4Nc9dgLuUpO7vfWXSai.aG2pJePLfIbIj8wio9.jqM/.YfRvUi6');
+(6, 'david', 'de jesus almeida', 'user_padrao.jpg', NULL, '(11) 22222-2222', NULL, 'dwtazer@gmail.com', '$2y$10$.b4Nc9dgLuUpO7vfWXSai.aG2pJePLfIbIj8wio9.jqM/.YfRvUi6');
 
 -- --------------------------------------------------------
 
@@ -183,6 +207,14 @@ CREATE TABLE `temas_grupo` (
   `cor_fundo` varchar(7) DEFAULT NULL,
   `cor_letras` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `temas_grupo`
+--
+
+INSERT INTO `temas_grupo` (`id_temas_grupo`, `nome_temas`, `descricao_temas`, `cor_fundo`, `cor_letras`) VALUES
+(3, 'tema verde', '', '#1aa22a', 1),
+(4, 'hell yeahh', '', '#ee00ff', 1);
 
 -- --------------------------------------------------------
 
@@ -296,25 +328,25 @@ ALTER TABLE `tb_comentario`
 -- AUTO_INCREMENT de tabela `tb_evento`
 --
 ALTER TABLE `tb_evento`
-  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `tb_grupo`
 --
 ALTER TABLE `tb_grupo`
-  MODIFY `id_grupo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_grupo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `tb_post`
 --
 ALTER TABLE `tb_post`
-  MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `tb_tipo_post`
 --
 ALTER TABLE `tb_tipo_post`
-  MODIFY `id_tipo_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_tipo_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de tabela `tb_user`
@@ -326,7 +358,7 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT de tabela `temas_grupo`
 --
 ALTER TABLE `temas_grupo`
-  MODIFY `id_temas_grupo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_temas_grupo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restrições para tabelas despejadas
