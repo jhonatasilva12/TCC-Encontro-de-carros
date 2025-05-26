@@ -136,8 +136,7 @@ body {
     outline: 1px solid #6c63ff;
 }
 
-.input-box label,
-.gender-title h6 {
+.input-box label {
     font-size: 1rem;
     font-weight: 600;
     color: #000000c0;
@@ -145,28 +144,6 @@ body {
 
 .input-box input::placeholder {
     color: #000000be;
-}
-
-.gender-group {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0.62rem;
-    padding: 0 .5rem;
-}
-
-.gender-input {
-    display: flex;
-    align-items: center;
-}
-
-.gender-input input {
-    margin-right: 0.35rem;
-}
-
-.gender-input label {
-    font-size: 0.81rem;
-    font-weight: 600;
-    color: #000000c0;
 }
 
 .continue-button {
@@ -242,19 +219,5 @@ input:valid {
         padding-right: 5rem;
         flex-wrap: nowrap;
         width: 100%;
-    }
-    .gender-inputs {
-        margin-top: 2rem;
-        width: 100%;
-    }
-    .gender-group {
-        flex-direction: row;
-        width: 100%;
-    }
-    .gender-title h6 {
-        margin: 0;
-    }
-    .gender-input {
-        margin-top: 0.5rem;
     }
 }

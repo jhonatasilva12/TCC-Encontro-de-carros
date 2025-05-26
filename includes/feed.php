@@ -38,7 +38,7 @@ usort($conteudos, function($a, $b) {
                             <p class="p-nome">
                                 <?php echo htmlspecialchars($post['nome_user']) . ' ' . htmlspecialchars($post['sobrenome_user']); ?>
                             </p>
-                            <span class="post-tag" style="background-color: <?php echo htmlspecialchars($post['cor_fundo']); ?>; color: <?php echo $post['cor_letra'] ? '#fff' : '#000'; ?>">
+                            <span class="p-tag" style="background-color: <?php echo htmlspecialchars($post['cor_fundo']); ?>; color: <?php echo $post['cor_letra'] ? '#fff' : '#000'; ?>">
                                 <?php echo htmlspecialchars($post['nome_tipo_post']); ?>
                             </span>
                         </div>
@@ -47,7 +47,6 @@ usort($conteudos, function($a, $b) {
                     <div class="superior-direita">
                         <button class="mais"><i class="fas fa-ellipsis-v"></i></button>
                         <div class="pop-mais">
-
                             <ul class="pop-list">
                                 <li>
                                     <a href="">
@@ -71,6 +70,7 @@ usort($conteudos, function($a, $b) {
                     <p class="p-texto"><?php echo htmlspecialchars($post['texto_post']); ?></p>
                     <?php if (!empty($post['imagem_post'])): ?>
                     <img src="./assets/images/posts/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="p-img" loading="lazy">
+                    <div class="fundo-modal"><h1><img src="./assets/images/posts/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="img-full" loading="lazy"></h1></div>
                     <?php endif; ?>
                 </div>
 
@@ -110,14 +110,18 @@ usort($conteudos, function($a, $b) {
                     
                     <div class="superior-direita">
                         <button class="mais"><i class="fas fa-ellipsis-v"></i></button>
-                        <div class="pop-mais">
-                            <ul class="pop-i-list">
-                                <li><i class="fas fa-share"></i></li>
-                                <li><i class="fas fa-exclamation-triangle"></i></li>
-                            </ul>
+                        <div class="pop-mais" style="background-color: #f0f8ff; border: 2px solid #c1d1d6;">
                             <ul class="pop-list">
-                                <li><a href="#" class="letter-list">compartilhar</a></li>
-                                <li><a href="#" class="letter-list">denunciar</a></li>
+                                <li>
+                                    <a href="">
+                                        <i class="fas fa-share"></i> Compartilhar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fas fa-exclamation-triangle"></i> denunciar
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -127,7 +131,7 @@ usort($conteudos, function($a, $b) {
                     <h3 class="e-titulo"><?php echo htmlspecialchars($evento['nome_evento']); ?></h3>
                     
                     <?php if (!empty($evento['img_evento'])): ?>
-                    <img src="./assets/images/events/<?php echo htmlspecialchars($evento['img_evento']); ?>" class="e-img" loading="lazy">
+                    <img src="./assets/images/events/<?php echo htmlspecialchars($evento['img_evento']); ?>" class="p-img" loading="lazy">
                     <?php endif; ?>
                     
                     <p class="e-texto"><?php echo htmlspecialchars($evento['descricao_evento']); ?></p>
@@ -144,6 +148,7 @@ usort($conteudos, function($a, $b) {
                                 ?>
                             </span>
                         </div>
+                        <div class="e-val"></div>
                     </div>
                 
                 <div class="e-inferior">

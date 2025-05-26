@@ -5,7 +5,7 @@
     <button class="criar-evento"><i class="fas fa-calendar-plus"></i></button>
 
     <!------------ modal do Post ------------>
-    <div id="form-post" class="fundo-modal">
+    <div id="form-post">
         <div class="form-modal">
             <div class="header-form-criacao">
                 <button class="fecha-modal">X</button>
@@ -67,7 +67,7 @@
     </div>
 
     <!------------ Modal do Grupo ------------>
-    <div id="form-grupo" class="fundo-modal">
+    <div id="form-grupo">
         <div class="form-modal">
             <div class="header-form-criacao">
                 <button class="fecha-modal">X</button>
@@ -128,7 +128,7 @@
     </div>
 
     <!------------ modal do Evento ------------>
-    <div id="form-evento" class="fundo-modal">
+    <div id="form-evento">
         <div class="form-modal">
             <div class="header-form-criacao">
                 <button class="fecha-modal">X</button>

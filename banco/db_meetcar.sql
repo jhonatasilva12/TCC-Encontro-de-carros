@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 25/05/2025 às 05:11
+-- Tempo de geração: 26/05/2025 às 20:48
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -107,14 +107,6 @@ CREATE TABLE `tb_evento` (
   `valor_exposicao` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `fk_id_criador` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Despejando dados para a tabela `tb_evento`
---
-
-INSERT INTO `tb_evento` (`id_evento`, `nome_evento`, `img_evento`, `descricao_evento`, `data_post`, `data_inicio_evento`, `data_termino_evento`, `valor_pedestre`, `valor_exposicao`, `fk_id_criador`) VALUES
-(3, 'churuminhos', NULL, 'CHURUMINHOOOOOOOOOOOOOOOOOOOOOOOOOOOOS', '2025-05-25 00:16:00', '2025-10-10 12:00:00', '2025-10-10 00:00:00', '10', '50', 6),
-(4, 'sim', 'event_68328281102f9.jpg', 'não', '2025-05-25 02:37:53', '2025-10-10 10:00:00', '2025-10-11 10:00:00', '10', '100', 6);
 
 -- --------------------------------------------------------
 
@@ -328,7 +320,7 @@ ALTER TABLE `tb_comentario`
 -- AUTO_INCREMENT de tabela `tb_evento`
 --
 ALTER TABLE `tb_evento`
-  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `tb_grupo`
@@ -340,19 +332,19 @@ ALTER TABLE `tb_grupo`
 -- AUTO_INCREMENT de tabela `tb_post`
 --
 ALTER TABLE `tb_post`
-  MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de tabela `tb_tipo_post`
 --
 ALTER TABLE `tb_tipo_post`
-  MODIFY `id_tipo_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_tipo_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `temas_grupo`

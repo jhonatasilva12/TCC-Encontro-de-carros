@@ -1,3 +1,4 @@
+const body = document.body;
 const postModal = document.getElementById("form-post");
 const eventoModal = document.getElementById("form-evento");
 const grupoModal = document.getElementById("form-grupo");
@@ -14,6 +15,7 @@ document.querySelector(".criar-post").addEventListener("click", function (e) {
   e.stopPropagation(); // Impede que o clique se propague para o document
   postModal.classList.toggle("ativo");
   opCriar.classList.remove("ativo");
+  body.classList.toggle("estatico");
   carregarOpcoesFormularios();
 });
 
@@ -22,6 +24,7 @@ document.querySelector(".criar-evento").addEventListener("click", function (e) {
   e.stopPropagation(); // Impede que o clique se propague para o document
   eventoModal.classList.toggle("ativo");
   opCriar.classList.remove("ativo");
+  body.classList.toggle("estatico");
   carregarOpcoesFormularios();
 });
 
@@ -30,6 +33,7 @@ document.querySelector(".criar-grupo").addEventListener("click", function (e) {
   e.stopPropagation(); // Impede que o clique se propague para o document
   grupoModal.classList.toggle("ativo");
   opCriar.classList.remove("ativo");
+  body.classList.toggle("estatico");
   carregarOpcoesFormularios();
 });
 
@@ -39,8 +43,14 @@ document.querySelectorAll(".mais").forEach((botao) => {
   });
 });
 
-document.addEventListener("click", function (e) {
-  //serve para que, ao clicar fora, torne os ativos em inativos (em relação a clicado ou não)
+document.querySelectorAll(".p-img").forEach((img) => {
+  img.addEventListener("click", function (e) {
+    this.classList.toggle("ativo");
+    body.classList.toggle("estatico");
+  });
+});
+
+document.addEventListener("click", function (e) { //serve para que, ao clicar fora, torne os ativos em inativos (em relação a clicado ou não)
 
   if (!e.target.closest(".criacao")) {
     opCriar.classList.remove("ativo");
@@ -51,12 +61,17 @@ document.addEventListener("click", function (e) {
       modal.classList.remove("ativo");
     });
     document.querySelectorAll("form").forEach((form) => form.reset());
+    body.classList.remove("estatico");
   }
 
-  if (
-    !e.target.closest(".superior-direita") &&
-    !e.target.closest(".pop-mais")
-  ) {
+  if (!e.target.closest(".img-full") || e.target.closest(".fecha-img")) {
+    document.querySelector(".p-img").forEach((modal) => {
+      modal.classList.remove("ativo");
+    });
+    body.classList.remove("estatico");
+  }
+
+  if (!e.target.closest(".superior-direita") && e.target.closest(".pop-mais")) {
     document.querySelectorAll(".mais").forEach((btn) => {
       btn.classList.remove("ativo");
     });
