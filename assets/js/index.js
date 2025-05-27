@@ -44,7 +44,11 @@ document.querySelectorAll(".mais").forEach((botao) => {
 });
 
 document.querySelectorAll(".p-img").forEach((img) => {
-  img.addEventListener("click", function (e) {
+  img.addEventListener("click", function () {
+    const post = this.closest(".post");
+    if (post) {
+      post.classList.toggle("estatico");
+    }
     this.classList.toggle("ativo");
     body.classList.toggle("estatico");
   });
@@ -65,10 +69,16 @@ document.addEventListener("click", function (e) { //serve para que, ao clicar fo
   }
 
   if (!e.target.closest(".img-full") || e.target.closest(".fecha-img")) {
-    document.querySelector(".p-img").forEach((modal) => {
-      modal.classList.remove("ativo");
+    document.querySelectorAll(".p-img").forEach((img) => {
+      img.addEventListener("click", function () {
+        const post = this.closest(".post");
+        if (post) {
+          post.classList.toggle("estatico");
+        }
+        this.classList.toggle("ativo");
+        body.classList.toggle("estatico");
+      });
     });
-    body.classList.remove("estatico");
   }
 
   if (!e.target.closest(".superior-direita") && e.target.closest(".pop-mais")) {
