@@ -70,22 +70,27 @@ usort($conteudos, function($a, $b) {
                     <p class="p-texto"><?php echo htmlspecialchars($post['texto_post']); ?></p>
                     <?php if (!empty($post['imagem_post'])): ?>
                     <img src="./assets/images/posts/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="p-img" loading="lazy">
-                    <div class="fundo-modal"><h1><img src="./assets/images/posts/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="img-full" loading="lazy"></h1></div>
+                    <div class="fundo-img">
+                        <button class="fecha-img">x</button>
+                        <img src="./assets/images/posts/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="img-full" loading="lazy">
+                    </div>
                     <?php endif; ?>
                 </div>
 
                 <div class="p-inferior">
                     <div class="inferior-esquerda">
-                        <button class="p-vote" data-post-id="<?php echo $post['id_post']; ?>">
-                            <i class="fas fa-thumbs-up"></i>
-                            <span class="p-count"><?php echo $post['likes_count']; ?></span>
-                        </button>
+                        <a href="./banco/insert_tb_like_post?id=<?= $post['id_post'] ?>">
+                            <button class="p-vote" data-post-id="<?php echo $post['id_post']; ?>">
+                                <i class="fas fa-thumbs-up"></i>
+                                <span class="p-count"><?php echo $post['likes_count']; ?></span>
+                            </button>
+                        </a>
                     </div>
                     <div class="inferior-direita">
                         <span class="p-tempo" data-tempo="<?= date('Y-m-d H:i:s', strtotime($post['data_post'])) ?>">
                             <?= $meetcar->tempoDecorrido($post['data_post']) ?>
                         </span>
-                        <a href="post.php?id=<?= $post['id_post'] ?>" class="link-share">
+                        <a href="post.php?id=<?= $post['id_post'] ?>">
                             <button class="p-comentario">
                                 <i class="fas fa-comment"></i>
                                 <span class="p-count"><?php echo $post['comentarios_count']; ?></span>
@@ -110,7 +115,7 @@ usort($conteudos, function($a, $b) {
                     
                     <div class="superior-direita">
                         <button class="mais"><i class="fas fa-ellipsis-v"></i></button>
-                        <div class="pop-mais" style="background-color: #f0f8ff; border: 2px solid #c1d1d6;">
+                        <div class="pop-mais" style="background-color: #f0f8ff; border-color: #c1d1d6;">
                             <ul class="pop-list">
                                 <li>
                                     <a href="">
