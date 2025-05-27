@@ -43,15 +43,17 @@ document.querySelectorAll(".mais").forEach((botao) => {
   });
 });
 
-document.querySelectorAll(".p-img").forEach((img) => {
-  img.addEventListener("click", function () {
-    const post = this.closest(".post");
-    if (post) {
-      post.classList.toggle("estatico");
-    }
-    this.classList.toggle("ativo");
-    body.classList.toggle("estatico");
-  });
+document.querySelectorAll(".p-img").forEach(img => {
+    img.addEventListener('click', function() {
+        const fullImg = document.querySelector(".img-full");
+        const fundo = document.querySelector(".fundo-img");
+        
+        fullImg.src = this.src; // pega a imagem clicada
+        
+        
+        fundo.style.display = "flex"; // ativa o modal (faz ele aparecer)
+        document.body.style.overflowY = "hidden";
+    });
 });
 
 document.addEventListener("click", function (e) { //serve para que, ao clicar fora, torne os ativos em inativos (em relação a clicado ou não)
@@ -68,20 +70,12 @@ document.addEventListener("click", function (e) { //serve para que, ao clicar fo
     body.classList.remove("estatico");
   }
 
-  if (!e.target.closest(".img-full") || e.target.closest(".fecha-img")) {
-    document.querySelectorAll(".p-img").forEach((img) => {
-      img.addEventListener("click", function () {
-        const post = this.closest(".post");
-        if (post) {
-          post.classList.toggle("estatico");
-        }
-        this.classList.toggle("ativo");
-        body.classList.toggle("estatico");
-      });
-    });
+  if(e.target === document.querySelector(".fundo-img") || e.target === document.querySelector(".fecha-img")) {
+    document.querySelector(".fundo-img").style.display = 'none';
+    document.body.style.overflowY = "scroll";
   }
 
-  if (!e.target.closest(".superior-direita") && e.target.closest(".pop-mais")) {
+  if (!e.target.closest(".superior-direita") && !e.target.closest(".pop-mais")) {
     document.querySelectorAll(".mais").forEach((btn) => {
       btn.classList.remove("ativo");
     });
@@ -89,9 +83,9 @@ document.addEventListener("click", function (e) { //serve para que, ao clicar fo
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Configuração única para todos os previews
+// configuração única para todos os previews
 function setupImagePreviews() {
-    // Mapeamento dos elementos
+
     const imageUploads = {
         'group-image': {
             preview: 'previewGroup',
@@ -316,6 +310,82 @@ function setupMicroForms() {
     }
   });
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+async function handleLike(postId, button) {
+    button.classList.add('processing');
+    
+    try {
+        const response = await fetch(`./banco/insert_like_post.php?id=${postId}`);
+        const data = await response.json();
+        
+        if (data.success) {
+            const icon = button.querySelector('i');
+            const count = button.querySelector('.p-count');
+            
+            button.classList.toggle('liked', data.liked);
+            button.setAttribute('data-user-liked', data.liked ? '1' : '0');
+            icon.style.color = data.liked ? '#4285f4' : '';
+            count.textContent = data.total;
+        }
+    } catch (error) {
+        console.error('Erro ao dar like:', error);
+    } finally {
+        button.classList.remove('processing');
+    }
+}
+
+// Função para participação
+async function handleParticipacao(eventoId, button) {
+    button.classList.add('processing');
+    
+    try {
+        const response = await fetch(`./banco/insert_participar_evento.php?id=${eventoId}`);
+        const data = await response.json();
+        
+        if (data.success) {
+            const icon = button.querySelector('i');
+            const count = button.querySelector('.participantes-count');
+            
+            button.classList.toggle('inscrito', data.participando);
+            button.setAttribute('data-user-participando', data.participando ? '1' : '0');
+            icon.style.color = data.participando ? '#4CAF50' : '';
+            count.textContent = data.total;
+        }
+    } catch (error) {
+        console.error('Erro ao participar:', error);
+    } finally {
+        button.classList.remove('processing');
+    }
+}
+
+// Event listeners
+document.querySelectorAll('.p-vote').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        handleLike(this.getAttribute('data-post-id'), this);
+    });
+});
+
+document.querySelectorAll('.e-participar').forEach(button => {
+    button.addEventListener('click', function() {
+        handleParticipacao(this.getAttribute('data-evento-id'), this);
+    });
+});
+
+// Verificação inicial baseada nos atributos data-*
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.p-vote[data-user-liked="1"]').forEach(button => {
+        button.classList.add('liked');
+        button.querySelector('i').style.color = '#4285f4';
+    });
+    
+    document.querySelectorAll('.e-participar[data-user-participando="1"]').forEach(button => {
+        button.classList.add('inscrito');
+        button.querySelector('i').style.color = '#4CAF50';
+    });
+});
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

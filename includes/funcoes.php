@@ -20,42 +20,45 @@ class MeetCarFunctions {
     }
 
     // busca posts com informações do usuário e tipo de post
-    public function buscarPosts() {
+    public function buscarPosts($userId = null) {
         $sql = "SELECT p.*, u.nome_user, u.sobrenome_user, u.img_user, tp.nome_tipo_post, tp.cor_fundo, tp.cor_letra,
                 (SELECT COUNT(*) FROM likes_post WHERE fk_id_post = p.id_post) as likes_count,
-                (SELECT COUNT(*) FROM tb_comentario WHERE fk_id_post = p.id_post) as comentarios_count
+                (SELECT COUNT(*) FROM tb_comentario WHERE fk_id_post = p.id_post) as comentarios_count,
+                (SELECT EXISTS(SELECT 1 FROM likes_post WHERE fk_id_post = p.id_post AND fk_id_user = ?)) as user_liked
                 FROM tb_post p
                 JOIN tb_user u ON p.fk_id_user = u.id_user
                 JOIN tb_tipo_post tp ON p.fk_id_tipo_post = tp.id_tipo_post
                 ORDER BY p.data_post DESC";
         
-        $result = $this->conn->query($sql);
-        $posts = array();
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
         
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-                $posts[] = $row;
-            }
+        $posts = array();
+        while($row = $result->fetch_assoc()) {
+            $posts[] = $row;
         }
         
         return $posts;
     }
 
-    // busca eventos com informações do criador
-    public function buscarEventos() {
+    public function buscarEventos($userId = null) {
         $sql = "SELECT e.*, u.nome_user, u.sobrenome_user, u.img_user,
-                (SELECT COUNT(*) FROM evento_user WHERE fk_id_evento = e.id_evento) as participantes_count
+                (SELECT COUNT(*) FROM evento_user WHERE fk_id_evento = e.id_evento) as participantes_count,
+                (SELECT EXISTS(SELECT 1 FROM evento_user WHERE fk_id_evento = e.id_evento AND fk_id_user = ?)) as user_participando
                 FROM tb_evento e
                 JOIN tb_user u ON e.fk_id_criador = u.id_user
                 ORDER BY e.data_inicio_evento ASC";
         
-        $result = $this->conn->query($sql);
-        $eventos = array();
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
         
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-                $eventos[] = $row;
-            }
+        $eventos = array();
+        while($row = $result->fetch_assoc()) {
+            $eventos[] = $row;
         }
         
         return $eventos;

@@ -7,7 +7,7 @@ $imagem_post = null;
 if (isset($_FILES['imagem_post']) && $_FILES['imagem_post']['error'] == UPLOAD_ERR_OK) {
     
     // Verifica o tipo de arquivo
-    $permitidos = ['image/jpeg', 'image/png', 'image/gif'];
+    $permitidos = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
     $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
     $mime = finfo_file($fileInfo, $_FILES['imagem_post']['tmp_name']);
     finfo_close($fileInfo);

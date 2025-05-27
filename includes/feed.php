@@ -1,6 +1,8 @@
 <?php
-$posts = $meetcar->buscarPosts();
-$eventos = $meetcar->buscarEventos();
+$userId = $_SESSION['user_id'] ?? null; 
+
+$posts = $meetcar->buscarPosts($userId); 
+$eventos = $meetcar->buscarEventos($userId);
 
 $conteudos = [];
 
@@ -70,21 +72,17 @@ usort($conteudos, function($a, $b) {
                     <p class="p-texto"><?php echo htmlspecialchars($post['texto_post']); ?></p>
                     <?php if (!empty($post['imagem_post'])): ?>
                     <img src="./assets/images/posts/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="p-img" loading="lazy">
-                    <div class="fundo-img">
-                        <button class="fecha-img">x</button>
-                        <img src="./assets/images/posts/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="img-full" loading="lazy">
-                    </div>
                     <?php endif; ?>
                 </div>
 
                 <div class="p-inferior">
                     <div class="inferior-esquerda">
-                        <a href="./banco/insert_tb_like_post?id=<?= $post['id_post'] ?>">
-                            <button class="p-vote" data-post-id="<?php echo $post['id_post']; ?>">
-                                <i class="fas fa-thumbs-up"></i>
-                                <span class="p-count"><?php echo $post['likes_count']; ?></span>
-                            </button>
-                        </a>
+                        <button class="p-vote <?= $post['user_liked'] ? 'liked' : '' ?>" 
+                                data-post-id="<?= $post['id_post'] ?>"
+                                data-user-liked="<?= $post['user_liked'] ? '1' : '0' ?>">
+                            <i class="fas fa-thumbs-up"></i>
+                            <span class="p-count"><?= $post['likes_count'] ?></span>
+                        </button>
                     </div>
                     <div class="inferior-direita">
                         <span class="p-tempo" data-tempo="<?= date('Y-m-d H:i:s', strtotime($post['data_post'])) ?>">
@@ -158,10 +156,12 @@ usort($conteudos, function($a, $b) {
                 
                 <div class="e-inferior">
                     <div class="inferior-esquerda">
-                        <button class="e-participar" data-evento-id="<?php echo $evento['id_evento']; ?>">
+                        <button class="e-participar <?= $evento['user_participando'] ? 'inscrito' : '' ?>" 
+                                data-evento-id="<?= $evento['id_evento'] ?>"
+                                data-user-participando="<?= $evento['user_participando'] ? '1' : '0' ?>">
                             <i class="fas fa-check-circle"></i>
                             <span>Participar</span>
-                            <span class="participantes-count"><?php echo $evento['participantes_count']; ?></span>
+                            <span class="participantes-count"><?= $evento['participantes_count'] ?></span>
                         </button>
                     </div>
                     
@@ -175,4 +175,9 @@ usort($conteudos, function($a, $b) {
         </div>
         <?php endif; ?>
     <?php endforeach; ?>
+</div>
+
+<div class="fundo-img">
+    <button class="fecha-img">x</button>
+    <img src="./assets/images/posts/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="img-full">
 </div>

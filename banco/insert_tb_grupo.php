@@ -5,7 +5,7 @@ session_start();
 $imagem_grupo = null;
 if (isset($_FILES['imagem_grupo']) && $_FILES['imagem_grupo']['error'] == UPLOAD_ERR_OK) { // Corrigido
     
-    $permitidos = ['image/jpeg', 'image/png', 'image/gif'];
+    $permitidos = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
     $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
     $mime = finfo_file($fileInfo, $_FILES['imagem_grupo']['tmp_name']); // Corrigido
     finfo_close($fileInfo);
