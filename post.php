@@ -1,8 +1,12 @@
 <?php
-require_once 'includes/funcoes.php';
+require_once('includes/funcoes.php');
+require_once('banco/db_connect.php');
+require_once('includes/search.php');
+require_once('banco/autentica.php');
+include 'includes/navbar.php';
 $meetcar = new MeetCarFunctions();
 
-// Pega o ID do post da URL
+// pega o id do post da url
 $postId = $_GET['id'] ?? null;
 
 if (!$postId) {
@@ -26,47 +30,124 @@ $comentarios = $meetcar->buscarComentariosPorPost($postId);
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title><?= htmlspecialchars($post['titulo_post'] ?? 'Post') ?> - MeetCar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/5d7149073d.js" crossorigin="anonymous"></script>
+    <script src='https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js'></script>
+    <link rel="icon" href="./assets/images/logo.png">
+    <title>MeetCar</title>
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-    <?php include 'includes/navbar.php'; ?>
-    
-    <div class="post-container">
-          <?php
-          $posts = $meetcar->buscarPosts();
-          include_once 'includes/posts.php';
-          ?>
-        <div class="post-detalhe">
-            <!-- Conteúdo do post (igualzinho o normal, mas diferente) -->
-            <?php include 'includes/post-detalhe.php'; ?>
-        </div>
-        
-        <!-- Seção de comentários -->
-        <div class="comentarios-container">
-            <h3>Comentários</h3>
+    <div class="geral">
+        <main class="hero">
             
-            <!-- Formulário para novo comentário -->
-            <form class="form-comentario" method="post" action="adicionar_comentario.php">
-                <input type="hidden" name="post_id" value="<?= $postId ?>">
-                <textarea name="comentario" required placeholder="Adicione um comentário..."></textarea>
-                <button type="submit">Comentar</button>
-            </form>
-            
-            <!-- Lista de comentários -->
-            <?php foreach ($comentarios as $comentario): ?>
-                <div class="comentario">
-                    <div class="comentario-cabecalho">
-                        <img src="./assets/images/users/<?= htmlspecialchars($comentario['img_user']) ?>" alt="Foto do usuário">
-                        <span><?= htmlspecialchars($comentario['nome_user']) ?></span>
-                        <span class="tempo"><?= MeetCarFunctions::tempoDecorrido($comentario['data_comentario']) ?></span>
-                    </div>
-                    <div class="comentario-texto">
-                        <?= htmlspecialchars($comentario['texto_comentario']) ?>
+            <div class="post-container">
+                <div class="post-detalhe">
+                    <!-- Conteúdo do post (igualzinho o normal, mas diferente) -->
+                    <div class="post" data-id="<?= $post['id_post'] ?>">
+                        <div class="p-superior">
+                            <div class="p-identifica">
+                                <img src="assets/images/users/<?php echo !empty($post['img_user']) ? htmlspecialchars($post['img_user']) : 'user_padrao.jpg'; ?>" class="p-fotinha">
+                                <div>
+                                    <p class="p-nome">
+                                        <?php echo htmlspecialchars($post['nome_user']) . ' ' . htmlspecialchars($post['sobrenome_user']); ?>
+                                    </p>
+                                    <span class="p-tag" style="background-color: <?php echo htmlspecialchars($post['cor_fundo']); ?>; color: <?php echo $post['cor_letra'] ? '#fff' : '#000'; ?>">
+                                        <?php echo htmlspecialchars($post['nome_tipo_post']); ?>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="superior-direita">
+                                <button class="mais"><i class="fas fa-ellipsis-v"></i></button>
+                                <div class="pop-mais">
+                                    <ul class="pop-list">
+                                        <li>
+                                            <a>
+                                                <i class="fas fa-share"></i> Compartilhar
+                                            </a>
+                                        </li>
+                                        <?php if ($item['tipo'] === 'post' && $item['dados']['fk_id_user'] === $_SESSION['user_id']): ?>
+                                            <li>
+                                                <a class="delete-content" data-type="<?= $item['tipo'] ?>" data-id="<?= $item['tipo'] === 'post' ? $item['dados']['id_post'] : $item['dados']['id_evento'] ?>">
+                                                    <i class="fas fa-trash-alt"></i> excluir <?= $item['tipo'] ?>
+                                                </a>
+                                            </li>
+                                        <?php else: ?>
+                                            <li>
+                                                <a>
+                                                    <i class="fas fa-exclamation-triangle"></i> denunciar
+                                                </a>
+                                            </li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-centro">
+                            <?php if (!empty($post['titulo_post'])): ?>
+                            <h3 class="p-titulo"><?php echo htmlspecialchars($post['titulo_post']); ?></h3>
+                            <?php endif; ?>
+                            <p class="p-texto"><?php echo htmlspecialchars($post['texto_post']); ?></p>
+                            <?php if (!empty($post['imagem_post'])): ?>
+                            <img src="./assets/images/posts/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="p-img" loading="lazy">
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="p-inferior">
+                            <div class="inferior-esquerda">
+                                <button class="p-vote <?= $post['user_liked'] ? 'liked' : '' ?>" 
+                                        data-post-id="<?= $post['id_post'] ?>"
+                                        data-user-liked="<?= $post['user_liked'] ? '1' : '0' ?>">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <span class="p-count"><?= $post['likes_count'] ?></span>
+                                </button>
+                            </div>
+                            <div class="inferior-direita">
+                                <span class="p-tempo" data-tempo="<?= date('Y-m-d H:i:s', strtotime($post['data_post'])) ?>">
+                                    <?= $meetcar->tempoDecorrido($post['data_post']) ?>
+                                </span>
+                                <a href="post.php?id=<?= $post['id_post'] ?>" class="link-post">
+                                    <button class="p-comentario">
+                                        <i class="fas fa-comment"></i>
+                                        <span class="p-count"><?php echo $post['comentarios_count']; ?></span>
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            <?php endforeach; ?>
-        </div>
+                
+                <!-- Seção de comentários -->
+                <div class="comentarios-container">
+                    <h3>Comentários</h3>
+                    
+                    <!-- Formulário para novo comentário -->
+                    <form class="form-comentario" method="post" action="banco/insert_tb_comentario.php">
+                        <input type="hidden" name="post_id" value="<?= $postId ?>">
+                        <textarea name="comentario" required placeholder="Adicione um comentário..."></textarea>
+                        <button type="submit">Comentar</button>
+                    </form>
+                    
+                    <!-- Lista de comentários -->
+                    <?php foreach ($comentarios as $comentario): ?>
+                        <div class="comentario">
+                            <div class="comentario-cabecalho">
+                                <img src="./assets/images/users/<?= htmlspecialchars($comentario['img_user']) ?>" alt="Foto do usuário">
+                                <span><?= htmlspecialchars($comentario['nome_user']) ?></span>
+                                <span class="tempo"><?= MeetCarFunctions::tempoDecorrido($comentario['data_comentario']) ?></span>
+                            </div>
+                            <div class="comentario-texto">
+                                <?= htmlspecialchars($comentario['texto_comentario']) ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </hero>
     </div>
+
+    <script src="assets/js/index.js?v=<?= time() ?>"></script>
 </body>
 </html>

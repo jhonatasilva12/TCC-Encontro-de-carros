@@ -49,6 +49,7 @@ document.querySelectorAll(".p-img").forEach(img => {
         const fundo = document.querySelector(".fundo-img");
         
         fullImg.src = this.src; // pega a imagem clicada
+        panzoom(fullImg);
         
         
         fundo.style.display = "flex"; // ativa o modal (faz ele aparecer)
@@ -128,6 +129,65 @@ function setupImagePreviews() {
 }
 
 document.addEventListener('DOMContentLoaded', setupImagePreviews);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+document.querySelectorAll('.delete-content').forEach(button => {
+    button.addEventListener('click', async function(e) {
+        e.preventDefault();
+        
+        const contentType = this.getAttribute('data-type');
+        const contentId = this.getAttribute('data-id');
+        
+        if (confirm(`Tem certeza que deseja excluir este ${contentType}?`)) {
+            try {
+                const response = await fetch(`banco/deletar.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        type: contentType,
+                        id: contentId
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Remove o elemento da interface
+                    document.querySelector(`.${contentType}[data-id="${contentId}"]`).remove();
+                    
+                    // Mostra mensagem de sucesso
+                    showAlert(`${contentType.charAt(0).toUpperCase() + contentType.slice(1)} excluído com sucesso!`, 'success');
+                } else {
+                    throw new Error(data.message || 'Erro desconhecido');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert(`Erro ao excluir ${contentType}: ${error.message}`, 'error');
+            }
+        }
+    });
+});
+
+// Função para mostrar mensagens (adicione ao seu JS)
+function showAlert(message, type) {
+    const alert = document.createElement('div');
+    alert.className = `alert alert-${type}`;
+    alert.textContent = message;
+    document.body.appendChild(alert);
+    
+    setTimeout(() => alert.remove(), 5000);
+}
+
+
+function copiarLink() {
+      const texto = closest(".link-post").href;
+      navigator.clipboard.writeText(texto).then(() => {
+        alert("Texto copiado com sucesso!");
+      }).catch(err => {
+        alert("Erro ao copiar o texto: " + err);
+      });
+    }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 async function carregarOpcoesFormularios() {

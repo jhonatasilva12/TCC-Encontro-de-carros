@@ -13,6 +13,7 @@ $meetcar = new MeetCarFunctions();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/5d7149073d.js" crossorigin="anonymous"></script>
+    <script src='https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js'></script>
     <link rel="icon" href="./assets/images/logo.png">
     <title>MeetCar</title>
     <link rel="stylesheet" href="assets/css/styles.css">

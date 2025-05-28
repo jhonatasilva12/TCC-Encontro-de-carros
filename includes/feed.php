@@ -2,7 +2,7 @@
 $userId = $_SESSION['user_id'] ?? null; 
 
 $posts = $meetcar->buscarPosts($userId); 
-$eventos = $meetcar->buscarEventos($userId);
+$eventos = $meetcar->buscarEventos($userId); 
 
 $conteudos = [];
 
@@ -51,15 +51,23 @@ usort($conteudos, function($a, $b) {
                         <div class="pop-mais">
                             <ul class="pop-list">
                                 <li>
-                                    <a href="">
+                                    <a>
                                         <i class="fas fa-share"></i> Compartilhar
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fas fa-exclamation-triangle"></i> denunciar
-                                    </a>
-                                </li>
+                                <?php if ($item['tipo'] === 'post' && $item['dados']['fk_id_user'] === $_SESSION['user_id']): ?>
+                                    <li>
+                                        <a class="delete-content" data-type="<?= $item['tipo'] ?>" data-id="<?= $item['tipo'] === 'post' ? $item['dados']['id_post'] : $item['dados']['id_evento'] ?>">
+                                            <i class="fas fa-trash-alt"></i> excluir <?= $item['tipo'] ?>
+                                        </a>
+                                    </li>
+                                <?php else: ?>
+                                    <li>
+                                        <a>
+                                            <i class="fas fa-exclamation-triangle"></i> denunciar
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
                             </ul>
                         </div>
                     </div>
@@ -88,7 +96,7 @@ usort($conteudos, function($a, $b) {
                         <span class="p-tempo" data-tempo="<?= date('Y-m-d H:i:s', strtotime($post['data_post'])) ?>">
                             <?= $meetcar->tempoDecorrido($post['data_post']) ?>
                         </span>
-                        <a href="post.php?id=<?= $post['id_post'] ?>">
+                        <a href="post.php?id=<?= $post['id_post'] ?>" class="link-post">
                             <button class="p-comentario">
                                 <i class="fas fa-comment"></i>
                                 <span class="p-count"><?php echo $post['comentarios_count']; ?></span>
@@ -116,15 +124,23 @@ usort($conteudos, function($a, $b) {
                         <div class="pop-mais">
                             <ul class="pop-list">
                                 <li>
-                                    <a href="">
+                                    <a>
                                         <i class="fas fa-share"></i> Compartilhar
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fas fa-exclamation-triangle"></i> denunciar
-                                    </a>
-                                </li>
+                                <?php if ($item['tipo'] === 'evento' && $item['dados']['fk_id_criador'] === $_SESSION['user_id']): ?>
+                                    <li>
+                                        <a class="delete-content" data-type="<?= $item['tipo'] ?>" data-id="<?= $item['tipo'] === 'post' ? $item['dados']['id_post'] : $item['dados']['id_evento'] ?>">
+                                            <i class="fas fa-trash-alt"></i> excluir <?= $item['tipo'] ?>
+                                        </a>
+                                    </li>
+                                <?php else: ?>
+                                    <li>
+                                        <a>
+                                            <i class="fas fa-exclamation-triangle"></i> denunciar
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
                             </ul>
                         </div>
                     </div>

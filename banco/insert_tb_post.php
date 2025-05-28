@@ -2,7 +2,6 @@
 include_once './db_connect.php';
 session_start();
 
-// Processa upload da imagem
 $imagem_post = null;
 if (isset($_FILES['imagem_post']) && $_FILES['imagem_post']['error'] == UPLOAD_ERR_OK) {
     
@@ -33,7 +32,7 @@ if (isset($_FILES['imagem_post']) && $_FILES['imagem_post']['error'] == UPLOAD_E
 try {
     $pdo->beginTransaction();
     
-    // Validação dos dados
+    // validação dos dados
     if (empty($_POST['fk_id_tipo_post']) || empty($_POST['texto_post'])) {
         throw new Exception('Tipo de post e texto são obrigatórios');
     }
@@ -54,7 +53,7 @@ try {
         $_POST['fk_id_tipo_post'],
         $_POST['texto_post'],
         $imagem_post,
-        $_POST['titulo_post'] ?? null // Corrigido: adiciona o título (ou null se não existir)
+        $_POST['titulo_post'] ?? null
     ]);
     
     $pdo->commit();
