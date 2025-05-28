@@ -53,10 +53,10 @@
                 </div>
                 
                 <div class="form-group">
+                    <label for="group-image">Imagem post</label>
                     <div class="image-preview" id="imagePreview">
                         <img id="postImage" src="#" alt="Pré-visualização da imagem">
                     </div>
-                    <label for="group-image">Imagem post</label>
                     <input type="file" id="post-image" name="imagem_post" accept="image/*">
                     
                 </div>
