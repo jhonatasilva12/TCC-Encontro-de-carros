@@ -115,7 +115,7 @@ function setupImagePreviews() {
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         preview.src = e.target.result;
-                        container.style.display = "block";
+                        container.style.display = "flex";
                     };
                     reader.readAsDataURL(file);
                 } else {
