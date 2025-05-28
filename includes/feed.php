@@ -113,7 +113,7 @@ usort($conteudos, function($a, $b) {
                     
                     <div class="superior-direita">
                         <button class="mais"><i class="fas fa-ellipsis-v"></i></button>
-                        <div class="pop-mais" style="background-color: #f0f8ff; border-color: #c1d1d6;">
+                        <div class="pop-mais">
                             <ul class="pop-list">
                                 <li>
                                     <a href="">
