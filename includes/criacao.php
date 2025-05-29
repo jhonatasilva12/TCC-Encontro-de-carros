@@ -11,7 +11,7 @@
                 <button class="fecha-modal">X</button>
                 <h2>Criar Novo Post</h2>
             </div>
-            <form class="modal-container" method="post" action="./banco/insert_tb_post.php" enctype="multipart/form-data">
+            <form class="modal-container" method="post" action="./banco/insert_tb_post.php" enctype="multipart/form-data" autocomplete="off">
                 
                 <div class="form-group">
                     <label for="titulo-post">Título (opcional)</label>
@@ -73,7 +73,7 @@
                 <button class="fecha-modal">X</button>
                 <h2>Criar Novo Grupo</h2>
             </div>
-            <form class="modal-container" action="./banco/insert_tb_grupo.php" method="post" enctype="multipart/form-data">
+            <form class="modal-container" action="./banco/insert_tb_grupo.php" method="post" enctype="multipart/form-data" autocomplete="off">
                 
                 <div class="form-group">
                     <div class="image-preview" id="groupPreview">
@@ -134,7 +134,7 @@
                 <button class="fecha-modal">X</button>
                 <h2>Criar Novo Evento</h2>
             </div>
-            <form class="modal-container" action="./banco/insert_tb_evento.php" method="post" enctype="multipart/form-data">
+            <form class="modal-container" action="./banco/insert_tb_evento.php" method="post" enctype="multipart/form-data" autocomplete="off">
                 
                 <div class="form-group">
                     <label for="event-name">Nome do Evento*</label>

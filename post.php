@@ -1,14 +1,11 @@
 <?php
 require_once('includes/funcoes.php');
 require_once('banco/db_connect.php');
-require_once('includes/search.php');
 require_once('banco/autentica.php');
 include 'includes/navbar.php';
 $meetcar = new MeetCarFunctions();
 
 $userId = $_SESSION['user_id'] ?? null; 
-
-$posts = $meetcar->buscarPosts($userId); 
 
 // pega o id do post da url
 $postId = $_GET['id'] ?? null;
@@ -28,14 +25,6 @@ if (!$post) {
 
 // busca os comentários desse post
 $comentarios = $meetcar->buscarComentariosPorPost($postId);
-
-foreach ($posts as $post) {
-    $conteudos[] = [
-        'tipo' => 'post',
-        'data' => $post['data_post'],
-        'dados' => $post
-    ];
-}
 ?>
 
 <!DOCTYPE html>
@@ -46,14 +35,14 @@ foreach ($posts as $post) {
     <script src="https://kit.fontawesome.com/5d7149073d.js" crossorigin="anonymous"></script>
     <script src='https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js'></script>
     <link rel="icon" href="./assets/images/logo.png">
-    <title>MeetCar</title>
+    <title>MeetCar - <?= htmlspecialchars($post['titulo_post'] ?? 'Post') ?></title>
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
     <div class="geral">
         <main class="hero">
             <div class="post-detalhe">
-                <!-- Conteúdo do post (igualzinho o normal, mas diferente) -->
+                <!-- Conteúdo do post -->
                 <div class="post" data-id="<?= $post['id_post'] ?>">
                     <div class="p-superior">
                         <div class="p-identifica">
@@ -77,10 +66,10 @@ foreach ($posts as $post) {
                                             <i class="fas fa-share"></i> Compartilhar
                                         </a>
                                     </li>
-                                    <?php if ($item['tipo'] === 'post' && $item['dados']['fk_id_user'] === $_SESSION['user_id']): ?>
+                                    <?php if ($post['fk_id_user'] === $_SESSION['user_id']): ?>
                                         <li>
-                                            <a class="delete-content" data-type="<?= $item['tipo'] ?>" data-id="<?= $item['tipo'] === 'post' ? $item['dados']['id_post'] : $item['dados']['id_evento'] ?>">
-                                                <i class="fas fa-trash-alt"></i> excluir <?= $item['tipo'] ?>
+                                            <a class="delete-content" data-type="post" data-id="<?= $post['id_post'] ?>">
+                                                <i class="fas fa-trash-alt"></i> excluir post
                                             </a>
                                         </li>
                                     <?php else: ?>
@@ -118,41 +107,47 @@ foreach ($posts as $post) {
                             <span class="p-tempo" data-tempo="<?= date('Y-m-d H:i:s', strtotime($post['data_post'])) ?>">
                                 <?= $meetcar->tempoDecorrido($post['data_post']) ?>
                             </span>
-                            <a href="post.php?id=<?= $post['id_post'] ?>" class="link-post">
-                            </a>
                         </div>
                     </div>
                 </div>
             
 
             <!--------- seção de comentários --------->
-                <span class="p-count"><h3><?php echo $post['comentarios_count']; ?> Comentário(s)</h3></span>
+                <span class="p-count" style="text-align: left;"><h3><?php echo $post['comentarios_count']; ?> Comentário(s)</h3></span>
                 
                 <!-- formulário para novo comentário -->
-                <form class="form-comentario" method="post" action="banco/insert_tb_comentario.php">
-                    <textarea name="comentario" required placeholder="Adicione um comentário..."></textarea>
+                <form class="form-comentario" method="post" action="banco/insert_tb_comentario.php" autocomplete="off">
+                    <textarea class="com-text" name="comentario" placeholder="Adicione um comentário..." required></textarea>
                     <button type="submit">Comentar</button>
-                    <div style="width: 100%">
-                    <input type="hidden" name="post_id" value="<?= $postId ?>"></div>
+                    <input type="hidden" name="post_id" value="<?= $postId ?>">
                 </form>
                 
                 <!-- lista de comentários -->
                 <?php foreach ($comentarios as $comentario): ?>
                     <div class="comentario">
-                        <div class="comentario-cabecalho">
+                        <div class="com-superior">
                             <img src="./assets/images/users/<?= htmlspecialchars($comentario['img_user']) ?>" alt="Foto do usuário">
                             <span><?= htmlspecialchars($comentario['nome_user']) ?></span>
-                            <span class="tempo"><?= $meetcar->tempoDecorrido($comentario['data_comentario']) ?></span>
                         </div>
-                        <div class="comentario-texto">
-                            <?= htmlspecialchars($comentario['texto_comentario']) ?>
+                        <div class="com-centro">
+                            <p class="p-texto"><?= htmlspecialchars($comentario['texto_comentario']) ?></p>
+                        </div>
+                        <div class="com-inferior">
+                            <span class="p-tempo"><?= $meetcar->tempoDecorrido($comentario['data_comentario']) ?></span>
                         </div>
                     </div>
                 <?php endforeach; ?>
             </div>
-        </hero>
+        </main>
     </div>
 
-    <script defer src="assets/js/index.js></script>
+    <?php if (!empty($post['imagem_post'])): ?>
+    <div class="fundo-img">
+        <button class="fecha-img">x</button>
+        <img src="./assets/images/posts/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="img-full">
+    </div>
+    <?php endif; ?>
+
+    <script src="assets/js/index.js?v=<?= time() ?>"></script>
 </body>
 </html>

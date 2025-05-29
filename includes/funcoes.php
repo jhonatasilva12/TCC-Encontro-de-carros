@@ -150,20 +150,25 @@ class MeetCarFunctions {
     }
 
     public function buscarPostPorId($id) {
+        $userId = $_SESSION['user_id'] ?? null;
+        
         $sql = "SELECT p.*, u.nome_user, u.sobrenome_user, u.img_user, tp.nome_tipo_post, tp.cor_fundo, tp.cor_letra,
-            (SELECT COUNT(*) FROM likes_post WHERE fk_id_post = p.id_post) as likes_count,
-            (SELECT COUNT(*) FROM tb_comentario WHERE fk_id_post = p.id_post) as comentarios_count
-            FROM tb_post p
-            JOIN tb_user u ON p.fk_id_user = u.id_user
-            JOIN tb_tipo_post tp ON p.fk_id_tipo_post = tp.id_tipo_post
-            WHERE p.id_post = ?";
+                (SELECT COUNT(*) FROM likes_post WHERE fk_id_post = p.id_post) as likes_count,
+                (SELECT COUNT(*) FROM tb_comentario WHERE fk_id_post = p.id_post) as comentarios_count,
+                (SELECT EXISTS(SELECT 1 FROM likes_post WHERE fk_id_post = p.id_post AND fk_id_user = ?)) as user_liked
+                FROM tb_post p
+                JOIN tb_user u ON p.fk_id_user = u.id_user
+                JOIN tb_tipo_post tp ON p.fk_id_tipo_post = tp.id_tipo_post
+                WHERE p.id_post = ?";
         
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        return $result->fetch_assoc();
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId, $id]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar post: " . $e->getMessage());
+            return null;
+        }
     }
 
     public function buscarComentariosPorPost($postId) {

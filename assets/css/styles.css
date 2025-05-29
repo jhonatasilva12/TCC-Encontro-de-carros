@@ -29,7 +29,7 @@
     --cor-logo: invert(100%) saturate(0);
     --sombra: rgba(0, 0, 0, 0.3);
     --texto-secundario: #a0a0a0;
-    --fundo-input: #2a2a2a;
+    --fundo-input: #393753;
     --borda-input: #3a3a3a;
     --fundo-botao: #2a2a2a;
     --borda-base: #121025; 
@@ -349,6 +349,7 @@ a {
   height: 95vh;
   object-fit: contain;
   border-radius: 10px;
+  z-index: 2;
 }
 
 .fecha-img {
@@ -357,9 +358,11 @@ a {
   right: 30px;
   width: 50px;
   height: 50px;
-  color: white;
+  z-index: 3;
+  color: rgb(190, 0, 0);
   text-shadow: var(--letra-normal-geral) -2px 2px 2px;
   font-size: 40px;
+  font-weight: bolder;
   cursor: pointer;
   background: none;
   border-radius: 100%;
@@ -420,16 +423,16 @@ a {
 .p-vote.liked {
   background-color: #e3f2fd;
   border-color: #bbdefb;
-  color: #366ec9;
 }
 
-.p-vote.liked i {
+.p-vote.liked i, .p-vote.liked span {
   color: #366ec9;
 }
 
 .p-count{
   font-size: 0.9em;
   font-weight: bold;
+  color: var(--letra-normal-geral);
 }
 
 .inferior-direita {
@@ -571,32 +574,44 @@ a {
 }
 
 .comentario {
-  width: 100%;
-  border-bottom: 1px solid #eee;
-  padding: 15px 0;
+  width: 45vw;
+  background-color: var(--fundo-post);
+  border-radius: 10px;
+  border: 2px solid var(--borda-post);
+  padding: 20px;
+  box-shadow: -2px 2px 4px var(--sombra);
+  margin-bottom: 20px;
 }
 
 .form-comentario {
   width: 100%;
-  height: 100%;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
   flex-direction: row;
-
+  margin-bottom: 20px;
 }
 
-.comentario-cabecalho {
+.com-superior {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
 
 .form-comentario button {
-  height: 100%;
+  height: 120px;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+  border: 1px solid var(--borda-base);
+  border-left: none;
+  background-color: var(--fundo-base);
+  color: var(--letra-normal-geral);
+}
+.form-comentario button:hover {
+  background-color: var(--fundo-base-hover);
 }
 
-.comentario-cabecalho img {
+.com-superior img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -608,13 +623,15 @@ a {
 }
 
 .form-comentario textarea {
+  position: relative;
   width: 100%;
-  height: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  margin-bottom: 10px;
-  min-height: 100px;
+  height: 120px;
+  resize: none;
+  background-color: var(--fundo-input);
+  border-radius: 0px;
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
+  border: 1px solid var(--borda-base);
 }
 
 /*************************fim post e interiores******************************/

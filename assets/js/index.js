@@ -4,7 +4,9 @@ const eventoModal = document.getElementById("form-evento");
 const grupoModal = document.getElementById("form-grupo");
 const opCriar = document.querySelector(".criar");
 
-document.querySelector(".criar").addEventListener("click", function (e) {
+
+if (opCriar) {
+opCriar.addEventListener("click", function (e) {
   //click = ativo
   e.stopPropagation(); // Impede que o clique se propague para o document
   this.classList.toggle("ativo");
@@ -36,6 +38,7 @@ document.querySelector(".criar-grupo").addEventListener("click", function (e) {
   body.classList.toggle("estatico");
   carregarOpcoesFormularios();
 });
+}
 
 document.querySelectorAll(".mais").forEach((botao) => {
   botao.addEventListener("click", function (e) {
@@ -58,19 +61,19 @@ document.querySelectorAll(".p-img").forEach(img => {
 });
 
 document.addEventListener("click", function (e) { //serve para que, ao clicar fora, torne os ativos em inativos (em relação a clicado ou não)
+  if (opCriar) {
+    if (!e.target.closest(".criacao")) {
+      opCriar.classList.remove("ativo");
+    }
 
-  if (!e.target.closest(".criacao")) {
-    opCriar.classList.remove("ativo");
+    if (!e.target.closest(".form-modal") || e.target.closest(".fecha-modal")) {
+      [eventoModal, postModal, grupoModal].forEach((modal) => {
+        modal.classList.remove("ativo");
+      });
+      document.querySelectorAll("form").forEach((form) => form.reset());
+      body.classList.remove("estatico");
+    }
   }
-
-  if (!e.target.closest(".form-modal") || e.target.closest(".fecha-modal")) {
-    [eventoModal, postModal, grupoModal].forEach((modal) => {
-      modal.classList.remove("ativo");
-    });
-    document.querySelectorAll("form").forEach((form) => form.reset());
-    body.classList.remove("estatico");
-  }
-
   if(e.target === document.querySelector(".fundo-img") || e.target === document.querySelector(".fecha-img")) {
     document.querySelector(".fundo-img").style.display = 'none';
     document.body.style.overflowY = "scroll";
@@ -493,6 +496,8 @@ function calcularTempoDecorrido(dataString) {
   return `há ${anos} ano${anos !== 1 ? "s" : ""}`;
 }
 
+if (document.getElementById('event-start-datetime')) {
+
 document.getElementById('event-start-datetime').addEventListener('change', function() {
     const startDate = new Date(this.value);
     const endDateInput = document.getElementById('event-end-datetime');
@@ -507,6 +512,7 @@ document.getElementById('event-start-datetime').addEventListener('change', funct
     
     endDateInput.min = this.value;
 });
+}
 
 // Validação de formulários
 function setupFormValidations() {
