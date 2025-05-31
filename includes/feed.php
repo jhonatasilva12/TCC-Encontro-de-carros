@@ -167,7 +167,30 @@ usort($conteudos, function($a, $b) {
                                 ?>
                             </span>
                         </div>
-                        <div class="e-val"></div>
+                        <div class="e-valor">
+                            <i class="fas fa-money-bill"></i>
+                            <span>Pedestre: <?php if ($evento['valor_pedestre'] === '0') {
+                                echo "gratis";
+
+                            } else {
+                                
+                                echo htmlspecialchars($evento['valor_pedestre']); 
+                            
+                            } ?></span>
+
+                            <br>
+                            
+                            <i class="fas fa-money-bill"></i>
+                            <span>Exposição: <?php if ($evento['valor_exposicao'] === '0') {
+                                echo "gratis";
+
+                            } else {
+                                
+                                echo htmlspecialchars($evento['valor_exposicao']); 
+                            
+                            } ?></span>
+                            
+                        </div>
                     </div>
                 
                 <div class="e-inferior">
