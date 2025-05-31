@@ -1,7 +1,7 @@
 <?php
 // conexao.php
 $host = 'localhost';
-$dbname   = 'db_meetcar';
+$dbname   = 'db_meetcar1';
 $username = 'root';
 $password = '';
 $charset = 'utf8mb4';

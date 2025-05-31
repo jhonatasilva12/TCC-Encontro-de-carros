@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26/05/2025 às 20:48
+-- Tempo de geração: 31/05/2025 às 04:47
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `db_meetcar`
+-- Banco de dados: `db_meetcar1`
 --
 
 -- --------------------------------------------------------
@@ -50,7 +50,9 @@ CREATE TABLE `grupo_tegru` (
 INSERT INTO `grupo_tegru` (`fk_id_grupo`, `fk_id_temas_grupo`) VALUES
 (1, 4),
 (2, 4),
-(3, 3);
+(3, 3),
+(4, 3),
+(5, 3);
 
 -- --------------------------------------------------------
 
@@ -120,17 +122,20 @@ CREATE TABLE `tb_grupo` (
   `img_grupo` varchar(36) DEFAULT NULL,
   `descricao_grupo` varchar(600) DEFAULT NULL,
   `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
-  `fk_id_user` int(11) NOT NULL
+  `fk_id_user` int(11) NOT NULL,
+  `fk_id_tema_grupo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `tb_grupo`
 --
 
-INSERT INTO `tb_grupo` (`id_grupo`, `nome_grupo`, `img_grupo`, `descricao_grupo`, `data_criacao`, `fk_id_user`) VALUES
-(1, 'goodras da quebrada', NULL, 'apenas amantes do pokemon goodra hell yeahhh', '2025-05-24 23:05:26', 6),
-(2, 'belezura', NULL, 'belezura', '2025-05-25 02:04:04', 6),
-(3, 'terra', 'group_68328082ca79b.png', 'ria', '2025-05-25 02:29:22', 6);
+INSERT INTO `tb_grupo` (`id_grupo`, `nome_grupo`, `img_grupo`, `descricao_grupo`, `data_criacao`, `fk_id_user`, `fk_id_tema_grupo`) VALUES
+(1, 'goodras da quebrada', NULL, 'apenas amantes do pokemon goodra hell yeahhh', '2025-05-24 23:05:26', 6, 3),
+(2, 'belezura', NULL, 'belezura', '2025-05-25 02:04:04', 6, 3),
+(3, 'terra', 'group_68328082ca79b.png', 'ria', '2025-05-25 02:29:22', 6, 3),
+(4, 'primeiro grupo', 'group_683a53ff40b60.jpeg', 'grupo legalllllllllllll', '2025-05-31 00:57:35', 9, 3),
+(5, 'teste1', 'group_683a66bede0c2.png', 'teste1', '2025-05-31 02:17:34', 9, 3);
 
 -- --------------------------------------------------------
 
@@ -184,7 +189,8 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id_user`, `nome_user`, `sobrenome_user`, `img_user`, `data_nasc_user`, `telefone_user`, `cpf_user`, `email_user`, `senha_user`) VALUES
-(6, 'david', 'de jesus almeida', 'user_padrao.jpg', NULL, '(11) 22222-2222', NULL, 'dwtazer@gmail.com', '$2y$10$.b4Nc9dgLuUpO7vfWXSai.aG2pJePLfIbIj8wio9.jqM/.YfRvUi6');
+(6, 'david', 'de jesus almeida', 'user_padrao.jpg', NULL, '(11) 22222-2222', NULL, 'dwtazer@gmail.com', '$2y$10$.b4Nc9dgLuUpO7vfWXSai.aG2pJePLfIbIj8wio9.jqM/.YfRvUi6'),
+(9, 'jhonata', 'silva', 'user_padrao.jpg', NULL, '(11) 11111-1111', NULL, 'jhonata@fkjhgfdxdfghjk.com', '$2y$10$TcWm9wg78YGoRAnVV3x6nOaWX2aSB3A1k.Ytv/JO8YlqIdgOh4r9O');
 
 -- --------------------------------------------------------
 
@@ -271,7 +277,8 @@ ALTER TABLE `tb_evento`
 --
 ALTER TABLE `tb_grupo`
   ADD PRIMARY KEY (`id_grupo`),
-  ADD KEY `fk_id_user` (`fk_id_user`);
+  ADD KEY `fk_id_user` (`fk_id_user`),
+  ADD KEY `fk_tema_grupo` (`fk_id_tema_grupo`);
 
 --
 -- Índices de tabela `tb_post`
@@ -326,7 +333,7 @@ ALTER TABLE `tb_evento`
 -- AUTO_INCREMENT de tabela `tb_grupo`
 --
 ALTER TABLE `tb_grupo`
-  MODIFY `id_grupo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_grupo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `tb_post`
@@ -344,7 +351,7 @@ ALTER TABLE `tb_tipo_post`
 -- AUTO_INCREMENT de tabela `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `temas_grupo`
@@ -396,6 +403,12 @@ ALTER TABLE `tb_comentario`
 --
 ALTER TABLE `tb_evento`
   ADD CONSTRAINT `tb_evento_ibfk_1` FOREIGN KEY (`fk_id_criador`) REFERENCES `tb_user` (`id_user`);
+
+--
+-- Restrições para tabelas `tb_grupo`
+--
+ALTER TABLE `tb_grupo`
+  ADD CONSTRAINT `fk_tema_grupo` FOREIGN KEY (`fk_id_tema_grupo`) REFERENCES `temas_grupo` (`id_temas_grupo`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
