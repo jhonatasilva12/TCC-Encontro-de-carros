@@ -1,14 +1,13 @@
 <?php
-// Seus requires existentes
+
 require_once('banco/db_connect.php'); 
 require_once('banco/autentica.php');
 require_once('includes/search.php');
 
-// O require da navbar está aqui, então a incluiremos uma vez.
-// O require de funcoes.php é crucial para a classe MeetCarFunctions.
+
 require_once 'includes/funcoes.php';
 
-// Inicie a sessão se ainda não estiver iniciada, para obter o ID do usuário logado
+// Inicie a sessão 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -16,7 +15,7 @@ if (session_status() == PHP_SESSION_NONE) {
 // Crie uma instância da classe MeetCarFunctions
 $meetcar = new MeetCarFunctions();
 
-// Obtenha o ID do usuário logado da sessão. Se não houver, use null (ou 0, como a função aceita)
+
 $loggedInUserId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null; 
 
 // Chama a função buscarGrupos passando o ID do usuário logado
