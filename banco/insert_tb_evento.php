@@ -27,9 +27,6 @@ if (isset($_FILES['imagem_evento']) && $_FILES['imagem_evento']['error'] == UPLO
         mkdir($diretorio, 0755, true);
     }
 
-    // Debug: Log do caminho completo
-    error_log("Tentando salvar em: " . $diretorio . $nome_imagem);
-
     if (!move_uploaded_file($_FILES['imagem_evento']['tmp_name'], $diretorio . $nome_imagem)) {
         error_log("Erro ao mover arquivo: " . print_r(error_get_last(), true));
         $_SESSION['erro'] = "Erro ao salvar a imagem. Verifique permissões!";
@@ -55,8 +52,12 @@ try {
         data_termino_evento,
         valor_pedestre,
         valor_exposicao,
+        rua_evento,
+        numero_evento,
+        cidade_evento,
+        estado_evento,
         fk_id_criador
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $pdo->prepare($query);
     $stmt->execute([
@@ -67,6 +68,10 @@ try {
         $data_termino,
         $_POST['valor_pedestre'],
         $_POST['valor_exposicao'],
+        $_POST['rua'],
+        $_POST['numero'],
+        $_POST['cidade'],
+        $_POST['estado'],
         $_SESSION['user_id']
     ]);
     

@@ -3,41 +3,57 @@ const postModal = document.getElementById("form-post");
 const eventoModal = document.getElementById("form-evento");
 const grupoModal = document.getElementById("form-grupo");
 const opCriar = document.querySelector(".criar");
+const tabs = document.querySelectorAll('.tab');
+const tabContent = document.querySelectorAll('.tab-content');
 
 
 if (opCriar) {
-opCriar.addEventListener("click", function (e) {
-  //click = ativo
-  e.stopPropagation(); // Impede que o clique se propague para o document
-  this.classList.toggle("ativo");
-});
+  opCriar.addEventListener("click", function (e) {
+    //click = ativo
+    e.stopPropagation(); // Impede que o clique se propague para o document
+    this.classList.toggle("ativo");
+  });
 
-document.querySelector(".criar-post").addEventListener("click", function (e) {
-  //click = modal ativo
-  e.stopPropagation(); // Impede que o clique se propague para o document
-  postModal.classList.toggle("ativo");
-  opCriar.classList.remove("ativo");
-  body.classList.toggle("estatico");
-  carregarOpcoesFormularios();
-});
+  document.querySelector(".criar-post").addEventListener("click", function (e) {
+    //click = modal ativo
+    e.stopPropagation(); // Impede que o clique se propague para o document
+    postModal.classList.toggle("ativo");
+    opCriar.classList.remove("ativo");
+    body.classList.toggle("estatico");
+    carregarOpcoesFormularios();
+  });
 
-document.querySelector(".criar-evento").addEventListener("click", function (e) {
-  //click = modal ativo
-  e.stopPropagation(); // Impede que o clique se propague para o document
-  eventoModal.classList.toggle("ativo");
-  opCriar.classList.remove("ativo");
-  body.classList.toggle("estatico");
-  carregarOpcoesFormularios();
-});
+  document.querySelector(".criar-evento").addEventListener("click", function (e) {
+    //click = modal ativo
+    e.stopPropagation(); // Impede que o clique se propague para o document
+    eventoModal.classList.toggle("ativo");
+    opCriar.classList.remove("ativo");
+    body.classList.toggle("estatico");
+    carregarOpcoesFormularios();
+  });
 
-document.querySelector(".criar-grupo").addEventListener("click", function (e) {
-  //click = modal ativo
-  e.stopPropagation(); // Impede que o clique se propague para o document
-  grupoModal.classList.toggle("ativo");
-  opCriar.classList.remove("ativo");
-  body.classList.toggle("estatico");
-  carregarOpcoesFormularios();
-});
+  document.querySelector(".criar-grupo").addEventListener("click", function (e) {
+    //click = modal ativo
+    e.stopPropagation(); // Impede que o clique se propague para o document
+    grupoModal.classList.toggle("ativo");
+    opCriar.classList.remove("ativo");
+    body.classList.toggle("estatico");
+    carregarOpcoesFormularios();
+  });
+}
+
+if (tabs) {
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Primeiro ele remove a classe das outras tabs
+      tabs.forEach(t => t.classList.remove('active'));
+      tabContent.forEach(c => c.classList.remove('active'));
+
+      tab.classList.add('active');
+      const tabId = tab.getAttribute('data-tab');
+      document.getElementById(`tab-${tabId}`).classList.add('active');
+    });
+  });
 }
 
 document.querySelectorAll(".mais").forEach((botao) => {
@@ -70,7 +86,7 @@ document.addEventListener("click", function (e) { //serve para que, ao clicar fo
       [eventoModal, postModal, grupoModal].forEach((modal) => {
         modal.classList.remove("ativo");
       });
-      document.querySelectorAll("form").forEach((form) => form.reset());
+      document.querySelectorAll(".modal-container").forEach((form) => form.reset());
       body.classList.remove("estatico");
     }
   }

@@ -64,7 +64,97 @@ class MeetCarFunctions {
         return $eventos;
     }
 
-    // Busca opções para formulários (tipos de post e temas de grupo)
+    public function buscarEventosPorTermo($termo, $userId = null) {
+        $sql = "SELECT e.*, u.nome_user, u.sobrenome_user, u.img_user,
+                (SELECT COUNT(*) FROM evento_user WHERE fk_id_evento = e.id_evento) as participantes_count,
+                (SELECT EXISTS(SELECT 1 FROM evento_user WHERE fk_id_evento = e.id_evento AND fk_id_user = ?)) as user_participando
+                FROM tb_evento e
+                JOIN tb_user u ON e.fk_id_criador = u.id_user
+                WHERE e.nome_evento LIKE ? 
+                OR e.descricao_evento LIKE ? 
+                OR e.cidade_evento LIKE ?
+                ORDER BY e.data_inicio_evento ASC";
+        
+        $termoLike = '%' . $termo . '%';
+        
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId, $termoLike, $termoLike, $termoLike]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar eventos: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function buscarGruposPorTermo($termo, $userId = null) {
+        $sql = "SELECT g.*, u.nome_user as criador_nome, u.img_user as criador_img,
+                (SELECT COUNT(*) FROM user_grupo WHERE fk_id_grupo = g.id_grupo) as membros_count,
+                (SELECT EXISTS(SELECT 1 FROM user_grupo WHERE fk_id_grupo = g.id_grupo AND fk_id_user = ?)) as user_membro
+                FROM tb_grupo g
+                JOIN tb_user u ON g.fk_id_user = u.id_user
+                WHERE g.nome_grupo LIKE ? 
+                OR g.descricao_grupo LIKE ?
+                ORDER BY g.nome_grupo";
+        
+        $termoLike = '%' . $termo . '%';
+        
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId, $termoLike, $termoLike]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar grupos: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function buscarUsuariosPorTermo($termo) {
+        $sql = "SELECT u.*, 
+                (SELECT COUNT(*) FROM tb_post WHERE fk_id_user = u.id_user) as posts_count
+                FROM tb_user u
+                WHERE u.nome_user LIKE ? 
+                OR u.sobrenome_user LIKE ? 
+                OR u.email_user LIKE ?
+                ORDER BY u.nome_user";
+        
+        $termoLike = '%' . $termo . '%';
+        
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$termoLike, $termoLike, $termoLike]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar usuários: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function buscarPostsPorTermo($termo, $userId = null) {
+        $sql = "SELECT p.*, u.nome_user, u.sobrenome_user, u.img_user, tp.nome_tipo_post, tp.cor_fundo, tp.cor_letra,
+                (SELECT COUNT(*) FROM likes_post WHERE fk_id_post = p.id_post) as likes_count,
+                (SELECT COUNT(*) FROM tb_comentario WHERE fk_id_post = p.id_post) as comentarios_count,
+                (SELECT EXISTS(SELECT 1 FROM likes_post WHERE fk_id_post = p.id_post AND fk_id_user = ?)) as user_liked
+                FROM tb_post p
+                JOIN tb_user u ON p.fk_id_user = u.id_user
+                JOIN tb_tipo_post tp ON p.fk_id_tipo_post = tp.id_tipo_post
+                WHERE p.titulo_post LIKE ? 
+                OR p.texto_post LIKE ?
+                ORDER BY p.data_post DESC";
+        
+        $termoLike = '%' . $termo . '%';
+        
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId, $termoLike, $termoLike]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar posts: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    // busca opções para formulários (tipos de post e temas de grupo)
     public function buscarOpcoesFormularios() {
         try {
             // Busca tipos de post

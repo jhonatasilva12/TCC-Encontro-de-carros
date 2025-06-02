@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label for="tipo-post">Tipo de Post*</label>
                     <select id="tipo-post" name="fk_id_tipo_post" required class="form-control">
-                        <!-- Opções carregadas pelo JavaScript -->
+                        <!-- opções carregadas pelo JavaScript -->
                     </select>
                     <div class="micro-form-container">
                         <button type="button" class="btn-micro-form">+ Criar novo tipo</button>
@@ -164,6 +164,57 @@
                 <div class="form-group">
                     <label for="event-exhibition-price">Valor para Exposição*</label>
                     <input type="text" id="event-exhibition-price" name="valor_exposicao" required>
+                </div>
+                
+                <div class="form-group-div">
+                    <div class="form-group">
+                        <label for="rua">rua / avenida*</label>
+                        <input type="text" id="rua" name="rua" maxlength="32" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="numero">n°</label>
+                        <input type="number" id="numero" name="numero" maxlength="5" id requied>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="cidade">Cidade:</label>
+                    <input type="text" id="cidade" name="cidade" maxlength="35" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="estado">Estado:</label>
+                    <select id="estado" name="estado" required>
+                        <option selected="selected">Selecione um estado</option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                    </select>
                 </div>
                 
                 <div class="form-group">

@@ -3,8 +3,7 @@
 require_once('banco/autentica.php');
 require_once('includes/funcoes.php');
 require_once('banco/db_connect.php');
-require_once('includes/search.php');
-require_once('includes/navbar.php');
+require_once('includes/search-box.php');
 $meetcar = new MeetCarFunctions();
 ?>
 
@@ -26,12 +25,12 @@ $meetcar = new MeetCarFunctions();
         
       <main class="hero">
 
-
-        <?php
-        require_once('includes/feed.php'); //evento
-        ?>
+        <?php require_once('includes/feed.php'); ?> <!--posts e eventos organizados por ordem de chegada-->
 
       </main>
+
+      
+      <?php require_once('includes/navbar.php'); ?>
 
     </div> <!--fim geral-->
 

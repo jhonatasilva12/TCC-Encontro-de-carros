@@ -53,11 +53,20 @@ try {
     // insere relação dele com o tema
     if (!empty($_POST['fk_id_temas_grupo'])) {
         $stmtTema = $pdo->prepare("INSERT INTO grupo_tegru (fk_id_grupo, fk_id_temas_grupo) VALUES (?, ?)");
-        $stmtTema->execute([$grupoId, $_POST['fk_id_temas_grupo']]);
+        $stmtTema->execute([
+            $grupoId,
+            $_POST['fk_id_temas_grupo']
+        ]);
     }
+
+    $stmtTema = $pdo->prepare("INSERT INTO user_grupo (fk_id_grupo, fk_id_user) VALUES (?, ?)");
+    $stmtTema->execute([
+        $grupoId,
+        $_SESSION['user_id']
+    ]);
     
     $pdo->commit();
-    header("Location: ../grupo.php?id=" . $grupoId . "&sucesso=1");
+    header("Location: ../grupo.php?id=" . $grupoId);
 } catch (PDOException $e) {
     $pdo->rollBack();
     error_log("Erro ao criar grupo: " . $e->getMessage());

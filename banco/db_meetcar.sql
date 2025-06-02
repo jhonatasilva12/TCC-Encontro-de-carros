@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26/05/2025 às 20:48
+-- Tempo de geração: 02/06/2025 às 00:00
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -48,9 +48,7 @@ CREATE TABLE `grupo_tegru` (
 --
 
 INSERT INTO `grupo_tegru` (`fk_id_grupo`, `fk_id_temas_grupo`) VALUES
-(1, 4),
-(2, 4),
-(3, 3);
+(4, 6);
 
 -- --------------------------------------------------------
 
@@ -98,15 +96,26 @@ CREATE TABLE `tb_comentario` (
 CREATE TABLE `tb_evento` (
   `id_evento` int(11) NOT NULL,
   `nome_evento` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `img_evento` varchar(36) DEFAULT NULL,
+  `img_evento` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `descricao_evento` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `data_post` timestamp NOT NULL DEFAULT current_timestamp(),
   `data_inicio_evento` datetime NOT NULL,
   `data_termino_evento` datetime DEFAULT NULL,
   `valor_pedestre` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `valor_exposicao` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `rua_evento` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `numero_evento` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `cidade_evento` varchar(35) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `estado_evento` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `fk_id_criador` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Despejando dados para a tabela `tb_evento`
+--
+
+INSERT INTO `tb_evento` (`id_evento`, `nome_evento`, `img_evento`, `descricao_evento`, `data_post`, `data_inicio_evento`, `data_termino_evento`, `valor_pedestre`, `valor_exposicao`, `rua_evento`, `numero_evento`, `cidade_evento`, `estado_evento`, `fk_id_criador`) VALUES
+(8, 'FTG Meeting', 'event_683cc321ac754.jpeg', 'Prepare-se para um encontro épico! O FTG Meeting reúne os amantes de automobilismo para um espetáculo de máquinas incríveis, pilotos talentosos e uma atmosfera vibrante cheia de adrenalina.', '2025-06-01 21:16:17', '2025-05-22 20:00:00', '2025-05-23 00:00:00', '15,00', '50,00', 'Av. Cruzeiro do Sul', '1000', 'são paulo', 'SP', 6);
 
 -- --------------------------------------------------------
 
@@ -128,9 +137,7 @@ CREATE TABLE `tb_grupo` (
 --
 
 INSERT INTO `tb_grupo` (`id_grupo`, `nome_grupo`, `img_grupo`, `descricao_grupo`, `data_criacao`, `fk_id_user`) VALUES
-(1, 'goodras da quebrada', NULL, 'apenas amantes do pokemon goodra hell yeahhh', '2025-05-24 23:05:26', 6),
-(2, 'belezura', NULL, 'belezura', '2025-05-25 02:04:04', 6),
-(3, 'terra', 'group_68328082ca79b.png', 'ria', '2025-05-25 02:29:22', 6);
+(4, 'penguinos no chat', 'group_683c9ad2156f1.png', 'só os pinguins mais estupendos que você poderia imaginar', '2025-06-01 18:24:18', 6);
 
 -- --------------------------------------------------------
 
@@ -161,6 +168,16 @@ CREATE TABLE `tb_tipo_post` (
   `cor_letra` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `tb_tipo_post`
+--
+
+INSERT INTO `tb_tipo_post` (`id_tipo_post`, `nome_tipo_post`, `cor_fundo`, `cor_letra`) VALUES
+(14, 'teste', '#fff947', 0),
+(15, 'verde', '#24ff3d', 0),
+(16, 'vermelho', '#ff2e2e', 0),
+(19, 'fofo', '#ff94e2', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -184,7 +201,8 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id_user`, `nome_user`, `sobrenome_user`, `img_user`, `data_nasc_user`, `telefone_user`, `cpf_user`, `email_user`, `senha_user`) VALUES
-(6, 'david', 'de jesus almeida', 'user_padrao.jpg', NULL, '(11) 22222-2222', NULL, 'dwtazer@gmail.com', '$2y$10$.b4Nc9dgLuUpO7vfWXSai.aG2pJePLfIbIj8wio9.jqM/.YfRvUi6');
+(6, 'david', 'de jesus almeida', 'user_padrao.jpg', NULL, '(11) 22222-2222', NULL, 'dwtazer@gmail.com', '$2y$10$.b4Nc9dgLuUpO7vfWXSai.aG2pJePLfIbIj8wio9.jqM/.YfRvUi6'),
+(9, 'tester', 'padrao', 'user_padrao.jpg', NULL, '(99) 99999-9999', NULL, 'tester@gmail.com', '$2y$10$I./0s6S9mLoykNOJ38wzLumKkXFidIisjAoq2eqyuIEv5lFfE12o.');
 
 -- --------------------------------------------------------
 
@@ -205,8 +223,7 @@ CREATE TABLE `temas_grupo` (
 --
 
 INSERT INTO `temas_grupo` (`id_temas_grupo`, `nome_temas`, `descricao_temas`, `cor_fundo`, `cor_letras`) VALUES
-(3, 'tema verde', '', '#1aa22a', 1),
-(4, 'hell yeahh', '', '#ee00ff', 1);
+(6, 'random', '', '#000000', 1);
 
 -- --------------------------------------------------------
 
@@ -218,6 +235,13 @@ CREATE TABLE `user_grupo` (
   `fk_id_user` int(11) NOT NULL,
   `fk_id_grupo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `user_grupo`
+--
+
+INSERT INTO `user_grupo` (`fk_id_user`, `fk_id_grupo`) VALUES
+(6, 4);
 
 --
 -- Índices para tabelas despejadas
@@ -314,43 +338,43 @@ ALTER TABLE `user_grupo`
 -- AUTO_INCREMENT de tabela `tb_comentario`
 --
 ALTER TABLE `tb_comentario`
-  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `tb_evento`
 --
 ALTER TABLE `tb_evento`
-  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `tb_grupo`
 --
 ALTER TABLE `tb_grupo`
-  MODIFY `id_grupo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_grupo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `tb_post`
 --
 ALTER TABLE `tb_post`
-  MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de tabela `tb_tipo_post`
 --
 ALTER TABLE `tb_tipo_post`
-  MODIFY `id_tipo_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_tipo_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de tabela `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `temas_grupo`
 --
 ALTER TABLE `temas_grupo`
-  MODIFY `id_temas_grupo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_temas_grupo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restrições para tabelas despejadas
