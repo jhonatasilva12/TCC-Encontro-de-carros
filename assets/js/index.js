@@ -9,7 +9,6 @@ const post = document.querySelectorAll('.post');
 const evento = document.querySelectorAll('.evento');
 
 
-
 if (opCriar) {
   opCriar.addEventListener("click", function (e) {
     //click = ativo
@@ -118,42 +117,40 @@ document.addEventListener("click", function (e) { //serve para que, ao clicar fo
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // configuração única para todos os previews
 function setupImagePreviews() {
-
-    const imageUploads = {
-        'group-image': {
-            preview: 'previewGroup',
-            container: 'groupPreview'
-        },
-        'post-image': {
-            preview: 'postImage',
-            container: 'imagePreview'
-        },
-        'event-image': {
-            preview: 'previewEvent',
-            container: 'eventPreview'
-        }
+    const fileUploads = {
+        'group-image': { preview: 'previewGroup', container: 'groupPreview' },
+        'post-image': { preview: 'postImage', container: 'imagePreview' },
+        'event-image': { preview: 'previewEvent', container: 'eventPreview' },
+        'event-video': { maxSize: 50 * 1024 * 1024 }, //50mb para eventos
+        'post-video': { maxSize: 30 * 1024 * 1024 } //30mb pra posts
     };
 
-    Object.keys(imageUploads).forEach(inputId => {
-        const config = imageUploads[inputId];
+    Object.keys(fileUploads).forEach(inputId => {
+        const config = fileUploads[inputId];
         const input = document.getElementById(inputId);
-        
+
         if (input) {
             input.addEventListener('change', function(event) {
                 const file = event.target.files[0];
-                const preview = document.getElementById(config.preview);
-                const container = document.getElementById(config.container);
 
-                if (file) {
+                if (config.maxSize && file && file.type.startsWith("video/")) {
+                    if (file.size > config.maxSize) {
+                        alert(`O vídeo é muito grande! O limite para ${inputId.includes("event") ? "eventos" : "posts"} é ${config.maxSize / (1024 * 1024)}MB.`);
+                        this.value = "";
+                        return;
+                    }
+                }
+
+                if (config.preview && config.container && file && file.type.startsWith("image/")) {
+                    const preview = document.getElementById(config.preview);
+                    const container = document.getElementById(config.container);
+
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         preview.src = e.target.result;
                         container.style.display = "flex";
                     };
                     reader.readAsDataURL(file);
-                } else {
-                    preview.src = "#";
-                    container.style.display = "none";
                 }
             });
         }
@@ -201,7 +198,6 @@ document.querySelectorAll('.delete-content').forEach(button => {
     });
 });
 
-// Função para mostrar mensagens (adicione ao seu JS)
 function showAlert(message, type) {
     const alert = document.createElement('div');
     alert.className = `alert alert-${type}`;
@@ -210,16 +206,6 @@ function showAlert(message, type) {
     
     setTimeout(() => alert.remove(), 5000);
 }
-
-
-function copiarLink() {
-      const texto = closest(".link-post").href;
-      navigator.clipboard.writeText(texto).then(() => {
-        alert("Texto copiado com sucesso!");
-      }).catch(err => {
-        alert("Erro ao copiar o texto: " + err);
-      });
-    }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 async function carregarOpcoesFormularios() {
@@ -318,7 +304,6 @@ document
   .querySelector(".criar-grupo")
   ?.addEventListener("click", carregarOpcoesFormularios);
 
-// Opcional: Carregar ao iniciar (se os modais estiverem visíveis)
 document.addEventListener("DOMContentLoaded", function () {
   if (
     document.getElementById("tipo-post") ||

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 02/06/2025 às 00:00
+-- Tempo de geração: 03/06/2025 às 20:59
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -31,6 +31,13 @@ CREATE TABLE `evento_user` (
   `fk_id_user` int(11) NOT NULL,
   `fk_id_evento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Despejando dados para a tabela `evento_user`
+--
+
+INSERT INTO `evento_user` (`fk_id_user`, `fk_id_evento`) VALUES
+(6, 8);
 
 -- --------------------------------------------------------
 
@@ -188,6 +195,7 @@ CREATE TABLE `tb_user` (
   `id_user` int(11) NOT NULL,
   `nome_user` varchar(50) NOT NULL,
   `sobrenome_user` varchar(50) DEFAULT NULL,
+  `bio_user` varchar(250) NOT NULL,
   `img_user` varchar(36) DEFAULT NULL,
   `data_nasc_user` date DEFAULT NULL,
   `telefone_user` varchar(15) DEFAULT NULL,
@@ -200,9 +208,9 @@ CREATE TABLE `tb_user` (
 -- Despejando dados para a tabela `tb_user`
 --
 
-INSERT INTO `tb_user` (`id_user`, `nome_user`, `sobrenome_user`, `img_user`, `data_nasc_user`, `telefone_user`, `cpf_user`, `email_user`, `senha_user`) VALUES
-(6, 'david', 'de jesus almeida', 'user_padrao.jpg', NULL, '(11) 22222-2222', NULL, 'dwtazer@gmail.com', '$2y$10$.b4Nc9dgLuUpO7vfWXSai.aG2pJePLfIbIj8wio9.jqM/.YfRvUi6'),
-(9, 'tester', 'padrao', 'user_padrao.jpg', NULL, '(99) 99999-9999', NULL, 'tester@gmail.com', '$2y$10$I./0s6S9mLoykNOJ38wzLumKkXFidIisjAoq2eqyuIEv5lFfE12o.');
+INSERT INTO `tb_user` (`id_user`, `nome_user`, `sobrenome_user`, `bio_user`, `img_user`, `data_nasc_user`, `telefone_user`, `cpf_user`, `email_user`, `senha_user`) VALUES
+(6, 'david', 'de jesus almeida', '', 'user_padrao.jpg', NULL, '(11) 22222-2222', NULL, 'dwtazer@gmail.com', '$2y$10$.b4Nc9dgLuUpO7vfWXSai.aG2pJePLfIbIj8wio9.jqM/.YfRvUi6'),
+(9, 'tester', 'padrao', '', 'user_padrao.jpg', NULL, '(99) 99999-9999', NULL, 'tester@gmail.com', '$2y$10$I./0s6S9mLoykNOJ38wzLumKkXFidIisjAoq2eqyuIEv5lFfE12o.');
 
 -- --------------------------------------------------------
 
@@ -338,7 +346,7 @@ ALTER TABLE `user_grupo`
 -- AUTO_INCREMENT de tabela `tb_comentario`
 --
 ALTER TABLE `tb_comentario`
-  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `tb_evento`
@@ -356,7 +364,7 @@ ALTER TABLE `tb_grupo`
 -- AUTO_INCREMENT de tabela `tb_post`
 --
 ALTER TABLE `tb_post`
-  MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de tabela `tb_tipo_post`

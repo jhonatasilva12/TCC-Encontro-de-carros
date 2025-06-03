@@ -149,7 +149,10 @@ if (!empty($termo_pesquisa)) {
             </main>
         </div>
 
-        <?php include('includes/criacao.php'); ?>
+        <?php 
+        include('includes/criacao.php');
+        require_once('includes/user_box.php');
+        ?>
 
         <script src="assets/js/index.js?v=<?= time() ?>"></script>
     </body>

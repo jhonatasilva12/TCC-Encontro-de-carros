@@ -19,6 +19,7 @@
                     <li>
                         <a>
                             <i class="fas fa-share"></i> Compartilhar
+                            <input type="hidden" class="link" value="post.php?id=<?= $post['id_post'] ?>">
                         </a>
                     </li>
                     <?php if ($item['tipo'] === 'post' && $item['dados']['fk_id_user'] === $_SESSION['user_id']): ?>

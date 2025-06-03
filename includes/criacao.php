@@ -80,7 +80,7 @@
                         <img id="previewGroup" src="#" alt="Pré-visualização da imagem">
                     </div>
                     <label for="group-image">Imagem do Grupo</label>
-                    <input type="file" id="group-image" name="imagem_grupo" accept="image/*">
+                    <input type="file" id="group-image" name="imagem_grupo" accept="image/jpg, image/png, image/jpeg">
                 </div>
                 
                 <div class="form-group">

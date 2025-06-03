@@ -64,6 +64,38 @@ class MeetCarFunctions {
         return $eventos;
     }
 
+    public function buscarGrupos($userId = null) {
+        $sql = "SELECT g.id_grupo, g.data_criacao, g.img_grupo, g.nome_grupo, g.descricao_grupo,
+                    u.nome_user, u.sobrenome_user, u.img_user,
+                    tg.nome_temas, tg.cor_fundo, tg.cor_letras,
+                    (SELECT COUNT(*) FROM user_grupo WHERE fk_id_grupo = g.id_grupo) as membros_count,
+                    (SELECT EXISTS(SELECT 1 FROM user_grupo WHERE fk_id_grupo = g.id_grupo AND fk_id_user = ?)) as user_participando
+                FROM tb_grupo g
+                JOIN tb_user u ON g.fk_id_user = u.id_user
+                JOIN grupo_tegru gt ON g.id_grupo = gt.fk_id_grupo
+                JOIN temas_grupo tg ON gt.fk_id_temas_grupo = tg.id_temas_grupo
+                ORDER BY g.nome_grupo ASC";
+
+        $stmt = $this->conn->prepare($sql);
+
+        if ($stmt === false) {
+            die("Erro na preparação da consulta SQL para buscarGrupos: " . $this->conn->error . " | Query: " . $sql);
+        }
+
+        $dummyUserId = $userId ?? 0; // Se userId for null, usa 0
+        $stmt->bind_param("i", $dummyUserId);
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $grupos = array();
+        while($row = $result->fetch_assoc()) {
+            $grupos[] = $row;
+        }
+
+        return $grupos;
+    }
+
     public function buscarEventosPorTermo($termo, $userId = null) {
         $sql = "SELECT e.*, u.nome_user, u.sobrenome_user, u.img_user,
                 (SELECT COUNT(*) FROM evento_user WHERE fk_id_evento = e.id_evento) as participantes_count,

@@ -16,6 +16,8 @@
   --borda-base: #7578a0;
   --fundo-form: #ffffff;
   --info-fundo: #e6f2f8;
+  --fundo-grupo: #c2e4be;
+  --borda-grupo: #90aa8e;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -37,6 +39,8 @@
     --borda-base: #121025; 
     --fundo-form: #0b1127;
     --info-fundo: #2f2f42;
+    --fundo-grupo: #2c4126;
+    --borda-grupo: #21311e;
   }
 }
 
@@ -65,6 +69,13 @@ body.estatico {
   align-items: center;
   justify-content: center;
   right: 10%;
+}
+
+.hero h1 {
+  color: var(--letra-normal-geral);
+  margin-bottom: 30px;
+  font-size: 2.5em;
+  text-align: center;
 }
 
 * {
@@ -358,6 +369,7 @@ a {
   font-size: 0.7em;
   padding: 2px 8px;
   border-radius: 12px;
+  width: fit-content;
   margin-top: 4px;
   display: inline-block;
   font-weight: bold;
@@ -552,7 +564,7 @@ a {
   color: var(--letra-normal-geral);
   position: relative;
   cursor: pointer;
-  border: 1px solid var(--borda-input);
+  border: 1px solid var(--borda-post);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -888,7 +900,86 @@ a {
 }
 
 /*************************fim evento e interiores******************************/
+/*************************grupos e interiores******************************/
 
+.grupo {
+  display: flex;
+  background-color: var(--fundo-grupo);
+  border: 2px solid var(--borda-grupo);
+  border-radius: 15px;
+  margin-bottom: 25px;
+  padding: 20px;
+  box-shadow: 0 4px 8px var(--sombra);
+  width: 45vw;
+  min-width: 300px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.grupo:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.g-fotinha {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 20px;
+  border: 3px solid var(--borda-base);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.g-fotinha img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.g-info {
+  flex-grow: 1; /* Permite que as informações ocupem o espaço restante */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.g-nome {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: var(--letra-normal-geral);
+  margin-bottom: 8px;
+}
+
+.g-desc {
+  font-size: 1em;
+  color: var(--texto-secundario);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.g-tag {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  font-weight: 600;
+  margin-bottom: 10px;
+  white-space: nowrap; /* Evita quebra de linha */
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Borda sutil */
+}
+
+.g-letrinhas {
+  font-size: 0.9em;
+  color: var(--letra-normal-geral);
+  margin-top: 5px;
+}
+
+/*************************fim grupos e interiores******************************/
 
 /*************************criação (post, grupos e eventos)******************************/
 
@@ -988,19 +1079,20 @@ a {
 }
 
 .criar-evento::before {
-content: "Criar evento";
-
+  content: "Criar evento";
 }
 
 .criar-grupo::before {
-content: "Criar grupo";
+  content: "Criar grupo";
 }
 
 .criar-post::before {
-content: "Criar post";
+  content: "Criar post";
 }
 
-.criar-post::before, .criar-evento::before, .criar-grupo::before {
+.criar-post::before, 
+.criar-evento::before, 
+.criar-grupo::before {
   position: absolute;
   left: 50%;
   bottom: 100%;
@@ -1019,13 +1111,8 @@ content: "Criar post";
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-.criar-post:hover::after,
 .criar-post:hover::before,
-
-.criar-evento:hover::after,
 .criar-evento:hover::before,
-
-.criar-grupo:hover::after,
 .criar-grupo:hover::before {
   opacity: 0.8;
   visibility: visible;
@@ -1150,7 +1237,6 @@ content: "Criar post";
 }
 
 .micro-form {
-  background: white;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -1340,15 +1426,18 @@ input[type="file"]::file-selector-button:hover {
   position: fixed;
   background-color: var(--fundo-base);
   color: var(--letra-normal-geral);
-  align-items: center;
-  justify-content: center;
   border-radius: 20px;
   padding: 20px;
   right: 20px;
-  top: 13vh;
+  top: 50%;
+  transform: translateY(-50%);
   height: 70vh;
   width: 18vw;
   border: 2px var(--borda-base) solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .user-box img {
