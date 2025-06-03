@@ -5,6 +5,9 @@ const grupoModal = document.getElementById("form-grupo");
 const opCriar = document.querySelector(".criar");
 const tabs = document.querySelectorAll('.tab');
 const tabContent = document.querySelectorAll('.tab-content');
+const post = document.querySelectorAll('.post');
+const evento = document.querySelectorAll('.evento');
+
 
 
 if (opCriar) {
@@ -42,6 +45,14 @@ if (opCriar) {
   });
 }
 
+if (post || evento) {
+  document.querySelectorAll('.fas fa-share').forEach(share => {
+    this.addEventListener('click', () => {
+      navigator.clipboard.writeText(pumba)
+    })
+  });
+}
+
 if (tabs) {
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
@@ -55,6 +66,8 @@ if (tabs) {
     });
   });
 }
+
+
 
 document.querySelectorAll(".mais").forEach((botao) => {
   botao.addEventListener("click", function (e) {
