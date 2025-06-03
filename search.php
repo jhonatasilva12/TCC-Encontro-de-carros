@@ -46,17 +46,17 @@ if (!empty($termo_pesquisa)) {
                     Resultados para: <strong><?= htmlspecialchars($termo_pesquisa) ?></strong>
                 </div>
                 <div class="tabs">
-                    <div class="tab active" data-tab="1">Aba 1</div>
-                    <div class="tab" data-tab="2">Aba 2</div>
-                    <div class="tab" data-tab="3">Aba 3</div>
-                    <div class="tab" data-tab="4">Aba 4</div>
+                    <div class="tab active" data-tab="1">Posts</div>
+                    <div class="tab" data-tab="2">Eventos</div>
+                    <div class="tab" data-tab="3">Grupos</div>
+                    <div class="tab" data-tab="4">Usuários</div>
                 </div>
 
                 <?php if (!empty($termo_pesquisa)): ?>
 
                 
                 <!------------------------------- grupos ---------------------------------------->
-                <div class="tab-content active" id="tab-1">
+                <div class="tab-content" id="tab-3">
                     <div class="categoria-resultados">
                         <h2 class="categoria-titulo">Grupos</h2>
                         <?php if (!empty($resultados['grupos'])): ?>
@@ -81,7 +81,7 @@ if (!empty($termo_pesquisa)) {
 
                 
                 <!------------------------- users -------------------------------->
-                <div class="tab-content" id="tab-2">
+                <div class="tab-content" id="tab-4">
                     <div class="categoria-resultados">
                         <h2 class="categoria-titulo">Usuários</h2>
                         <?php if (!empty($resultados['usuarios'])): ?>
@@ -107,7 +107,7 @@ if (!empty($termo_pesquisa)) {
 
                 
                 <!------------------------ eventos -------------------------------->
-                <div class="tab-content" id="tab-3">
+                <div class="tab-content" id="tab-2">
                     <div class="categoria-resultados">
                         <h2 class="categoria-titulo">Eventos</h2>
                         <?php if (!empty($resultados['eventos'])): ?>
@@ -124,7 +124,7 @@ if (!empty($termo_pesquisa)) {
 
 
                 <!--------------------------- Posts -------------------------------------->
-                <div class="tab-content" id="tab-4">
+                <div class="tab-content active" id="tab-1">
                     <div class="categoria-resultados">
                         <h2 class="categoria-titulo">Posts</h2>
                         <?php if (!empty($resultados['posts'])) { ?>
@@ -148,6 +148,8 @@ if (!empty($termo_pesquisa)) {
 
             </main>
         </div>
+
+        <?php include('includes/criacao.php'); ?>
 
         <script src="assets/js/index.js?v=<?= time() ?>"></script>
     </body>
