@@ -34,7 +34,10 @@ $meetcar = new MeetCarFunctions();
 
     </div> <!--fim geral-->
 
-  
+    <div class="user-box">
+      <img src="assets/images/users/user_padrao.jpg" alt="">
+    </div>
+
     <?php require_once('includes/criacao.php'); ?> <!--Ele fica aqui em baixo (antes de </body>) pra ficar sobreposto de tudo-->
 
     <script src="assets/js/index.js?v=<?= time() ?>"></script>
