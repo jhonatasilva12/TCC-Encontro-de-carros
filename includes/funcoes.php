@@ -271,6 +271,22 @@ class MeetCarFunctions {
         }
     }
 
+    public function buscarUserPorId($userId = null) {
+        $sql = "SELECT u.*,
+                (SELECT COUNT(*) FROM tb_post WHERE fk_id_user = u.id_user) as posts_count
+                FROM tb_user u
+                WHERE U.id_user = ?";
+        
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar usuário: " . $e->getMessage());
+            return null;
+        }
+    }
+
     public function buscarPostPorId($id) {
         $userId = $_SESSION['user_id'] ?? null;
         
