@@ -61,14 +61,13 @@ body.estatico {
 .hero{
   width: 100vw;
   margin-left: 100px;
-  margin-right: calc(20px + 19vw);
+  margin-right: calc(20px + 15vw);
   display: flex;
   flex-direction: column;
   /*background: center / cover no-repeat url(../images/);*/
   padding: 20px;
   align-items: center;
-  justify-content: center;
-  right: 10%;
+  justify-content: baseline;
 }
 
 .hero h1 {
@@ -231,7 +230,7 @@ a {
 }
 
 .search-box:hover > .search-txt {
-  width: 17vw;
+  width: 14vw;
   height: 35px;
   padding: 0 6px;
 }
@@ -269,11 +268,6 @@ a {
   padding: 15px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   transition: transform 0.2s;
-}
-
-.resultado-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .sem-resultados {
@@ -344,9 +338,9 @@ a {
   z-index: auto;
 }
 
-.post:hover {
+.post:hover, .resultado-item:hover, .evento:hover, .grupo:hover {
   transform: translateY(-2px);
-  box-shadow: -4px 4px 8px var(--borda-post);
+  box-shadow: -4px 4px 8px var(--sombra);
 }
 
 .p-fotinha {
@@ -359,7 +353,7 @@ a {
   object-fit: cover;
 }
 
-.p-nome {
+.p-nome, .e-nome {
   font-weight: bold;
   margin: 0;
   font-size: 1.1em;
@@ -747,11 +741,6 @@ a {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.evento:hover {
-  transform: translateY(-2px);
-  box-shadow: -4px 4px 8px var(--borda-evento);
-}
-
 .e-fotinha {
   width: 40px;
   height: 40px;
@@ -760,12 +749,6 @@ a {
   border: 1px solid #c1d1d6;
   box-shadow: 0px 0px 4px #8c9c9c;
   object-fit: cover;
-}
-
-.e-nome {
-  font-weight: bold;
-  margin: 0;
-  font-size: 1.1em;
 }
 
 .e-tempo {
@@ -900,6 +883,7 @@ a {
 }
 
 /*************************fim evento e interiores******************************/
+
 /*************************grupos e interiores******************************/
 
 .grupo {
@@ -914,11 +898,6 @@ a {
   min-width: 300px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
-}
-
-.grupo:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .g-fotinha {
@@ -1431,8 +1410,7 @@ input[type="file"]::file-selector-button:hover {
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  height: 70vh;
-  width: 18vw;
+  width: 15vw;
   border: 2px var(--borda-base) solid;
   display: flex;
   flex-direction: column;
@@ -1441,10 +1419,55 @@ input[type="file"]::file-selector-button:hover {
 }
 
 .user-box img {
-  width: 20px;
-  height: 20px;
+  width: 70px;
+  height: 70px;
   border-radius: 100%;
 }
+
+.box-topo, .box-centro, .box-inferior {
+  display: flex;
+  flex-direction: column;
+  min-height: 10vh;
+  max-height: 20vh;
+  min-width: 50px;
+  max-width: 100%;
+  
+  align-items: center;
+  justify-content: center;
+}
+
+.box-topo {
+  background-color: #0066cc;
+}
+
+.box-centro {
+  background-color: #1d4b5a;
+}
+
+.box-inferior {
+  background-color: #2a3a4a;
+}
+
+.box-inferior a {
+  padding: 10px 2.4vw;
+  transition: 0.2s ease;
+  color: var(--letra-normal-geral);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: bolder;
+  width: 100%;
+  cursor: pointer;
+}
+
+.box-inferior a:hover {
+  background-color: var(--fundo-base-hover);
+}
+
+
 
 /********************aqui começa o css pra mobile****************************/
 @media (max-width: 660px) {
