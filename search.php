@@ -59,23 +59,15 @@ if (!empty($termo_pesquisa)) {
                 <div class="tab-content" id="tab-3">
                     <div class="categoria-resultados">
                         <h2 class="categoria-titulo">Grupos</h2>
-                        <?php if (!empty($resultados['grupos'])): ?>
+                        <?php if (!empty($resultados['grupos'])) { ?>
                             <div class="lista-resultados">
-                                <?php foreach ($resultados['grupos'] as $grupo): ?>
-                                    <div class="resultado-item">
-                                        <?php if ($grupo['img_grupo']): ?>
-                                            <img src="assets/images/groups/<?= htmlspecialchars($grupo['img_grupo']) ?>" alt="<?= htmlspecialchars($grupo['nome_grupo']) ?>" style="width: 100%; height: 150px; object-fit: cover; border-radius: 4px; margin-bottom: 10px;">
-                                        <?php endif; ?>
-                                        <h3><?= htmlspecialchars($grupo['nome_grupo']) ?></h3>
-                                        <p><?= htmlspecialchars(substr($grupo['descricao_grupo'], 0, 100)) ?>...</p>
-                                        <p><i class="fas fa-users"></i> <?= $grupo['membros_count'] ?> membros</p>
-                                        <a href="grupo.php?id=<?= $grupo['id_grupo'] ?>" class="btn-ver-mais">Ver grupo</a>
-                                    </div>
-                                <?php endforeach; ?>
+                                <?php foreach ($resultados['grupos'] as $grupo) {
+                                    include_once('includes/grupos.php');
+                                } ?>
                             </div>
-                        <?php else: ?>
+                        <?php } else { ?>
                             <p class="sem-resultados">Nenhum grupo encontrado</p>
-                        <?php endif; ?>
+                        <?php } ?>
                     </div>
                 </div>
 

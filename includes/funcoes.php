@@ -120,14 +120,18 @@ class MeetCarFunctions {
     }
 
     public function buscarGruposPorTermo($termo, $userId = null) {
-        $sql = "SELECT g.*, u.nome_user as criador_nome, u.img_user as criador_img,
-                (SELECT COUNT(*) FROM user_grupo WHERE fk_id_grupo = g.id_grupo) as membros_count,
-                (SELECT EXISTS(SELECT 1 FROM user_grupo WHERE fk_id_grupo = g.id_grupo AND fk_id_user = ?)) as user_membro
+        $sql = "SELECT g.id_grupo, g.data_criacao, g.img_grupo, g.nome_grupo, g.descricao_grupo,
+                    u.nome_user, u.sobrenome_user, u.img_user,
+                    tg.nome_temas, tg.cor_fundo, tg.cor_letras,
+                    (SELECT COUNT(*) FROM user_grupo WHERE fk_id_grupo = g.id_grupo) as membros_count,
+                    (SELECT EXISTS(SELECT 1 FROM user_grupo WHERE fk_id_grupo = g.id_grupo AND fk_id_user = ?)) as user_participando
                 FROM tb_grupo g
                 JOIN tb_user u ON g.fk_id_user = u.id_user
+                JOIN grupo_tegru gt ON g.id_grupo = gt.fk_id_grupo
+                JOIN temas_grupo tg ON gt.fk_id_temas_grupo = tg.id_temas_grupo
                 WHERE g.nome_grupo LIKE ? 
                 OR g.descricao_grupo LIKE ?
-                ORDER BY g.nome_grupo";
+                ORDER BY g.nome_grupo ASC";
         
         $termoLike = '%' . $termo . '%';
         
@@ -271,21 +275,67 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarUserPorId($userId = null) {
-        $sql = "SELECT u.*,
-                (SELECT COUNT(*) FROM tb_post WHERE fk_id_user = u.id_user) as posts_count
-                FROM tb_user u
-                WHERE U.id_user = ?";
-        
+
+    public function buscarUserPorId($userId) {
+        $sql = "SELECT * FROM tb_user WHERE id_user = ?";
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$userId]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            error_log("Erro ao buscar usuário: " . $e->getMessage());
+            error_log("Erro ao buscar dados do usuário: " . $e->getMessage());
             return null;
         }
     }
+
+    public function buscarGruposUsuario($userId) {
+        $sql = "SELECT g.id_grupo, g.nome_grupo, g.img_grupo 
+                FROM user_grupo ug
+                JOIN tb_grupo g ON ug.fk_id_grupo = g.id_grupo
+                WHERE ug.fk_id_user = ?";
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar grupos: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function buscarEventosParticipacao($userId) {
+        $sql = "SELECT e.id_evento, e.nome_evento, e.img_evento, e.data_inicio_evento
+                FROM evento_user eu
+                JOIN tb_evento e ON eu.fk_id_evento = e.id_evento
+                WHERE eu.fk_id_user = ?";
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar eventos: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function buscarPostsPorUser($userId) {
+    $sql = "SELECT p.id_post, p.titulo_post, p.texto_post, p.imagem_post, p.data_post,
+                   tp.nome_tipo_post,
+                   (SELECT COUNT(*) FROM likes_post WHERE fk_id_post = p.id_post) as likes_count
+            FROM tb_post p
+            JOIN tb_tipo_post tp ON p.fk_id_tipo_post = tp.id_tipo_post
+            WHERE p.fk_id_user = ?
+            ORDER BY p.data_post DESC
+            LIMIT ?";
+    try {
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Erro ao buscar posts: " . $e->getMessage());
+        return [];
+    }
+}
 
     public function buscarPostPorId($id) {
         $userId = $_SESSION['user_id'] ?? null;
