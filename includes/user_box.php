@@ -12,11 +12,11 @@ $user = $meetcar->buscarUserPorId($userId);
     </div>
 
     <div class="box-centro">
-        
+        <p><?php echo htmlspecialchars($user['bio_user']); ?></p>
     </div>
 
     <div class="box-inferior">
-    <a href="user.php?id=<?= $user['id_user'] ?>" class="letter-list"><i class="fas fa-user-alt">perfil completo</i></a>
+    <a href="user.php?id=<?= $user['id_user'] ?>" class="letter-list"><i class="fas fa-user-alt">ver mais</i></a>
     <a href="banco/logout.php" class="letter-list"><i class="fas fa-sign-out-alt">Logout</i></a>
     </div>
     
