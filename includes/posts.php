@@ -1,7 +1,9 @@
 <div class="post" data-id="<?= $post['id_post'] ?>">
     <div class="p-superior">
         <div class="p-identifica">
-            <img src="assets/images/users/<?php echo !empty($post['img_user']) ? htmlspecialchars($post['img_user']) : 'user_padrao.jpg'; ?>" class="p-fotinha">
+            <a href="user.php?id=<?= $post['id_user'] ?>">
+                <img src="assets/images/users/<?php echo !empty($post['img_user']) ? htmlspecialchars($post['img_user']) : 'user_padrao.jpg'; ?>" class="p-fotinha">
+            </a>
             <div>
                 <p class="p-nome">
                     <?php echo htmlspecialchars($post['nome_user']) . ' ' . htmlspecialchars($post['sobrenome_user']); ?>
