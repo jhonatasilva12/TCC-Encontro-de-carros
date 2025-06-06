@@ -7,7 +7,11 @@ const tabs = document.querySelectorAll('.tab');
 const tabContent = document.querySelectorAll('.tab-content');
 const post = document.querySelectorAll('.post');
 const evento = document.querySelectorAll('.evento');
+const url = window.location.pathname;
 
+if (url.includes("search.php")) {
+  document.querySelector('.tabs').style.display = "flex";
+}
 
 if (opCriar) {
   opCriar.addEventListener("click", function (e) {
@@ -47,7 +51,7 @@ if (opCriar) {
 if (post || evento) {
   document.querySelectorAll('.fas fa-share').forEach(share => {
     this.addEventListener('click', () => {
-      navigator.clipboard.writeText(pumba)
+      navigator.clipboard.writeText("pumba");
     })
   });
 }
@@ -56,12 +60,12 @@ if (tabs) {
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
       // Primeiro ele remove a classe das outras tabs
-      tabs.forEach(t => t.classList.remove('active'));
-      tabContent.forEach(c => c.classList.remove('active'));
+      tabs.forEach(t => t.classList.remove('ativo'));
+      tabContent.forEach(c => c.classList.remove('ativo'));
 
-      tab.classList.add('active');
+      tab.classList.add('ativo');
       const tabId = tab.getAttribute('data-tab');
-      document.getElementById(`tab-${tabId}`).classList.add('active');
+      document.getElementById(`tab-${tabId}`).classList.add('ativo');
     });
   });
 }
