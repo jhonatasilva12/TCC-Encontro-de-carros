@@ -16,7 +16,7 @@ $user = $meetcar->buscarUserPorId($userId);
 <div class="user-box" data-id="<?= $user['id_user'] ?>">
 
     <div class="box-topo">
-        <img src="assets/images/users/<?php echo ($post['img_user']); ?>" alt="imagem do user logado">
+        <img src="assets/images/users/<?php echo ($user['img_user']); ?>" alt="imagem do user logado">
         <label><?php echo htmlspecialchars($user['nome_user']) . ' ' . htmlspecialchars($user['sobrenome_user']); ?></label>
     </div>
     <?php if (!empty($user['bio_user'])): ?>
