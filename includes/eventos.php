@@ -20,9 +20,9 @@
                             <i class="fas fa-share"></i> Compartilhar
                         </a>
                     </li>
-                    <?php if ($evento['fk_id_user'] === $_SESSION['user_id']): ?>
+                    <?php if ($evento['id_user'] === $_SESSION['user_id']): ?>
                         <li>
-                            <a class="delete-content" data-type="event" data-id="<?= $post['id_post'] ?>">
+                            <a class="delete-content" data-type="event" data-id="<?= $evento['id_evento'] ?>">
                                 <i class="fas fa-trash-alt"></i> excluir evento
                             </a>
                         </li>
