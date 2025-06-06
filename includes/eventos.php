@@ -20,10 +20,10 @@
                             <i class="fas fa-share"></i> Compartilhar
                         </a>
                     </li>
-                    <?php if ($item['tipo'] === 'evento' && $item['dados']['fk_id_criador'] === $_SESSION['user_id']): ?>
+                    <?php if ($evento['fk_id_user'] === $_SESSION['user_id']): ?>
                         <li>
-                            <a class="delete-content" data-type="<?= $item['tipo'] ?>" data-id="<?= $item['tipo'] === 'post' ? $item['dados']['id_post'] : $item['dados']['id_evento'] ?>">
-                                <i class="fas fa-trash-alt"></i> excluir <?= $item['tipo'] ?>
+                            <a class="delete-content" data-type="event" data-id="<?= $post['id_post'] ?>">
+                                <i class="fas fa-trash-alt"></i> excluir evento
                             </a>
                         </li>
                     <?php else: ?>
