@@ -29,16 +29,15 @@ usort($conteudos, function($a, $b) {
 ?>
 
 <div class="feed-container">
-    <?php foreach ($conteudos as $item): ?>
-        <?php if ($item['tipo'] === 'post'): 
-            $post = $item['dados']; ?>
-            <?php include_once('includes/posts.php'); ?>
-        
-        <?php else: 
-            $evento = $item['dados']; ?>
-            <?php include_once('includes/eventos.php') ?>
-        <?php endif; ?>
-    <?php endforeach; ?>
+    <?php
+        foreach ($conteudos as $item) {
+            if ($item['tipo'] === 'post') {
+                include('includes/posts.php');
+            } else {
+                include('includes/eventos.php');
+            }
+        }
+    ?>
 </div>
 
 <div class="fundo-img">
