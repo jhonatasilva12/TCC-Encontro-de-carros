@@ -2,7 +2,7 @@
     <div class="p-superior">
         <div class="p-identifica">
             <a href="user.php?id=<?= $post['id_user'] ?>">
-                <img src="assets/images/users/<?php echo !empty($post['img_user']) ? htmlspecialchars($post['img_user']) : 'user_padrao.jpg'; ?>" class="p-fotinha">
+                <img src="assets/images/users/<?php echo ($post['img_user']); ?>" class="p-fotinha">
             </a>
             <div>
                 <p class="p-nome">
