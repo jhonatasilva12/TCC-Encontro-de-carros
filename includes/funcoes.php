@@ -30,17 +30,14 @@ class MeetCarFunctions {
                 JOIN tb_tipo_post tp ON p.fk_id_tipo_post = tp.id_tipo_post
                 ORDER BY p.data_post DESC";
         
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $userId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        $posts = array();
-        while($row = $result->fetch_assoc()) {
-            $posts[] = $row;
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar posts: " . $e->getMessage());
+            return [];
         }
-        
-        return $posts;
     }
 
     public function buscarEventos($userId = null) {
@@ -51,17 +48,14 @@ class MeetCarFunctions {
                 JOIN tb_user u ON e.fk_id_criador = u.id_user
                 ORDER BY e.data_inicio_evento ASC";
         
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $userId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        $eventos = array();
-        while($row = $result->fetch_assoc()) {
-            $eventos[] = $row;
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar eventos: " . $e->getMessage());
+            return [];
         }
-        
-        return $eventos;
     }
 
     public function buscarGrupos($userId = null) {
@@ -76,24 +70,14 @@ class MeetCarFunctions {
                 JOIN temas_grupo tg ON gt.fk_id_temas_grupo = tg.id_temas_grupo
                 ORDER BY g.nome_grupo ASC";
 
-        $stmt = $this->conn->prepare($sql);
-
-        if ($stmt === false) {
-            die("Erro na preparação da consulta SQL para buscarGrupos: " . $this->conn->error . " | Query: " . $sql);
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar grupos: " . $e->getMessage());
+            return [];
         }
-
-        $dummyUserId = $userId ?? 0; // Se userId for null, usa 0
-        $stmt->bind_param("i", $dummyUserId);
-
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $grupos = array();
-        while($row = $result->fetch_assoc()) {
-            $grupos[] = $row;
-        }
-
-        return $grupos;
     }
 
     public function buscarEventosPorTermo($termo, $userId = null) {
@@ -193,11 +177,11 @@ class MeetCarFunctions {
     // busca opções para formulários (tipos de post e temas de grupo)
     public function buscarOpcoesFormularios() {
         try {
-            // Busca tipos de post
+            // busca tipos de post
             $stmt = $this->pdo->query("SELECT * FROM tb_tipo_post");
             $tiposPost = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
-            // Busca temas de grupo
+            // busca temas de grupo
             $stmt = $this->pdo->query("SELECT * FROM temas_grupo");
             $temasGrupo = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
@@ -362,18 +346,14 @@ class MeetCarFunctions {
             die("Erro na preparação da consulta SQL para buscarGrupos: " . $this->conn->error . " | Query: " . $sql);
         }
 
-        $dummyUserId = $userId ?? 0; // Se userId for null, usa 0
-        $stmt->bind_param("i", $dummyUserId);
-
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $grupos = array();
-        while($row = $result->fetch_assoc()) {
-            $grupos[] = $row;
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar grupos: " . $e->getMessage());
+            return [];
         }
-
-        return $grupos;
     }
 
     public function buscarPostPorId($id) {
@@ -405,17 +385,14 @@ class MeetCarFunctions {
             WHERE c.fk_id_post = ?
             ORDER BY c.data_comentario ASC";
         
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $postId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        $comentarios = [];
-        while ($row = $result->fetch_assoc()) {
-            $comentarios[] = $row;
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$postId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar grupos: " . $e->getMessage());
+            return [];
         }
-        
-        return $comentarios;
     }
 
     public function __destruct() {
