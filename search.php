@@ -45,12 +45,7 @@ if (!empty($termo_pesquisa)) {
                 <div class="termo-pesquisado">
                     Resultados para: <strong><?= htmlspecialchars($termo_pesquisa) ?></strong>
                 </div>
-                <div class="tabs">
-                    <div class="tab active" data-tab="1">Posts</div>
-                    <div class="tab" data-tab="2">Eventos</div>
-                    <div class="tab" data-tab="3">Grupos</div>
-                    <div class="tab" data-tab="4">Usuários</div>
-                </div>
+                
 
                 <?php if (!empty($termo_pesquisa)): ?>
 
@@ -58,7 +53,6 @@ if (!empty($termo_pesquisa)) {
                 <!------------------------------- grupos ---------------------------------------->
                 <div class="tab-content" id="tab-3">
                     <div class="categoria-resultados">
-                        <h2 class="categoria-titulo">Grupos</h2>
                         <?php if (!empty($resultados['grupos'])) { ?>
                             <div class="lista-resultados">
                                 <?php foreach ($resultados['grupos'] as $grupo) {
@@ -75,7 +69,6 @@ if (!empty($termo_pesquisa)) {
                 <!------------------------- users -------------------------------->
                 <div class="tab-content" id="tab-4">
                     <div class="categoria-resultados">
-                        <h2 class="categoria-titulo">Usuários</h2>
                         <?php if (!empty($resultados['usuarios'])): ?>
                             <div class="lista-resultados">
                                 <?php foreach ($resultados['usuarios'] as $usuario): ?>
@@ -101,7 +94,6 @@ if (!empty($termo_pesquisa)) {
                 <!------------------------ eventos -------------------------------->
                 <div class="tab-content" id="tab-2">
                     <div class="categoria-resultados">
-                        <h2 class="categoria-titulo">Eventos</h2>
                         <?php if (!empty($resultados['eventos'])): ?>
                             <div class="lista-resultados">
                                 <?php foreach ($resultados['eventos'] as $evento):
@@ -116,9 +108,8 @@ if (!empty($termo_pesquisa)) {
 
 
                 <!--------------------------- Posts -------------------------------------->
-                <div class="tab-content active" id="tab-1">
+                <div class="tab-content ativo" id="tab-1">
                     <div class="categoria-resultados">
-                        <h2 class="categoria-titulo">Posts</h2>
                         <?php if (!empty($resultados['posts'])) { ?>
                             <div class="lista-resultados">
                                 <?php foreach ($resultados['posts'] as $post):
