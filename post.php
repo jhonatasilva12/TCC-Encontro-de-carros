@@ -146,7 +146,9 @@ $comentarios = $meetcar->buscarComentariosPorPost($postId);
         <button class="fecha-img">x</button>
         <img src="./assets/images/posts/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="img-full">
     </div>
-    <?php endif; ?>
+    <?php endif;
+        require('includes/user_box.php');
+    ?>
 
     <script src="assets/js/index.js?v=<?= time() ?>"></script>
 </body>
