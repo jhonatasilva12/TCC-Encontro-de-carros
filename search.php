@@ -3,8 +3,6 @@
 require_once('banco/autentica.php');
 require_once('includes/funcoes.php');
 require_once('banco/db_connect.php');
-require_once('includes/search-box.php');
-require_once('includes/navbar.php');
 
 $meetcar = new MeetCarFunctions();
 $userId = $_SESSION['user_id'] ?? null;
@@ -47,7 +45,7 @@ if (!empty($termo_pesquisa)) {
                 </div>
                 
 
-                <?php if (!empty($termo_pesquisa)): ?>
+                <?php if (!empty($termo_pesquisa)) { ?>
 
                 
                 <!------------------------------- grupos ---------------------------------------->
@@ -56,7 +54,7 @@ if (!empty($termo_pesquisa)) {
                         <?php if (!empty($resultados['grupos'])) { ?>
                             <div class="lista-resultados">
                                 <?php foreach ($resultados['grupos'] as $grupo) {
-                                    include_once('includes/grupos.php');
+                                    include('includes/grupos.php');
                                 } ?>
                             </div>
                         <?php } else { ?>
@@ -69,24 +67,15 @@ if (!empty($termo_pesquisa)) {
                 <!------------------------- users -------------------------------->
                 <div class="tab-content" id="tab-4">
                     <div class="categoria-resultados">
-                        <?php if (!empty($resultados['usuarios'])): ?>
+                        <?php if (!empty($resultados['usuarios'])) { ?>
                             <div class="lista-resultados">
-                                <?php foreach ($resultados['usuarios'] as $usuario): ?>
-                                    <div class="resultado-item">
-                                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                                            <img src="assets/images/users/<?= htmlspecialchars($usuario['img_user']) ?>" alt="Foto do usuário" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
-                                            <div>
-                                                <h3><?= htmlspecialchars($usuario['nome_user']) ?> <?= htmlspecialchars($usuario['sobrenome_user']) ?></h3>
-                                                <p><?= $usuario['posts_count'] ?> posts</p>
-                                            </div>
-                                        </div>
-                                        <a href="perfil.php?id=<?= $usuario['id_user'] ?>" class="btn-ver-mais">Ver perfil</a>
-                                    </div>
-                                <?php endforeach; ?>
+                                <?php foreach ($resultados['usuarios'] as $user) {
+                                    include('includes/users.php');
+                                } ?>
                             </div>
-                        <?php else: ?>
+                        <?php } else { ?>
                             <p class="sem-resultados">Nenhum usuário encontrado</p>
-                        <?php endif; ?>
+                        <?php } ?>
                     </div>
                 </div>
 
@@ -94,15 +83,15 @@ if (!empty($termo_pesquisa)) {
                 <!------------------------ eventos -------------------------------->
                 <div class="tab-content" id="tab-2">
                     <div class="categoria-resultados">
-                        <?php if (!empty($resultados['eventos'])): ?>
+                        <?php if (!empty($resultados['eventos'])) { ?>
                             <div class="lista-resultados">
-                                <?php foreach ($resultados['eventos'] as $evento):
-                                    include_once('includes/eventos.php');
-                                endforeach; ?>
+                                <?php foreach ($resultados['eventos'] as $evento) {
+                                    include('includes/eventos.php');
+                                } ?>
                             </div>
-                        <?php else: ?>
+                        <?php } else { ?>
                             <p class="sem-resultados">Nenhum evento encontrado</p>
-                        <?php endif; ?>
+                        <?php } ?>
                     </div>
                 </div>
 
@@ -112,9 +101,9 @@ if (!empty($termo_pesquisa)) {
                     <div class="categoria-resultados">
                         <?php if (!empty($resultados['posts'])) { ?>
                             <div class="lista-resultados">
-                                <?php foreach ($resultados['posts'] as $post):
-                                    include_once('includes/posts.php');
-                                endforeach; ?>
+                                <?php foreach ($resultados['posts'] as $post) {
+                                    include('includes/posts.php');
+                                } ?>
                             </div>
                         <?php } else { ?>
                             <p class="sem-resultados">Nenhum post encontrado</p>
@@ -122,19 +111,23 @@ if (!empty($termo_pesquisa)) {
                     </div>
                 </div>
 
-                <?php else: ?>
+                <?php } else { ?>
                     <div class="sem-resultados">
                         <h2>Digite um termo para iniciar suas pesquisas</h2>
                         <p>Use o campo de pesquisa para encontrar eventos, grupos, usuários e posts</p>
                     </div>
-                <?php endif; ?>
+                <?php } ?>
 
             </main>
+
+            <?php require_once('includes/navbar.php'); 
+            require_once('includes/search-box.php');?>
+
         </div>
 
         <?php 
         include('includes/criacao.php');
-        require_once('includes/user_box.php');
+        include_once('includes/user_box.php');
         ?>
 
         <script src="assets/js/index.js?v=<?= time() ?>"></script>

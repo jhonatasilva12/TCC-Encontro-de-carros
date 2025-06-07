@@ -19,11 +19,11 @@ $user = $meetcar->buscarUserPorId($userId);
         <img src="assets/images/users/<?php echo ($user['img_user']); ?>" alt="imagem do user logado">
         <label><?php echo htmlspecialchars($user['nome_user']) . ' ' . htmlspecialchars($user['sobrenome_user']); ?></label>
     </div>
-    <?php if (!empty($user['bio_user'])): ?>
+    <?php if (!empty($user['bio_user'])) { ?>
         <div class="box-centro">
             <p><?php echo htmlspecialchars($user['bio_user']); ?></p>
         </div>
-    <?php endif; ?>
+    <?php } ?>
 
     <div class="box-inferior">
         <a href="user.php?id=<?= $user['id_user'] ?>"><i class="fas fa-user-alt">ver mais</i></a>

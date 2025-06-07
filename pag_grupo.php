@@ -39,7 +39,7 @@ $grupos = $meetcar->buscarGrupos($userId);
             <h1>Comunidade de Grupos</h1>
             <?php if (!empty($grupos)) { ?>
                 <?php foreach ($grupos as $grupo) {
-                    include_once('includes/grupos.php');
+                    include('includes/grupos.php');
                 } ?>
             <?php } else { ?>
                 <p>Nenhum grupo foi encontrado. Seja o primeiro a criar um!</p>

@@ -1,5 +1,4 @@
 <?php
-// Desative a saída de erros HTML para a API
 ini_set('display_errors', 0);
 header('Content-Type: application/json');
 
@@ -7,17 +6,17 @@ session_start();
 require_once 'db_connect.php';
 
 try {
-    // Verifique o método HTTP
+    // verifique o método HTTP
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         throw new Exception('Método não permitido', 405);
     }
 
-    // Verifique autenticação
+    // verifique autenticação
     if (!isset($_SESSION['user_id'])) {
         throw new Exception('Não autorizado', 401);
     }
 
-    // Obtenha os dados JSON
+    // obtenha os dados json
     $input = json_decode(file_get_contents('php://input'), true);
     if (json_last_error() !== JSON_ERROR_NONE) {
         throw new Exception('JSON inválido', 400);
@@ -38,7 +37,7 @@ try {
     $pdo->beginTransaction();
 
     if ($contentType === 'post') {
-        // Verificação de propriedade do post
+        // verificação de propriedade do post
         $stmt = $pdo->prepare("SELECT fk_id_user, imagem_post FROM tb_post WHERE id_post = ?");
         $stmt->execute([$contentId]);
         $content = $stmt->fetch();
@@ -51,14 +50,14 @@ try {
             throw new Exception('Permissão negada', 403);
         }
 
-        // Excluir dependências
+        // excluir dependências
         $pdo->prepare("DELETE FROM tb_comentario WHERE fk_id_post = ?")->execute([$contentId]);
         $pdo->prepare("DELETE FROM likes_post WHERE fk_id_post = ?")->execute([$contentId]);
 
         // Excluir post
         $pdo->prepare("DELETE FROM tb_post WHERE id_post = ?")->execute([$contentId]);
 
-        // Excluir imagem se existir
+        // excluir imagem se existir
         if ($content['imagem_post']) {
             $imagePath = "../assets/images/posts/" . $content['imagem_post'];
             if (file_exists($imagePath)) {
@@ -66,7 +65,7 @@ try {
             }
         }
     } else {
-        // Lógica para eventos (similar)
+        //lógica para eventos (igualzinho, mas diferente)
         $stmt = $pdo->prepare("SELECT fk_id_criador, img_evento FROM tb_evento WHERE id_evento = ?");
         $stmt->execute([$contentId]);
         $content = $stmt->fetch();
@@ -79,13 +78,13 @@ try {
             throw new Exception('Permissão negada', 403);
         }
 
-        // Excluir dependências
+        // excluir dependências
         $pdo->prepare("DELETE FROM evento_user WHERE fk_id_evento = ?")->execute([$contentId]);
 
-        // Excluir evento
+        // excluir evento
         $pdo->prepare("DELETE FROM tb_evento WHERE id_evento = ?")->execute([$contentId]);
 
-        // Excluir imagem se existir
+        // excluir imagem se existir
         if ($content['img_evento']) {
             $imagePath = "../assets/images/events/" . $content['img_evento'];
             if (file_exists($imagePath)) {

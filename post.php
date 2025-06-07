@@ -1,5 +1,5 @@
 <?php
-require_once('includes/funcoes.php');
+require('includes/funcoes.php');
 require_once('banco/db_connect.php');
 require_once('banco/autentica.php');
 include 'includes/navbar.php';
@@ -11,7 +11,7 @@ $userId = $_SESSION['user_id'] ?? null;
 $postId = $_GET['id'] ?? null;
 
 if (!$postId) {
-    header("Location: ./index.php");
+    header("Location: ./index.php?post=nao+existe");
     exit;
 }
 
@@ -66,32 +66,32 @@ $comentarios = $meetcar->buscarComentariosPorPost($postId);
                                             <i class="fas fa-share"></i> Compartilhar
                                         </a>
                                     </li>
-                                    <?php if ($post['fk_id_user'] === $_SESSION['user_id']): ?>
+                                    <?php if ($post['fk_id_user'] === $_SESSION['user_id']) { ?>
                                         <li>
                                             <a class="delete-content" data-type="post" data-id="<?= $post['id_post'] ?>">
                                                 <i class="fas fa-trash-alt"></i> excluir post
                                             </a>
                                         </li>
-                                    <?php else: ?>
+                                    <?php } else { ?>
                                         <li>
                                             <a>
                                                 <i class="fas fa-exclamation-triangle"></i> denunciar
                                             </a>
                                         </li>
-                                    <?php endif; ?>
+                                    <?php } ?>
                                 </ul>
                             </div>
                         </div>
                     </div>
 
                     <div class="p-centro">
-                        <?php if (!empty($post['titulo_post'])): ?>
+                        <?php if (!empty($post['titulo_post'])) { ?>
                         <h3 class="p-titulo"><?php echo htmlspecialchars($post['titulo_post']); ?></h3>
-                        <?php endif; ?>
+                        <?php } ?>
                         <p class="p-texto"><?php echo htmlspecialchars($post['texto_post']); ?></p>
-                        <?php if (!empty($post['imagem_post'])): ?>
+                        <?php if (!empty($post['imagem_post'])) { ?>
                         <img src="./assets/images/posts/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="p-img" loading="lazy">
-                        <?php endif; ?>
+                        <?php } ?>
                     </div>
 
                     <div class="p-inferior">
@@ -123,7 +123,7 @@ $comentarios = $meetcar->buscarComentariosPorPost($postId);
                 </form>
                 
                 <!-- lista de comentários -->
-                <?php foreach ($comentarios as $comentario): ?>
+                <?php foreach ($comentarios as $comentario) { ?>
                     <div class="comentario">
                         <div class="com-superior">
                             <img src="./assets/images/users/<?= htmlspecialchars($comentario['img_user']) ?>" alt="Foto do usuário">
@@ -136,17 +136,17 @@ $comentarios = $meetcar->buscarComentariosPorPost($postId);
                             <span class="p-tempo"><?= $meetcar->tempoDecorrido($comentario['data_comentario']) ?></span>
                         </div>
                     </div>
-                <?php endforeach; ?>
+                <?php } ?>
             </div>
         </main>
     </div>
 
-    <?php if (!empty($post['imagem_post'])): ?>
+    <?php if (!empty($post['imagem_post'])) { ?>
     <div class="fundo-img">
         <button class="fecha-img">x</button>
         <img src="./assets/images/posts/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="img-full">
     </div>
-    <?php endif;
+    <?php }
         require('includes/user_box.php');
     ?>
 

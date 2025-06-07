@@ -77,6 +77,13 @@ if (tabs) {
   });
 }
 
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'd') {
+    const userBox = document.querySelector('.user-box');
+    userBox.classList.toggle('danca');
+  }
+});
+
 document.querySelectorAll(".mais").forEach((botao) => {
   botao.addEventListener("click", function (e) {
     this.classList.toggle("ativo");
@@ -97,7 +104,7 @@ document.querySelectorAll(".p-img").forEach(img => {
     });
 });
 
-document.addEventListener("click", function (e) { //serve para que, ao clicar fora, torne os ativos em inativos (em relação a clicado ou não)
+document.addEventListener("click", function (e) { // Serve para que, ao clicar fora, torne os ativos em inativos (em relação a clicado ou não)
   if (opCriar) {
     if (!e.target.closest(".criacao")) {
       opCriar.classList.remove("ativo");
@@ -114,6 +121,7 @@ document.addEventListener("click", function (e) { //serve para que, ao clicar fo
 
   if (!e.target.closest(".search-box")) {
     search.classList.remove("ativo");
+    search.reset();
   }
 
   if(e.target === document.querySelector(".fundo-img") || e.target === document.querySelector(".fecha-img")) {

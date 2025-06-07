@@ -20,19 +20,19 @@
                             <i class="fas fa-share"></i> Compartilhar
                         </a>
                     </li>
-                    <?php if ($evento['id_user'] === $_SESSION['user_id']): ?>
+                    <?php if ($evento['id_user'] === $_SESSION['user_id']) { ?>
                         <li>
                             <a class="delete-content" data-type="event" data-id="<?= $evento['id_evento'] ?>">
                                 <i class="fas fa-trash-alt"></i> excluir evento
                             </a>
                         </li>
-                    <?php else: ?>
+                    <?php } else { ?>
                         <li>
                             <a>
                                 <i class="fas fa-exclamation-triangle"></i> denunciar
                             </a>
                         </li>
-                    <?php endif; ?>
+                    <?php } ?>
                 </ul>
             </div>
         </div>
@@ -88,9 +88,9 @@
 
         </div>
 
-        <?php if (!empty($evento['img_evento'])): ?>
+        <?php if (!empty($evento['img_evento'])) { ?>
         <img src="./assets/images/events/<?php echo htmlspecialchars($evento['img_evento']); ?>" class="p-img" loading="lazy">
-        <?php endif; ?>
+        <?php } ?>
     </div>
         
     <div class="e-inferior">

@@ -4,7 +4,36 @@ require_once('banco/autentica.php');
 require_once('includes/funcoes.php');
 require_once('banco/db_connect.php');
 require_once('includes/search-box.php');
+
 $meetcar = new MeetCarFunctions();
+
+$userId = $_SESSION['user_id']; 
+
+$posts = $meetcar->buscarPosts($userId); 
+$eventos = $meetcar->buscarEventos($userId); 
+
+$conteudos = [];
+
+foreach ($posts as $post) {
+    $conteudos[] = [
+        'tipo' => 'post',
+        'data' => $post['data_post'],
+        'dados' => $post
+    ];
+}
+
+foreach ($eventos as $evento) {
+    $conteudos[] = [
+        'tipo' => 'evento',
+        'data' => $evento['data_post'],
+        'dados' => $evento
+    ];
+}
+
+// ordena por data (do mais novo pro mais antigo)
+usort($conteudos, function($a, $b) {
+    return strtotime($b['data']) - strtotime($a['data']);
+});
 ?>
 
 <html lang="pt-br">
@@ -21,7 +50,6 @@ $meetcar = new MeetCarFunctions();
   <body>
 
     <div class="geral">
-
         
       <main class="hero">
 
@@ -29,14 +57,15 @@ $meetcar = new MeetCarFunctions();
 
       </main>
 
-      
       <?php require_once('includes/navbar.php'); ?>
 
     </div> <!--fim geral-->
 
-    <?php require_once('includes/user_box.php'); ?>
-
-    <?php require_once('includes/criacao.php'); ?> <!--Ele fica aqui em baixo (antes de </body>) pra ficar sobreposto de tudo-->
+    <?php
+    require_once('includes/user_box.php');
+    
+    require_once('includes/criacao.php'); //Ele fica aqui em baixo (antes de </body>) pra ficar sobreposto de tudo
+    ?> 
 
     <script src="assets/js/index.js?v=<?= time() ?>"></script>
     
