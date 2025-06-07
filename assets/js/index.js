@@ -3,6 +3,7 @@ const postModal = document.getElementById("form-post");
 const eventoModal = document.getElementById("form-evento");
 const grupoModal = document.getElementById("form-grupo");
 const opCriar = document.querySelector(".criar");
+const search = document.querySelector(".search-box");
 const tabs = document.querySelectorAll('.tab');
 const tabContent = document.querySelectorAll('.tab-content');
 const post = document.querySelectorAll('.post');
@@ -11,6 +12,12 @@ const url = window.location.pathname;
 
 if (url.includes("search.php")) {
   document.querySelector('.tabs').style.display = "flex";
+}
+
+if (search) {
+  search.addEventListener("mouseover", function (e) {
+    this.classList.add("ativo")
+  });
 }
 
 if (opCriar) {
@@ -70,8 +77,6 @@ if (tabs) {
   });
 }
 
-
-
 document.querySelectorAll(".mais").forEach((botao) => {
   botao.addEventListener("click", function (e) {
     this.classList.toggle("ativo");
@@ -106,6 +111,11 @@ document.addEventListener("click", function (e) { //serve para que, ao clicar fo
       body.classList.remove("estatico");
     }
   }
+
+  if (!e.target.closest(".search-box")) {
+    search.classList.remove("ativo");
+  }
+
   if(e.target === document.querySelector(".fundo-img") || e.target === document.querySelector(".fecha-img")) {
     document.querySelector(".fundo-img").style.display = 'none';
     document.body.style.overflowY = "scroll";
