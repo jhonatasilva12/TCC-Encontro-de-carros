@@ -8,9 +8,9 @@ $meetcar = new MeetCarFunctions();
 
 $groupId = $_GET['id'] ?? null;
 
+$grupo = $meetcar->buscarGrupoPorId($groupId);
 $posts = $meetcar->buscarPostsPorGrupo($groupId); 
 $eventos = $meetcar->buscarEventosPorGrupo($groupId);
-$grupo = $meetcar->buscarGrupoPorId($groupId);
 
 if (!$groupId) {
     header("Location: ./index.php?grupo=nao+existe");
@@ -50,14 +50,55 @@ usort($conteudos, function($a, $b) {
         <link rel="icon" href="./assets/images/logo.png">
         <title>MeetCar</title>
         <link rel="stylesheet" href="assets/css/styles.css">
-
     </head>
     <body>
 
     <div class="geral">
+
         <main class="hero">
 
-            <?php require_once('includes/feed.php'); ?> <!--posts e eventos organizados por ordem de chegada-->
+            <div class="grupo">
+                <div class="g-fotinha">
+                    <img src="assets/images/groups/<?php echo htmlspecialchars($grupo['img_grupo']); ?>" alt="Imagem do Grupo">
+                </div>
+                <div class="g-info">
+                    <div class="g-nome"><?php echo htmlspecialchars($grupo['nome_grupo']); ?></div>
+                    <?php if (!empty($grupo['nome_temas'])) { ?>
+                        <span class="p-tag" style="background-color: <?php echo htmlspecialchars($grupo['cor_fundo']); ?>; color: <?php echo ($grupo['cor_letras'] == 1) ? '#FFFFFF' : '#000000';  ?>">
+                            <?php echo htmlspecialchars($grupo['nome_temas']); ?>
+                        </span>
+                    <?php } ?>
+                    <div class="g-desc">
+                        <?php
+                            $descricao = htmlspecialchars($grupo['descricao_grupo']);
+                        if (strlen($descricao) > 150) {
+                            echo substr($descricao, 0, 150) . '...';
+                        } else {
+                            echo $descricao;
+                        }
+                        ?>
+                    </div>
+                    <div class="g-letrinhas">
+                        Membros: <?php echo $grupo['membros_count']; ?>
+                        <?php if ($grupo['user_participando']) { ?>
+                            <span style="font-weight: bold; color: #28a745; margin-left: 5px;">
+                                (Você participa)
+                            </span>
+                        <?php } ?>
+                    </div>
+                    <div class="g-letrinhas">
+                        Criado por: <?php echo htmlspecialchars($grupo['nome_user'] . ' ' . $grupo['sobrenome_user']); ?>
+                    </div>
+                </div>
+            </div>
+            <hr style="width: 50vw;">
+            <br>
+
+            <?php if (!empty($posts) && !empty($eventos)) { ?>
+                <?php require_once('includes/feed.php'); ?>
+            <?php } else { ?>
+                <p>Nenhum post ou evento foi encontrado nesse grupo. Seja o primeiro a criar um com a ferramenta de criação enquanto em um grupo!</p>
+            <?php } ?>
 
         </main>
 

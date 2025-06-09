@@ -378,12 +378,6 @@ class MeetCarFunctions {
                 JOIN temas_grupo tg ON gt.fk_id_temas_grupo = tg.id_temas_grupo
                 WHERE g.id_grupo = ?";
 
-        $stmt = $this->conn->prepare($sql);
-
-        if ($stmt === false) {
-            die("Erro na preparação da consulta SQL para buscarGrupos: " . $this->conn->error . " | Query: " . $sql);
-        }
-
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$groupId]);

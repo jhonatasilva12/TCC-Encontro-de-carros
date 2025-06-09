@@ -2,23 +2,17 @@
 
 require_once('banco/db_connect.php'); 
 require_once('banco/autentica.php');
-require_once('includes/search-box.php');
-
-
 require_once 'includes/funcoes.php';
 
-// Inicie a sessão 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Crie uma instância da classe MeetCarFunctions
 $meetcar = new MeetCarFunctions();
 
 
 $userId = $_SESSION['user_id'];
 
-// Chama a função buscarGrupos passando o id do usuário logado
 $grupos = $meetcar->buscarGrupos($userId);
 
 ?>
@@ -42,12 +36,13 @@ $grupos = $meetcar->buscarGrupos($userId);
                     include('includes/grupos.php');
                 } ?>
             <?php } else { ?>
-                <p>Nenhum grupo foi encontrado. Seja o primeiro a criar um!</p>
+                <p>Nenhum grupo foi encontrado. Seja o primeiro a criar um com a ferramenta de criação!</p>
             <?php } ?>
         </main>
 
         <?php
         require_once('includes/user_box.php');
+        require_once('includes/search-box.php');
         require_once('includes/navbar.php');
         require_once('includes/criacao.php');
         ?>
