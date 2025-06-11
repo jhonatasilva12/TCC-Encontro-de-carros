@@ -58,6 +58,15 @@ body.estatico {
   overflow-y: hidden;
 }
 
+button, img, .p-tag, br, i {
+  user-select: none;
+}
+
+hr {
+  width: 80%;
+  border-color: var(--texto-secundario);
+}
+
 .geral{
   display: flex;
   flex-direction: row;
@@ -86,6 +95,7 @@ body.estatico {
 * {
   margin: 0;
   padding: 0;
+  color: var(--letra-normal-geral);
 }
 
 a {
@@ -189,6 +199,48 @@ a {
 .nav-list li {
   display: flex;
 }
+
+/*************************navbar secundaria******************************/
+.sub-bar {
+  width: 50vw;
+  display: flex;
+  flex-direction: row;
+  align-items:start;
+  justify-content: baseline;
+}
+
+.sub-bar .titulo{
+  font-size: xx-large;
+  font-weight: bolder;
+  text-decoration: underline;
+  margin-top: 10px;
+}
+
+.sub-bar .descricao {
+  width: 100%;
+  text-align: justify;
+  font-size: large;
+}
+
+.sub-bar .inferior {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: end;
+} 
+
+.sub-bar button {
+  border: var(--borda-base) 2px solid;
+  background-color: var(--fundo-base);
+  border-radius: 20px;
+  padding: 8px;
+}
+
+.sub-bar button:hover {
+  background-color: var(--fundo-base-hover);
+}
+
+/*************************fim navbar secundaria******************************/
 
 /**************************pesquisa******************************/
 
@@ -1443,6 +1495,7 @@ input[type="file"]::file-selector-button:hover {
 
 /*************************fim criação e modais******************************/
 
+/*************************user box******************************/
 .user-box {
   position: fixed;
   background-color: var(--fundo-base);
@@ -1569,8 +1622,7 @@ input[type="file"]::file-selector-button:hover {
     bottom: 9px;
   }
 }
-
-
+/*************************fim user box******************************/
 
 /********************aqui começa o css pra mobile****************************/
 @media (max-width: 660px) {
