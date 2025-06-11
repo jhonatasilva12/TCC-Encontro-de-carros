@@ -33,6 +33,11 @@
             <div class="g-letrinhas">
                 Criado por: <?php echo htmlspecialchars($grupo['nome_user'] . ' ' . $grupo['sobrenome_user']); ?>
             </div>
+            <div class="g-letrinhas">
+            <span class="p-tempo">
+                criado <?= $meetcar->tempoDecorrido($grupo['data_criacao']) ?>
+            </span>
+            </div>
         </div>
     </div>
 </a>
