@@ -70,9 +70,23 @@ usort($conteudos, function($a, $b) {
                 </div>
             </div>
 
-            <br><hr><br>
+            <br><hr class="separa-sub"><br>
+
+            <div style="height: 10000px;"></div>
 
             <?php require_once('includes/feed.php'); ?> <!--posts e eventos organizados por ordem de chegada-->
+
+
+            <div class="mini-sub">
+                <div>
+                    <img src="assets/images/groups/grupo_padrao.jpg" class="micro-foto">
+                    <div>
+                        <p class="titulo">nome do grupo</p>
+                        <button><i class="fas fa-circle-plus"></i>  participar</button>
+                    </div>
+                </div>
+                <hr>
+            </div>
 
         </main>
 
