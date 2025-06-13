@@ -32,7 +32,7 @@ if (opCriar) {
     e.stopPropagation(); // Impede que o clique se propague para o document
     postModal.classList.toggle("ativo");
     opCriar.classList.remove("ativo");
-    body.classList.toggle("estatico");
+    document.body.style.overflowY = "hidden";
     carregarOpcoesFormularios();
   });
 
@@ -41,7 +41,7 @@ if (opCriar) {
     e.stopPropagation(); // Impede que o clique se propague para o document
     eventoModal.classList.toggle("ativo");
     opCriar.classList.remove("ativo");
-    body.classList.toggle("estatico");
+    document.body.style.overflowY = "hidden";
     carregarOpcoesFormularios();
   });
 
@@ -50,18 +50,18 @@ if (opCriar) {
     e.stopPropagation(); // Impede que o clique se propague para o document
     grupoModal.classList.toggle("ativo");
     opCriar.classList.remove("ativo");
-    body.classList.toggle("estatico");
+    document.body.style.overflowY = "hidden";
     carregarOpcoesFormularios();
   });
 }
 
-if (post || evento) {
-  document.querySelectorAll('.fas fa-share').forEach(share => {
-    this.addEventListener('click', () => {
-      navigator.clipboard.writeText("pumba");
-    })
-  });
-}
+window.addEventListener("scroll", function() {
+  if(document.querySelector(".separa-sub").getBoundingClientRect().bottom >= 0) {
+    document.querySelector(".mini-sub").classList.remove("ativo");
+  } else {
+    document.querySelector(".mini-sub").classList.add("ativo");
+  }
+})
 
 if (tabs) {
   tabs.forEach(tab => {
@@ -115,7 +115,7 @@ document.addEventListener("click", function (e) { // Serve para que, ao clicar f
         modal.classList.remove("ativo");
       });
       document.querySelectorAll(".modal-container").forEach((form) => form.reset());
-      body.classList.remove("estatico");
+      document.body.style.overflowY = "scroll";
     }
   }
 
