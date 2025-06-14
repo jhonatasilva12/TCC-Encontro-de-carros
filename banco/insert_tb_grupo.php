@@ -2,7 +2,7 @@
 include_once './db_connect.php';
 session_start();
 
-$imagem_grupo = null;
+$imagem_grupo = 'grupo_padrao.jpg';
 if (isset($_FILES['imagem_grupo']) && $_FILES['imagem_grupo']['error'] == UPLOAD_ERR_OK) { // Corrigido
     
     $permitidos = ['image/jpeg', 'image/png', 'image/jpg'];

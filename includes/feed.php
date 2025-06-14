@@ -14,5 +14,5 @@
 
 <div class="fundo-img">
     <button class="fecha-img">x</button>
-    <img src="./assets/images/posts/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="img-full">
+    <img src="" class="img-full">
 </div>

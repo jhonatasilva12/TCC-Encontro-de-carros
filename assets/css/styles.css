@@ -15,7 +15,7 @@
   --fundo-botao: #ffffff;
   --borda-base: #7578a0;
   --fundo-form: #ffffff;
-  --info-fundo: #e6f2f8;
+  --info-fundo: #f5f8ff;
   --fundo-grupo: #c2e4be;
   --borda-grupo: #90aa8e;
   --detalhe-base: #9fa3cf; 
@@ -54,8 +54,13 @@ body {
   background: var(--fundo-body);
 }
 
-body.estatico {
-  overflow-y: hidden;
+button, img, .p-tag, br, i {
+  user-select: none;
+}
+
+hr {
+  width: 80%;
+  border-color: var(--texto-secundario);
 }
 
 .geral{
@@ -190,6 +195,112 @@ a {
 .nav-list li {
   display: flex;
 }
+
+/*************************navbar secundaria******************************/
+.sub-bar {
+  width: 50vw;
+  display: flex;
+  flex-direction: row;
+  align-items:start;
+  justify-content: baseline;
+}
+
+.sub-bar .titulo {
+  font-size: xx-large;
+  font-weight: bolder;
+  text-decoration: underline;
+  margin-top: 10px;
+}
+
+.sub-bar .descricao {
+  width: 100%;
+  text-align: justify;
+  font-size: large;
+}
+
+.sub-bar .inferior {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: end;
+} 
+
+.sub-bar button, .mini-sub button {
+  border: var(--borda-base) 2px solid;
+  background-color: var(--fundo-base);
+  border-radius: 20px;
+  padding: 8px;
+}
+
+.sub-bar button:hover {
+  background-color: var(--fundo-base-hover);
+}
+
+/**** mini sub-bar ****/
+
+.mini-sub {
+  display: none;
+  position: fixed;
+  flex-direction: column;
+  top: 0px;
+  width: 50vw;
+  background-color: var(--fundo-body);
+  padding-top: 10px;
+}
+
+.mini-sub hr {
+  align-self: center;
+  margin-top: 5px;
+  width: 120%;
+}
+
+.mini-sub.ativo {
+  display: flex;
+  animation: aparicao 0.6s ease;
+}
+
+@keyframes aparicao {
+  0% {
+    opacity: 0;
+    top: -20px;
+  }
+
+  100% {
+    opacity: 1;
+    top: 0px;
+  }
+}
+
+.mini-sub .titulo {
+  font-size: x-large;
+  font-weight: bolder;
+  text-decoration: underline;
+}
+
+.mini-sub div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.mini-sub .micro-foto {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 20px;
+  border: 3px solid var(--borda-base);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*************************fim navbar secundaria******************************/
 
 /**************************pesquisa******************************/
 
@@ -1444,6 +1555,7 @@ input[type="file"]::file-selector-button:hover {
 
 /*************************fim criação e modais******************************/
 
+/*************************user box******************************/
 .user-box {
   position: fixed;
   background-color: var(--fundo-base);
@@ -1570,8 +1682,7 @@ input[type="file"]::file-selector-button:hover {
     bottom: 9px;
   }
 }
-
-
+/*************************fim user box******************************/
 
 /********************aqui começa o css pra mobile****************************/
 @media (max-width: 660px) {

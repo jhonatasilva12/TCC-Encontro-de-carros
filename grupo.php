@@ -56,6 +56,23 @@ usort($conteudos, function($a, $b) {
     <div class="geral">
 
         <main class="hero">
+            <div class="sub-bar">
+                <img src="assets/images/groups/grupo_padrao.jpg" class="g-fotinha">
+                <div>
+                    <p class="titulo">nome do grupo...</p>
+                    <span class="p-tag" style="background-color: white; color: black; margin-bottom: 40px;">
+                        tag do grupo
+                    </span>
+                    <p class="descricao">descrição do grupo: ⁠Meu nome é Yoshikage Kira. Tenho 33 anos. Minha casa fica na parte nordeste de Morioh, onde todas as casas estão, e eu não sou casado. Eu trabalho como funcionário das lojas de departamentos Kame Yu e chego em casa todos os dias às oito da noite, no máximo. Eu não fumo, mas ocasionalmente bebo. Estou na cama às 23 horas e me certifico de ter oito horas de sono, não importa o que aconteça. Depois de tomar um copo de leite morno e fazer cerca de vinte minutos de alongamentos antes de ir para a cama, geralmente não tenho problemas para dormir até de manhã.<p>
+                    <div class="inferior">
+                        <button><i class="fas fa-circle-plus"></i>  participar</button>
+                    </div>
+                </div>
+            </div>
+
+            <br><hr class="separa-sub"><br>
+
+            <div style="height: 10000px;"></div>
 
             <div class="grupo">
                 <div class="g-fotinha">
@@ -99,6 +116,18 @@ usort($conteudos, function($a, $b) {
             <?php } else { ?>
                 <p>Nenhum post ou evento foi encontrado nesse grupo. Seja o primeiro a criar um com a ferramenta de criação enquanto em um grupo!</p>
             <?php } ?>
+
+
+            <div class="mini-sub">
+                <div>
+                    <img src="assets/images/groups/grupo_padrao.jpg" class="micro-foto">
+                    <div>
+                        <p class="titulo">nome do grupo</p>
+                        <button><i class="fas fa-circle-plus"></i>  participar</button>
+                    </div>
+                </div>
+                <hr>
+            </div>
 
         </main>
 
