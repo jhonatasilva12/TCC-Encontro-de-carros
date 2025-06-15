@@ -88,9 +88,18 @@
 
         </div>
 
-        <?php if (!empty($evento['img_evento'])) { ?>
-        <img src="./assets/images/events/<?php echo htmlspecialchars($evento['img_evento']); ?>" class="p-img" loading="lazy">
-        <?php } ?>
+        <?php if (!empty($evento['img_evento'])) {
+            $ext = pathinfo($evento['img_evento'], PATHINFO_EXTENSION);
+            $isVideo = in_array(strtolower($ext), ['mp4', 'webm', 'ogg', 'mov']);
+            
+            if ($isVideo) { ?>
+                <video class="p-video" controls controlsList="nodownload" loop>
+                    <source src="./assets/images/events/<?= htmlspecialchars($evento['img_evento']) ?>" type="video/<?= $ext ?>">
+                </video>
+            <?php } else { ?>
+                <img src="./assets/images/events/<?php echo htmlspecialchars($evento['img_evento']); ?>" class="p-img" loading="lazy">
+            <?php }
+        } ?>
     </div>
         
     <div class="e-inferior">

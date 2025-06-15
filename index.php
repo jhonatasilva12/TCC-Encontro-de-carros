@@ -3,7 +3,6 @@
 require_once('banco/autentica.php');
 require_once('includes/funcoes.php');
 require_once('banco/db_connect.php');
-require_once('includes/search-box.php');
 
 $meetcar = new MeetCarFunctions();
 
@@ -57,13 +56,13 @@ usort($conteudos, function($a, $b) {
 
       </main>
 
-      <?php require_once('includes/navbar.php'); ?>
+      <?php require_once('includes/navbar.php');
+      require_once('includes/search-box.php'); ?>
 
     </div> <!--fim geral-->
 
     <?php
     require_once('includes/user_box.php');
-    
     require_once('includes/criacao.php'); //Ele fica aqui em baixo (antes de </body>) pra ficar sobreposto de tudo
     ?> 
 

@@ -19,6 +19,14 @@ class MeetCarFunctions {
         }
     }
 
+    public function getPdo() {
+        return $this->pdo;
+    }
+
+    public function getConn() {
+        return $this->conn;
+    }
+
     // busca posts com informações do usuário e tipo de post
     public function buscarPosts($userId = null) {
         $sql = "SELECT p.*, u.id_user, u.nome_user, u.sobrenome_user, u.img_user, tp.nome_tipo_post, tp.cor_fundo, tp.cor_letra,
@@ -42,8 +50,8 @@ class MeetCarFunctions {
 
     public function buscarEventos($userId = null) {
         $sql = "SELECT e.*, u.id_user, u.nome_user, u.sobrenome_user, u.img_user,
-                (SELECT COUNT(*) FROM evento_user WHERE fk_id_evento = e.id_evento) as participantes_count,
-                (SELECT EXISTS(SELECT 1 FROM evento_user WHERE fk_id_evento = e.id_evento AND fk_id_user = ?)) as user_participando
+                    (SELECT COUNT(*) FROM evento_user WHERE fk_id_evento = e.id_evento) as participantes_count,
+                    (SELECT EXISTS(SELECT 1 FROM evento_user WHERE fk_id_evento = e.id_evento AND fk_id_user = ?)) as user_participando
                 FROM tb_evento e
                 JOIN tb_user u ON e.fk_id_criador = u.id_user
                 ORDER BY e.data_inicio_evento ASC";
@@ -68,7 +76,7 @@ class MeetCarFunctions {
                 JOIN tb_user u ON g.fk_id_user = u.id_user
                 JOIN grupo_tegru gt ON g.id_grupo = gt.fk_id_grupo
                 JOIN temas_grupo tg ON gt.fk_id_temas_grupo = tg.id_temas_grupo
-                ORDER BY g.nome_grupo ASC";
+                ORDER BY membros_count DESC";
 
         try {
             $stmt = $this->pdo->prepare($sql);
@@ -77,6 +85,35 @@ class MeetCarFunctions {
         } catch (PDOException $e) {
             error_log("Erro ao buscar grupos: " . $e->getMessage());
             return [];
+        }
+    }
+
+    public function buscaEventosJson($userId = null) {
+        $sql = "SELECT e.*, u.id_user, u.nome_user, u.sobrenome_user, u.img_user,
+                    (SELECT COUNT(*) FROM evento_user WHERE fk_id_evento = e.id_evento) as participantes_count,
+                    (SELECT EXISTS(SELECT 1 FROM evento_user WHERE fk_id_evento = e.id_evento AND fk_id_user = ?)) as user_participando
+                FROM tb_evento e
+                JOIN tb_user u ON e.fk_id_criador = u.id_user
+                ORDER BY e.data_inicio_evento ASC";
+
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId]);
+            $eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $eventosFormatados = array_map(function($evento) {
+                return [
+                    'title' => $evento['nome_evento'],
+                    'start' => date('Y-m-d\TH:i:s', strtotime($evento['data_inicio_evento'])),
+                    'end' => !empty($evento['data_termino_evento']) ? date('Y-m-d\TH:i:s', strtotime($evento['data_termino_evento'])) : null
+                ];
+            }, $eventos);
+
+
+            return json_encode($eventosFormatados);
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar eventos: " . $e->getMessage());
+            return json_encode([]);
         }
     }
 
@@ -259,11 +296,11 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarPostsPorGrupo($groupId) {
+    public function buscarPostsPorGrupo($groupId, $userId = null) {
         $sql = "SELECT p.*, u.id_user, u.nome_user, u.sobrenome_user, u.img_user, tp.nome_tipo_post, tp.cor_fundo, tp.cor_letra,
-                (SELECT COUNT(*) FROM likes_post WHERE fk_id_post = p.id_post) as likes_count,
-                (SELECT COUNT(*) FROM tb_comentario WHERE fk_id_post = p.id_post) as comentarios_count,
-                (SELECT EXISTS(SELECT 1 FROM likes_post WHERE fk_id_post = p.id_post AND fk_id_user = ?)) as user_liked
+                    (SELECT COUNT(*) FROM likes_post WHERE fk_id_post = p.id_post) as likes_count,
+                    (SELECT COUNT(*) FROM tb_comentario WHERE fk_id_post = p.id_post) as comentarios_count,
+                    (SELECT EXISTS(SELECT 1 FROM likes_post WHERE fk_id_post = p.id_post AND fk_id_user = ?)) as user_liked
                 FROM tb_post p
                 JOIN tb_user u ON p.fk_id_user = u.id_user
                 JOIN tb_tipo_post tp ON p.fk_id_tipo_post = tp.id_tipo_post
@@ -271,7 +308,7 @@ class MeetCarFunctions {
                 ORDER BY p.data_post DESC";
         try {
             $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([$groupId]);
+            $stmt->execute([$userId, $groupId]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("Erro ao buscar posts: " . $e->getMessage());
@@ -279,7 +316,7 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarEventosPorGrupo($groupId) {
+    public function buscarEventosPorGrupo($groupId, $userId = null) {
         $sql = "SELECT e.*, u.id_user, u.nome_user, u.sobrenome_user, u.img_user,
                 (SELECT COUNT(*) FROM evento_user WHERE fk_id_evento = e.id_evento) as participantes_count,
                 (SELECT EXISTS(SELECT 1 FROM evento_user WHERE fk_id_evento = e.id_evento AND fk_id_user = ?)) as user_participando
@@ -290,7 +327,7 @@ class MeetCarFunctions {
         
         try {
             $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([$groupId]);
+            $stmt->execute([$userId, $groupId]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("Erro ao buscar eventos: " . $e->getMessage());
@@ -367,24 +404,36 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarGrupoPorId($groupId) {
+    public function buscarGrupoPorId($groupId, $userId = null) {
         $sql = "SELECT g.*, u.nome_user, u.sobrenome_user, u.img_user,
-                    tg.nome_temas, tg.cor_fundo, tg.cor_letras,
-                    (SELECT COUNT(*) FROM user_grupo WHERE fk_id_grupo = g.id_grupo) as membros_count,
-                    (SELECT EXISTS(SELECT 1 FROM user_grupo WHERE fk_id_grupo = g.id_grupo AND fk_id_user = ?)) as user_participando
-                FROM tb_grupo g
-                JOIN tb_user u ON g.fk_id_user = u.id_user
-                JOIN grupo_tegru gt ON g.id_grupo = gt.fk_id_grupo
-                JOIN temas_grupo tg ON gt.fk_id_temas_grupo = tg.id_temas_grupo
-                WHERE g.id_grupo = ?";
+                tg.nome_temas, tg.cor_fundo, tg.cor_letras,
+                (SELECT COUNT(*) FROM user_grupo WHERE fk_id_grupo = g.id_grupo) as membros_count,
+                (SELECT EXISTS(SELECT 1 FROM user_grupo WHERE fk_id_grupo = g.id_grupo AND fk_id_user = ?)) as user_participando
+            FROM tb_grupo g
+            JOIN tb_user u ON g.fk_id_user = u.id_user
+            JOIN grupo_tegru gt ON g.id_grupo = gt.fk_id_grupo
+            JOIN temas_grupo tg ON gt.fk_id_temas_grupo = tg.id_temas_grupo
+            WHERE g.id_grupo = ?";
 
         try {
             $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([$groupId]);
+            $stmt->execute([$userId, $groupId]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            error_log("Erro ao buscar grupos: " . $e->getMessage());
+            error_log("Erro ao buscar grupo: " . $e->getMessage());
             return [];
+        }
+    }
+
+    public function userParticipaGrupo($userId, $groupId) {
+        $sql = "SELECT 1 FROM user_grupo WHERE fk_id_user = ? AND fk_id_grupo = ?";
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId, $groupId]);
+            return $stmt->fetchColumn() !== false;
+        } catch (PDOException $e) {
+            error_log("Erro ao verificar participação no grupo: " . $e->getMessage());
+            return false;
         }
     }
 

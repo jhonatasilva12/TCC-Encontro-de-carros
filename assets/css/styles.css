@@ -8,7 +8,7 @@
   --borda-post: #d6c1c1;
   --borda-evento: #c1d1d6;
   --cor-logo: none;
-  --sombra: rgba(0, 0, 0, 0.1);
+  --sombra: rgba(0, 0, 0, 0.288);
   --texto-secundario: #727272;
   --fundo-input: #f8f9fd;
   --borda-input: #e0e3f1;
@@ -21,6 +21,7 @@
   --detalhe-base: #9fa3cf; 
   --fundo-user: #d1d1d1;
   --borda-user: #363636; 
+  --fundo-calendario: #c5c5c5;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -47,6 +48,7 @@
     --detalhe-base: #2f2f42;
     --fundo-user: #3a3a3a;
     --borda-user: #1b1b1b;
+    --fundo-calendario: #2a3a4a;
   }
 }
 
@@ -205,6 +207,10 @@ a {
   justify-content: baseline;
 }
 
+.sub-bar > div {
+  width: 100%;
+}
+
 .sub-bar .titulo {
   font-size: xx-large;
   font-weight: bolder;
@@ -230,6 +236,7 @@ a {
   background-color: var(--fundo-base);
   border-radius: 20px;
   padding: 8px;
+  cursor: pointer;
 }
 
 .sub-bar button:hover {
@@ -256,7 +263,7 @@ a {
 
 .mini-sub.ativo {
   display: flex;
-  animation: aparicao 0.6s ease;
+  animation: aparicao 0.4s ease;
 }
 
 @keyframes aparicao {
@@ -565,7 +572,7 @@ a {
   margin: 8px 0;
 }
 
-.p-img {
+.p-img, .p-video {
   width: 100%;
   max-height: 45vh;
   border-radius: 1em;
@@ -576,6 +583,11 @@ a {
   object-fit: cover;
   background-color: #f5f5f5;
   cursor: pointer;
+}
+
+.p-video:fullscreen {
+  object-fit: contain;
+  background-color: #000;
 }
 
 .fundo-img {
@@ -888,7 +900,7 @@ a {
   margin-bottom: 20px;
   box-shadow: -2px 2px 4px var(--sombra);
   position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: 0.3s ease;
 }
 
 .e-fotinha {
@@ -1317,6 +1329,10 @@ a {
   padding: 10px;
 }
 
+.header-form-criacao span {
+  text-decoration: underline;
+}
+
 .modal-container {
   overflow-y: scroll;
   scrollbar-width: 10px;
@@ -1683,6 +1699,57 @@ input[type="file"]::file-selector-button:hover {
   }
 }
 /*************************fim user box******************************/
+/*************************calendario******************************/
+
+.fc {
+  background: var(--fundo-calendario);
+  padding: 15px;
+  border-radius: 10px;
+  width: 50vw;
+  height: 93vh;
+  box-shadow: -4px 4px 4px var(--sombra);
+}
+
+.fc-toolbar-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--letra-normal-geral);
+}
+
+.fc-daygrid-day-number {
+  font-size: 16px;
+  color: var(--letra-normal-geral);
+}
+
+.fc-button {
+  background: var(--fundo-base) !important;
+  border: var(--borda-base) 2px solid;
+  color: var(--letra-normal-geral) !important;
+  font-size: 14px;
+  padding: 8px 12px;
+}
+
+.fc-button:hover {
+  background: var(--fundo-base-hover) !important;
+}
+
+
+.fc-day-today {
+  background: rgba(60, 255, 0, 0.369);
+}
+
+.fc-event {
+    background: #ff4500;
+    border: none;
+    color: var(--letra-normal-geral);
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+
+/*************************fim calendario******************************/
 
 /********************aqui começa o css pra mobile****************************/
 @media (max-width: 660px) {

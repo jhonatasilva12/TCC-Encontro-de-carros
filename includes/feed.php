@@ -13,6 +13,9 @@
 </div>
 
 <div class="fundo-img">
-    <button class="fecha-img">x</button>
-    <img src="" class="img-full">
+    <button class="fecha-img">×</button>
+    
+    <div class="media-container">
+        <!-- conteudo gerado pelo js -->
+    </div>
 </div>

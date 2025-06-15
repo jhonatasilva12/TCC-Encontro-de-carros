@@ -9,6 +9,11 @@ const tabContent = document.querySelectorAll('.tab-content');
 const post = document.querySelectorAll('.post');
 const evento = document.querySelectorAll('.evento');
 const url = window.location.pathname;
+const erro = sessionStorage.getItem('erro');
+
+if(erro != null){
+  alert(erro);
+}
 
 if (url.includes("search.php")) {
   document.querySelector('.tabs').style.display = "flex";
@@ -55,13 +60,26 @@ if (opCriar) {
   });
 }
 
-window.addEventListener("scroll", function() {
-  if(document.querySelector(".separa-sub").getBoundingClientRect().bottom >= 0) {
-    document.querySelector(".mini-sub").classList.remove("ativo");
-  } else {
-    document.querySelector(".mini-sub").classList.add("ativo");
-  }
-})
+if(document.querySelector(".separa-sub")) {
+  window.addEventListener("scroll", function() {
+    if(document.querySelector(".separa-sub").getBoundingClientRect().bottom >= 0) {
+      document.querySelector(".mini-sub").classList.remove("ativo");
+    } else {
+      document.querySelector(".mini-sub").classList.add("ativo");
+    }
+  })
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'pt-br',
+        events: './includes/datas.php'
+    });
+    calendar.render();
+});
+
 
 if (tabs) {
   tabs.forEach(tab => {
@@ -90,16 +108,29 @@ document.querySelectorAll(".mais").forEach((botao) => {
   });
 });
 
-document.querySelectorAll(".p-img").forEach(img => {
-    img.addEventListener('click', function() {
-        const fullImg = document.querySelector(".img-full");
+document.querySelectorAll(".p-img").forEach(media => {
+    media.addEventListener('click', function() {
+        const mediaContainer = document.querySelector(".media-container");
         const fundo = document.querySelector(".fundo-img");
         
-        fullImg.src = this.src; // pega a imagem clicada
-        panzoom(fullImg);
+        mediaContainer.innerHTML = '';
         
+        if (this.tagName === 'IMG') { // se for imagem
+            const img = document.createElement('img');
+            img.src = this.src;
+            img.className = 'media-full';
+            mediaContainer.appendChild(img);
+            panzoom(mediaContainer);
+        } else if (this.tagName === 'VIDEO') { // se for video
+            const video = document.createElement('video');
+            video.src = this.querySelector('source').src;
+            video.controls = true;
+            video.autoplay = true;
+            video.className = 'media-full';
+            mediaContainer.appendChild(video);
+        }
         
-        fundo.style.display = "flex"; // ativa o modal (faz ele aparecer)
+        fundo.style.display = "flex";
         document.body.style.overflowY = "hidden";
     });
 });
@@ -136,6 +167,34 @@ document.addEventListener("click", function (e) { // Serve para que, ao clicar f
   }
 });
 
+function participarGrupo(grupoId) {
+    fetch(`banco/insert_user_grupo.php?id=${grupoId}`)
+        .then(response => response.text())
+        .then(text => {
+            if (text === "SUCESSO") {
+                location.reload();
+            } else {
+                alert(text.replace("ERRO: ", "").replace("AVISO: ", ""));
+            }
+        })
+        .catch(() => alert("Falha na comunicação"));
+}
+
+function sairGrupo(grupoId) {
+    if (confirm('Tem certeza que deseja sair deste grupo?')) {
+        fetch(`banco/delete_user_grupo.php?id=${grupoId}`)
+            .then(response => response.text())
+            .then(text => {
+                if (text === "SUCESSO") {
+                    location.reload();
+                } else {
+                    alert(text.replace("ERRO: ", ""));
+                }
+            })
+            .catch(() => alert("Falha na comunicação"));
+    }
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // configuração única para todos os previews
 function setupImagePreviews() {
@@ -144,7 +203,7 @@ function setupImagePreviews() {
         'post-image': { preview: 'postImage', container: 'imagePreview' },
         'event-image': { preview: 'previewEvent', container: 'eventPreview' },
         'event-video': { maxSize: 50 * 1024 * 1024 }, //50mb para eventos
-        'post-video': { maxSize: 30 * 1024 * 1024 } //30mb pra posts
+        'post-video': { maxSize: 50 * 1024 * 1024 } //30mb pra posts
     };
 
     Object.keys(fileUploads).forEach(inputId => {
@@ -231,7 +290,7 @@ function showAlert(message, type) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 async function carregarOpcoesFormularios() {
-  //Autoexplicativo
+  // Autoexplicativo
   try {
     console.log("Iniciando carregamento de opções...");
     const response = await fetch("banco/buscar_opcoes.php");

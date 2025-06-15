@@ -1,0 +1,5 @@
+[14-Jun-2025 16:51:55 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\TCC-Encontro-de-carros\banco\autentica.php on line 2
+[14-Jun-2025 16:51:55 Europe/Berlin] PHP Fatal error:  Uncaught Error: Cannot access private property MeetCarFunctions::$pdo in C:\xampp\htdocs\TCC-Encontro-de-carros\banco\insert_user_grupo.php:36
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\TCC-Encontro-de-carros\banco\insert_user_grupo.php on line 36

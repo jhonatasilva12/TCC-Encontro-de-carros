@@ -2,7 +2,6 @@
 require('includes/funcoes.php');
 require_once('banco/db_connect.php');
 require_once('banco/autentica.php');
-include 'includes/navbar.php';
 $meetcar = new MeetCarFunctions();
 
 $userId = $_SESSION['user_id'] ?? null; 
@@ -89,9 +88,19 @@ $comentarios = $meetcar->buscarComentariosPorPost($postId);
                         <h3 class="p-titulo"><?php echo htmlspecialchars($post['titulo_post']); ?></h3>
                         <?php } ?>
                         <p class="p-texto"><?php echo htmlspecialchars($post['texto_post']); ?></p>
-                        <?php if (!empty($post['imagem_post'])) { ?>
-                        <img src="./assets/images/posts/<?php echo htmlspecialchars($post['imagem_post']); ?>" class="p-img" loading="lazy">
-                        <?php } ?>
+                        
+                        <?php if (!empty($post['imagem_post'])) {
+                            $ext = pathinfo($post['imagem_post'], PATHINFO_EXTENSION);
+                            $video = in_array(strtolower($ext), ['mp4', 'webm', 'ogg', 'mov']);
+                            
+                            if ($video) { ?>
+                                <video class="p-video" controls controlsList="nodownload" loop>
+                                    <source src="./assets/images/posts/<?= htmlspecialchars($post['imagem_post']) ?>">
+                                </video>
+                            <?php } else { ?>
+                                <img src="./assets/images/posts/<?= htmlspecialchars($post['imagem_post']) ?>" class="p-img" loading="lazy">
+                            <?php }
+                        } ?>
                     </div>
 
                     <div class="p-inferior">
@@ -139,6 +148,8 @@ $comentarios = $meetcar->buscarComentariosPorPost($postId);
                 <?php } ?>
             </div>
         </main>
+        
+    <?php include('includes/navbar.php'); ?>
     </div>
 
     <?php if (!empty($post['imagem_post'])) { ?>

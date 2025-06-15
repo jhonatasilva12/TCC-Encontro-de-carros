@@ -9,7 +9,7 @@
         <div class="form-modal">
             <div class="header-form-criacao">
                 <button class="fecha-modal">X</button>
-                <h2>Criar Novo Post</h2>
+                <h2>Criar Novo Post <?php if(!empty($groupId)) { echo 'em <span>' . htmlspecialchars($grupo['nome_grupo']) . '</span>'; } ?></h2>
             </div>
             <form class="modal-container" method="post" action="./banco/insert_tb_post.php" enctype="multipart/form-data" autocomplete="off">
                 
@@ -17,6 +17,8 @@
                     <label for="titulo-post">Título (opcional)</label>
                     <input type="text" id="titulo-post" name="titulo_post" maxlength="50">
                 </div>
+
+                <?php if(!empty($groupId)) { ?><input type="hidden" name="fk_id_grupo" value="<?= $groupId ?>"><?php } ?>
                 
                 <div class="form-group">
                     <label for="tipo-post">Tipo de Post*</label>
@@ -57,7 +59,7 @@
                     <div class="image-preview" id="imagePreview">
                         <img id="postImage" src="#" alt="Pré-visualização da imagem">
                     </div>
-                    <input type="file" id="post-image" name="imagem_post" accept="image/*">
+                    <input type="file" id="post-image" name="imagem_post" accept="image/*,video/*">
                     
                 </div>
                 
@@ -132,7 +134,7 @@
         <div class="form-modal">
             <div class="header-form-criacao">
                 <button class="fecha-modal">X</button>
-                <h2>Criar Novo Evento</h2>
+                <h2>Criar Novo Evento <?php if(!empty($groupId)) { echo 'em <span>' . htmlspecialchars($grupo['nome_grupo']) . '</span>'; } ?></h2>
             </div>
             <form class="modal-container" action="./banco/insert_tb_evento.php" method="post" enctype="multipart/form-data" autocomplete="off">
                 
@@ -140,6 +142,8 @@
                     <label for="event-name">Nome do Evento*</label>
                     <input type="text" id="event-name" name="nome_evento" maxlength="30" required>
                 </div>
+
+                <?php if(!empty($groupId)) { ?><input type="hidden" name="fk_id_grupo" value="<?= $groupId ?>"> <?php } ?>
                 
                 <div class="form-group">
                     <label for="event-description">Descrição*</label>
@@ -222,7 +226,7 @@
                         <img id="previewEvent" src="#" alt="Pré-visualização da imagem">
                     </div>
                     <label for="event-image">Imagem do evento</label>
-                    <input type="file" id="event-image" name="imagem_evento" accept="image/*">
+                    <input type="file" id="event-image" name="imagem_evento" accept="image/*,video/*">
                 </div>
                 
                 <button type="submit">Criar Evento</button>
