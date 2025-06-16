@@ -17,6 +17,7 @@ $evBox = $meetcar->buscarEventoPorId($userId, $eventId);
 </div>
 
 <div class="event-box" style="display: none;">
+<?php if ($eventId != null) { ?>
     <div class="ev-centro">
         <h3 class="ev-titulo"><?php echo htmlspecialchars($evBox['nome_evento']); ?></h3>
         
@@ -84,6 +85,10 @@ $evBox = $meetcar->buscarEventoPorId($userId, $eventId);
     </div>
 
     <a href="evento.php?id=<?= $evBox['id_evento'] ?>"><i class="fa-solid fa-eye"></i>ver mais</a>
+    <?php } else {     
+        echo "<h3>não foi possivel encontrar o evento, reinicie a pagina e tente novamente</h3>";
+    }
+    ?>
 </div>
 
 
