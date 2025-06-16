@@ -40,7 +40,6 @@ $userId = $_SESSION['user_id']; ?>
 
     <?php
     require_once('includes/user_box.php');
-    require_once('includes/criacao.php'); //Ele fica aqui em baixo (antes de </body>) pra ficar sobreposto de tudo
     ?> 
 
     <script src="assets/js/index.js?v=<?= time() ?>"></script>
