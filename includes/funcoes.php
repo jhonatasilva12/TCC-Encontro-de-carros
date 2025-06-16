@@ -103,6 +103,7 @@ class MeetCarFunctions {
 
             $eventosFormatados = array_map(function($evento) {
                 return [
+                    'id' => $evento['id_evento'],
                     'title' => $evento['nome_evento'],
                     'start' => date('Y-m-d\TH:i:s', strtotime($evento['data_inicio_evento'])),
                     'end' => !empty($evento['data_termino_evento']) ? date('Y-m-d\TH:i:s', strtotime($evento['data_termino_evento'])) : null
@@ -329,6 +330,24 @@ class MeetCarFunctions {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$userId, $groupId]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar eventos: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function buscarEventoPorId($userId = null, $eventId) {
+        $sql = "SELECT e.*, u.id_user, u.nome_user, u.sobrenome_user, u.img_user,
+                    (SELECT COUNT(*) FROM evento_user WHERE fk_id_evento = e.id_evento) as participantes_count,
+                    (SELECT EXISTS(SELECT 1 FROM evento_user WHERE fk_id_evento = e.id_evento AND fk_id_user = ?)) as user_participando
+                FROM tb_evento e
+                JOIN tb_user u ON e.fk_id_criador = u.id_user
+                WHERE e.id_evento = ?";
+        
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId, $eventId]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("Erro ao buscar eventos: " . $e->getMessage());
             return [];

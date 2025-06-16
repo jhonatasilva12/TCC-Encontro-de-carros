@@ -11,11 +11,3 @@
         }
     ?>
 </div>
-
-<div class="fundo-img">
-    <button class="fecha-img">×</button>
-    
-    <div class="media-container">
-        <!-- conteudo gerado pelo js -->
-    </div>
-</div>

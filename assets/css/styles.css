@@ -3,8 +3,8 @@
   --fundo-base-hover: #8286b1;
   --letra-normal-geral: #29282e;
   --fundo-body: #f6feff;
-  --fundo-post: #ffecec;
-  --fundo-evento: #e2f1ff;
+  --fundo-post: #f5e4e4;
+  --fundo-evento: #c5d7e7;
   --borda-post: #d6c1c1;
   --borda-evento: #c1d1d6;
   --cor-logo: none;
@@ -21,7 +21,7 @@
   --detalhe-base: #9fa3cf; 
   --fundo-user: #d1d1d1;
   --borda-user: #363636; 
-  --fundo-calendario: #c5c5c5;
+  --fundo-calendario: #cacaca;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -56,7 +56,7 @@ body {
   background: var(--fundo-body);
 }
 
-button, img, .p-tag, br, i {
+button, img, .p-tag, br, i, a {
   user-select: none;
 }
 
@@ -654,11 +654,6 @@ a {
   gap: 8px;
 }
 
-
-.p-titulo, .p-texto, .p-nome, .e-titulo, .e-texto, .e-nome {
-  color: var(--letra-normal-geral);
-}
-
 .p-vote, .p-comentario {
   height: 36px;
   min-width: 36px;
@@ -913,7 +908,7 @@ a {
   object-fit: cover;
 }
 
-.e-tempo {
+.e-tempo, .ev-tempo {
   font-size: 0.8em;
   color: #2a6478;
   font-weight: bold;
@@ -936,7 +931,7 @@ a {
   margin-bottom: 12px;
 }
 
-.e-titulo {
+.e-titulo, .ev-titulo {
   font-size: 1.6em;
   text-align: left;
   font-family: Helvetica, Arial, sans-serif;
@@ -945,7 +940,7 @@ a {
   margin: 12px 0;
 }
 
-.e-texto {
+.e-texto, .ev-texto {
   font-size: 1em;
   font-weight: normal;
   text-align: left;
@@ -1010,11 +1005,19 @@ a {
   gap: 8px;
   padding: 8px 16px;
   background-color: #2a6478;
-  color: white;
+  color: #ffffff;
   border-radius: 20px;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.e-participar span {
+  color: white;
+}
+
+.e-participar.inscrito span {
+  color: white;
 }
 
 .e-participar:hover {
@@ -1022,7 +1025,7 @@ a {
 }
 
 .e-participar.inscrito {
-  background-color: #4CAF50;
+  background-color: #336135;
 }
 
 .e-participar.inscrito i {
@@ -1572,7 +1575,7 @@ input[type="file"]::file-selector-button:hover {
 /*************************fim criação e modais******************************/
 
 /*************************user box******************************/
-.user-box {
+.user-box, .event-box {
   position: fixed;
   background-color: var(--fundo-base);
   color: var(--letra-normal-geral);
@@ -1615,7 +1618,7 @@ input[type="file"]::file-selector-button:hover {
   margin-bottom: 15px;
 }
 
-.box-centro {
+.box-centro, .ev-info {
   background-color: var(--detalhe-base);
   justify-content: baseline;
   align-items: baseline;
@@ -1623,10 +1626,11 @@ input[type="file"]::file-selector-button:hover {
   padding: 15px;
 }
 
-.box-inferior a {
+.box-inferior a, .event-box a {
   padding: 15px 30%;
   transition: 0.2s ease;
   color: var(--letra-normal-geral);
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -1637,7 +1641,11 @@ input[type="file"]::file-selector-button:hover {
   cursor: pointer;
 }
 
-.box-inferior a:hover {
+.box-inferior i, .event-box i {
+  margin-right: 10px;
+}
+
+.box-inferior a:hover, .event-box a:hover {
   background-color: var(--fundo-base-hover);
 }
 
@@ -1704,10 +1712,11 @@ input[type="file"]::file-selector-button:hover {
 .fc {
   background: var(--fundo-calendario);
   padding: 15px;
-  border-radius: 10px;
+  border-radius: 20px;
   width: 50vw;
   height: 93vh;
   box-shadow: -4px 4px 4px var(--sombra);
+  user-select: none;
 }
 
 .fc-toolbar-title {
@@ -1733,20 +1742,66 @@ input[type="file"]::file-selector-button:hover {
   background: var(--fundo-base-hover) !important;
 }
 
-
 .fc-day-today {
   background: rgba(60, 255, 0, 0.369);
 }
 
 .fc-event {
-    background: #ff4500;
-    border: none;
-    color: var(--letra-normal-geral);
-    font-weight: bold;
-    padding: 5px;
-    border-radius: 5px;
+  background: #ff4500;
+  border: none;
+  color: var(--letra-normal-geral);
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
+.event-box {
+  background-color: var(--fundo-evento);
+  border: var(--borda-evento) 2px solid;
+}
+
+@keyframes box-aparicao {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.ev-info {
+  background-color: var(--info-fundo);
+  margin: 0 -13px 10px -13px;
+}
+
+.ev-titulo {
+  text-align: center;
+}
+
+.ev-texto {
+  width: 100%;
+  text-align: justify;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ev-inferior{
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ev-tempo {
+  margin-top: 10px;
+}
 
 
 /*************************fim calendario******************************/

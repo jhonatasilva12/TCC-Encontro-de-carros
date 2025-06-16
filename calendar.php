@@ -27,7 +27,9 @@ $userId = $_SESSION['user_id']; ?>
         
       <main class="hero">
 
-        <div id="calendar"></div>
+        <div id="calendar">
+          <!-- API do calendario -->
+        </div>
 
       </main>
 

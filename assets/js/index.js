@@ -10,6 +10,7 @@ const post = document.querySelectorAll('.post');
 const evento = document.querySelectorAll('.evento');
 const url = window.location.pathname;
 const erro = sessionStorage.getItem('erro');
+const calendario = document.getElementById("calendar");
 
 if(erro != null){
   alert(erro);
@@ -70,21 +71,57 @@ if(document.querySelector(".separa-sub")) {
   })
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+if (calendario) {
+
+  document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        locale: 'pt-br',
-        events: './includes/datas.php'
+      initialView: 'dayGridMonth',
+      headerToolbar: {
+        left: 'title',
+        right: 'prev,today,next'
+      },
+      locale: 'pt-br',
+      events: './includes/datas.php',
+      eventDidMount: function(info) {
+        info.el.setAttribute('event-id', info.event.id);
+      }
     });
     calendar.render();
-});
+  });
+
+  document.addEventListener('click', function(event) {
+    let evento = event.target.closest('.fc-event');
+    if (evento) {
+      let idEvento = evento.getAttribute('event-id');
+      localStorage.setItem('evento_selecionado', idEvento);
+
+      fetch('./includes/atualizar_evento.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ eventoId: idEvento })
+      })
+      .then(response => response.json())
+
+      document.querySelector('.user-box').style.display = "none";
+      document.querySelector('.event-box').style.display = "flex";
+      document.querySelector('.event-box').style.animation = "box-aparicao 0.5s";
+    } else if (!event.target.closest(".event-box") && document.querySelector('.user-box').style.display == "none") {
+      document.querySelector('.user-box').style.display = "flex";
+      document.querySelector('.user-box').style.animation = "box-aparicao 0.5s";
+      document.querySelector('.event-box').style.display = "none";
+    }
+  });
+
+}
 
 
 if (tabs) {
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      // Primeiro ele remove a classe das outras tabs
+      // primeiro ele remove a classe das outras tabs
       tabs.forEach(t => t.classList.remove('ativo'));
       tabContent.forEach(c => c.classList.remove('ativo'));
 
