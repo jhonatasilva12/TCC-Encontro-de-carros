@@ -55,7 +55,7 @@ usort($conteudos, function($a, $b) {
         <link rel="stylesheet" href="assets/css/styles.css">
 
     </head>
-    <body>
+    <body style="overflow-y: scroll">
 
     <div class="geral">
         <main class="hero">
@@ -79,7 +79,14 @@ usort($conteudos, function($a, $b) {
 
             <br><hr class="separa-sub"><br>
 
-            <?php require_once('includes/feed.php'); ?> <!--posts e eventos organizados por ordem de chegada-->
+            <?php
+
+            if ($eventos == null && $posts == null) {
+                echo "<h3>Não há nada neste grupo ainda, seja o primeiro a interagir!</h3>";
+            }
+
+            require_once('includes/feed.php'); ?> <!--posts e eventos organizados por ordem de chegada-->
+            
 
 
             <div class="mini-sub">

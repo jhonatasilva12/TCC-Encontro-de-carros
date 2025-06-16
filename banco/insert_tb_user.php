@@ -46,7 +46,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                (nome_user, sobrenome_user, img_user, email_user, telefone_user, senha_user) 
                                VALUES (?, ?, ?, ?, ?, ?)");
         
-        $stmt->execute([$nome, $sobrenome, $imagem, $email, $telefone, $senhaHash]);
+        $stmt->execute([
+            $nome,
+            $sobrenome ?? null,
+            $imagem,
+            $email,
+            $telefone ?? null,
+            $senhaHash
+        ]);
 
         // Redirecionar para login com sucesso
         header("Location: ../login.html?cadastro=sucesso");
