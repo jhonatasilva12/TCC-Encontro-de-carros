@@ -90,7 +90,6 @@ body {
 .form-header {
     position: absolute;
     top: 13%;
-    left: 51vw;
     width: 38vw;
     display: flex;
     flex-direction: row;
@@ -222,6 +221,31 @@ input:valid {
 
 .continue-button:hover {
     background-color: var(--fundo-botao-hover);
+}
+
+.alert, .alert-success, .alert-error {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 5px;
+  color: white;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  animation: slideIn 0.3s ease-out;
+}
+
+.alert-success {
+  background-color: #2ecc71;
+}
+
+.alert-error {
+  background-color: #e74c3c;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
 }
 
 @media screen and (max-width: 1330px) {

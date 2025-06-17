@@ -603,12 +603,19 @@ a {
   z-index: 1000;
 }
 
-.img-full {
+.media-full {
   max-width: 95vw;
   height: 95vh;
   object-fit: contain;
   border-radius: 10px;
   z-index: 2;
+}
+
+.media-container {
+  width: 0;
+  height: 0;
+  overflow: visible;
+  position: fixed;
 }
 
 .fecha-img {
@@ -779,29 +786,29 @@ a {
 
 
 /***********deletar***********/
-.alert {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 15px 25px;
-    border-radius: 5px;
-    color: white;
-    z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    animation: slideIn 0.3s ease-out;
+.alert, .alert-success, .alert-error {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 5px;
+  color: white;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  animation: slideIn 0.3s ease-out;
 }
 
 .alert-success {
-    background-color: #2ecc71;
+  background-color: #2ecc71;
 }
 
 .alert-error {
-    background-color: #e74c3c;
+  background-color: #e74c3c;
 }
 
 @keyframes slideIn {
-    from { transform: translateX(100%); }
-    to { transform: translateX(0); }
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
 }
 
 

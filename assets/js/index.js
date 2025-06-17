@@ -146,30 +146,30 @@ document.querySelectorAll(".mais").forEach((botao) => {
 });
 
 document.querySelectorAll(".p-img").forEach(media => {
-    media.addEventListener('click', function() {
-        const mediaContainer = document.querySelector(".media-container");
-        const fundo = document.querySelector(".fundo-img");
-        
-        mediaContainer.innerHTML = '';
-        
-        if (this.tagName === 'IMG') { // se for imagem
-            const img = document.createElement('img');
-            img.src = this.src;
-            img.className = 'media-full';
-            mediaContainer.appendChild(img);
-            panzoom(mediaContainer);
-        } else if (this.tagName === 'VIDEO') { // se for video
-            const video = document.createElement('video');
-            video.src = this.querySelector('source').src;
-            video.controls = true;
-            video.autoplay = true;
-            video.className = 'media-full';
-            mediaContainer.appendChild(video);
-        }
-        
-        fundo.style.display = "flex";
-        document.body.style.overflowY = "hidden";
-    });
+  media.addEventListener('click', function() {
+    const mediaContainer = document.querySelector(".media-container");
+    const fundo = document.querySelector(".fundo-img");
+    
+    mediaContainer.innerHTML = '';
+    
+    if (this.tagName === 'IMG') { // se for imagem
+        const img = document.createElement('img');
+        img.src = this.src;
+        img.className = 'media-full';
+        mediaContainer.appendChild(img);
+        panzoom(mediaContainer);
+    } else if (this.tagName === 'VIDEO') { // se for video
+        const video = document.createElement('video');
+        video.src = this.querySelector('source').src;
+        video.controls = true;
+        video.autoplay = true;
+        video.className = 'media-full';
+        mediaContainer.appendChild(video);
+    }
+    
+    fundo.style.display = "flex";
+    document.body.style.overflowY = "hidden";
+  });
 });
 
 document.addEventListener("click", function (e) { // Serve para que, ao clicar fora, torne os ativos em inativos (em relação a clicado ou não)

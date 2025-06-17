@@ -9,7 +9,12 @@
 </head>
 <body>
 
-    <script src="./assets/js/index.js"></script>
+    <?php
+    if (isset($_GET['credenciais']) && $_GET['credenciais'] == 'invalidas') {
+        echo "<div class='alert-error'>credenciais invalidas</div>";
+    }
+    ?>
+
 
     <div class="container">
 

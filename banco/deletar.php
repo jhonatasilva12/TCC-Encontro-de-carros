@@ -25,7 +25,7 @@ try {
     $contentType = $input['type'] ?? '';
     $contentId = filter_var($input['id'] ?? 0, FILTER_VALIDATE_INT);
 
-    // Validações
+    // validações
     if (!in_array($contentType, ['post', 'evento'])) {
         throw new Exception('Tipo de conteúdo inválido', 400);
     }

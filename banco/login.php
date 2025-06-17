@@ -6,10 +6,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['emailo'] ?? '';
     $senha = $_POST['password'] ?? '';
 
-    if (empty($email) || empty($senha)) {
-        die("Preencha email e senha");
-    }
-
     try {
         $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -29,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header("Location: ../index.php");
             exit();
         } else {
-            header("Location: ../login.html?credenciais=invalidas");
+            header("Location: ../logar.php?credenciais=invalidas");
         }
     } catch(PDOException $e) {
         die("Erro no login: " . $e->getMessage());

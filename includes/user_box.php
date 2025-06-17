@@ -114,6 +114,7 @@ $evBox = $meetcar->buscarEventoPorId($userId, $eventId);
     
 </div>
 
+
 <div class="fundo-img">
     <button class="fecha-img">×</button>
     
