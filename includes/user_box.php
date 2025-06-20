@@ -2,10 +2,8 @@
 $meetcar = new MeetCarFunctions();
 
 $userId = $_SESSION['user_id'] ?? null; 
-$eventId = $_SESSION['evento_selecionado'] ?? null;
 $usuario = $meetcar->buscarUserPorId($userId);
 
-$evBox = $meetcar->buscarEventoPorId($userId, $eventId);
 
 ?>
 
@@ -16,82 +14,9 @@ $evBox = $meetcar->buscarEventoPorId($userId, $eventId);
     <div id="box-4" class="tab" data-tab="4"><i class="fas fa-user"></i>Usuários</div>
 </div>
 
-<div class="event-box" style="display: none;">
-<?php if ($eventId != null) { ?>
-    <div class="ev-centro">
-        <h3 class="ev-titulo"><?php echo htmlspecialchars($evBox['nome_evento']); ?></h3>
-        
-        <p class="ev-texto"><?php echo htmlspecialchars($evBox['descricao_evento']); ?></p>
-        
-        <div class="ev-info">
-            <div class="ev-divisa">
-                <i class="fas fa-calendar-alt"></i>
-                <span>
-                    <?php 
-                    echo $meetcar->formatarDataEventoSimples(
-                        $evBox['data_inicio_evento'],
-                        $evBox['data_termino_evento']
-                    ); 
-                    ?>
-                </span>
-            </div>
-            <div class="ev-divisa">
-                <i class="fas fa-money-bill"></i>
-                <span>Pedestre: <?php if ($evBox['valor_pedestre'] === '0') {
-                    echo "gratis";
-
-                } else {
-                    
-                    echo "R$ " . htmlspecialchars($evBox['valor_pedestre']); 
-                
-                } ?></span>
-                
-            </div>
-            
-            <div class="ev-divisa">
-                
-                <i class="fas fa-money-bill"></i>
-                <span>Exposição: <?php if ($evBox['valor_exposicao'] === '0') {
-                    echo "gratis";
-
-                } else {
-                    
-                    echo "R$ " . htmlspecialchars($evBox['valor_exposicao']); 
-                
-                } ?></span>
-                
-            </div>
-
-            <div class="ev-divisa">
-                <i class="fas fa-location-dot"></i>
-                <label><?php echo htmlspecialchars($evBox['rua_evento']) . ", " . htmlspecialchars($evBox['numero_evento']) . " - " . htmlspecialchars($evBox['cidade_evento']) . ", " . htmlspecialchars($evBox['estado_evento']) ?></label>
-            </div>
-
-        </div>
-    </div>
-        
-    <div class="ev-inferior">
-            <button class="e-participar <?= $evBox['user_participando'] ? 'inscrito' : '' ?>" 
-                    data-evento-id="<?= $evBox['id_evento'] ?>"
-                    data-user-participando="<?= $evBox['user_participando'] ? '1' : '0' ?>">
-                <i class="fas fa-check-circle"></i>
-                <span>Participar</span>
-                <span class="participantes-count"><?= $evBox['participantes_count'] ?></span>
-            </button>
-
-            <span class="ev-tempo">
-                <?= $meetcar->tempoParaEvento($evBox['data_inicio_evento']) ?>
-            </span>
-    </div>
-
-    <a href="evento.php?id=<?= $evBox['id_evento'] ?>"><i class="fa-solid fa-eye"></i>ver mais</a>
-    <?php } else {     
-        echo "<h3>não foi possivel encontrar o evento, reinicie a pagina e tente novamente</h3>";
-    }
-    ?>
+<div class="event-box">
+    <!--mais uma parte preencida por JS via fetch-->
 </div>
-
-
 
 
 

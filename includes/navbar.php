@@ -3,7 +3,7 @@
 
         <div id="icones" class="nav-list">
             <a href="index.php" class="icon-list"><i class="fas fa-home"></i></a>
-            <a href="#pag_grupo" class="icon-list"><i class="fas fa-users"></i></a>
+            <a href="pag_grupo.php" class="icon-list"><i class="fas fa-users"></i></a>
             <a href="calendar.php" class="icon-list"><i class="fas fa-calendar-days"></i></a>
             <a href="#" class="icon-list"><i class="fas fa-shopping-cart"></i></a>
         </div>

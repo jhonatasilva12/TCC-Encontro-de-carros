@@ -1,9 +1,11 @@
 <?php
-class MeetCarFunctions {
+class MeetCarFunctions
+{
     private $conn;
     private $pdo;
 
-    public function __construct() {
+    public function __construct()
+    {
         // conexão MySQLi
         $this->conn = new mysqli('localhost', 'root', '', 'db_meetcar');
         if ($this->conn->connect_error) {
@@ -19,16 +21,19 @@ class MeetCarFunctions {
         }
     }
 
-    public function getPdo() {
+    public function getPdo()
+    {
         return $this->pdo;
     }
 
-    public function getConn() {
+    public function getConn()
+    {
         return $this->conn;
     }
 
     // busca posts com informações do usuário e tipo de post
-    public function buscarPosts($userId = null) {
+    public function buscarPosts($userId = null)
+    {
         $sql = "SELECT p.*, u.id_user, u.nome_user, u.sobrenome_user, u.img_user, tp.nome_tipo_post, tp.cor_fundo, tp.cor_letra,
                 (SELECT COUNT(*) FROM likes_post WHERE fk_id_post = p.id_post) as likes_count,
                 (SELECT COUNT(*) FROM tb_comentario WHERE fk_id_post = p.id_post) as comentarios_count,
@@ -37,7 +42,7 @@ class MeetCarFunctions {
                 JOIN tb_user u ON p.fk_id_user = u.id_user
                 JOIN tb_tipo_post tp ON p.fk_id_tipo_post = tp.id_tipo_post
                 ORDER BY p.data_post DESC";
-        
+
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$userId]);
@@ -48,14 +53,15 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarEventos($userId = null) {
+    public function buscarEventos($userId = null)
+    {
         $sql = "SELECT e.*, u.id_user, u.nome_user, u.sobrenome_user, u.img_user,
                     (SELECT COUNT(*) FROM evento_user WHERE fk_id_evento = e.id_evento) as participantes_count,
                     (SELECT EXISTS(SELECT 1 FROM evento_user WHERE fk_id_evento = e.id_evento AND fk_id_user = ?)) as user_participando
                 FROM tb_evento e
                 JOIN tb_user u ON e.fk_id_criador = u.id_user
                 ORDER BY e.data_inicio_evento ASC";
-        
+
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$userId]);
@@ -66,7 +72,8 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarGrupos($userId = null) {
+    public function buscarGrupos($userId = null)
+    {
         $sql = "SELECT g.id_grupo, g.data_criacao, g.img_grupo, g.nome_grupo, g.descricao_grupo,
                     u.nome_user, u.sobrenome_user, u.img_user,
                     tg.nome_temas, tg.cor_fundo, tg.cor_letras,
@@ -88,7 +95,8 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscaEventosJson($userId = null) {
+    public function buscaEventosJson($userId = null)
+    {
         $sql = "SELECT e.*, u.id_user, u.nome_user, u.sobrenome_user, u.img_user,
                     (SELECT COUNT(*) FROM evento_user WHERE fk_id_evento = e.id_evento) as participantes_count,
                     (SELECT EXISTS(SELECT 1 FROM evento_user WHERE fk_id_evento = e.id_evento AND fk_id_user = ?)) as user_participando
@@ -101,7 +109,7 @@ class MeetCarFunctions {
             $stmt->execute([$userId]);
             $eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $eventosFormatados = array_map(function($evento) {
+            $eventosFormatados = array_map(function ($evento) {
                 return [
                     'id' => $evento['id_evento'],
                     'title' => $evento['nome_evento'],
@@ -118,7 +126,8 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarEventosPorTermo($termo, $userId = null) {
+    public function buscarEventosPorTermo($termo, $userId = null)
+    {
         $sql = "SELECT e.*, u.id_user, u.nome_user, u.sobrenome_user, u.img_user,
                 (SELECT COUNT(*) FROM evento_user WHERE fk_id_evento = e.id_evento) as participantes_count,
                 (SELECT EXISTS(SELECT 1 FROM evento_user WHERE fk_id_evento = e.id_evento AND fk_id_user = ?)) as user_participando
@@ -128,9 +137,9 @@ class MeetCarFunctions {
                 OR e.descricao_evento LIKE ? 
                 OR e.cidade_evento LIKE ?
                 ORDER BY e.data_inicio_evento ASC";
-        
+
         $termoLike = '%' . $termo . '%';
-        
+
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$userId, $termoLike, $termoLike, $termoLike]);
@@ -141,7 +150,8 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarGruposPorTermo($termo, $userId = null) {
+    public function buscarGruposPorTermo($termo, $userId = null)
+    {
         $sql = "SELECT g.id_grupo, g.data_criacao, g.img_grupo, g.nome_grupo, g.descricao_grupo,
                     u.nome_user, u.sobrenome_user, u.img_user,
                     tg.nome_temas, tg.cor_fundo, tg.cor_letras,
@@ -154,9 +164,9 @@ class MeetCarFunctions {
                 WHERE g.nome_grupo LIKE ? 
                 OR g.descricao_grupo LIKE ?
                 ORDER BY g.nome_grupo ASC";
-        
+
         $termoLike = '%' . $termo . '%';
-        
+
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$userId, $termoLike, $termoLike]);
@@ -167,7 +177,8 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarUsuariosPorTermo($termo) {
+    public function buscarUsuariosPorTermo($termo)
+    {
         $sql = "SELECT u.*, 
                 (SELECT COUNT(*) FROM tb_post WHERE fk_id_user = u.id_user) as posts_count
                 FROM tb_user u
@@ -175,9 +186,9 @@ class MeetCarFunctions {
                 OR u.sobrenome_user LIKE ? 
                 OR u.email_user LIKE ?
                 ORDER BY u.nome_user";
-        
+
         $termoLike = '%' . $termo . '%';
-        
+
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$termoLike, $termoLike, $termoLike]);
@@ -188,7 +199,8 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarPostsPorTermo($termo, $userId = null) {
+    public function buscarPostsPorTermo($termo, $userId = null)
+    {
         $sql = "SELECT p.*, u.id_user, u.nome_user, u.sobrenome_user, u.img_user, tp.nome_tipo_post, tp.cor_fundo, tp.cor_letra,
                 (SELECT COUNT(*) FROM likes_post WHERE fk_id_post = p.id_post) as likes_count,
                 (SELECT COUNT(*) FROM tb_comentario WHERE fk_id_post = p.id_post) as comentarios_count,
@@ -199,9 +211,9 @@ class MeetCarFunctions {
                 WHERE p.titulo_post LIKE ? 
                 OR p.texto_post LIKE ?
                 ORDER BY p.data_post DESC";
-        
+
         $termoLike = '%' . $termo . '%';
-        
+
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$userId, $termoLike, $termoLike]);
@@ -213,16 +225,17 @@ class MeetCarFunctions {
     }
 
     // busca opções para formulários (tipos de post e temas de grupo)
-    public function buscarOpcoesFormularios() {
+    public function buscarOpcoesFormularios()
+    {
         try {
             // busca tipos de post
             $stmt = $this->pdo->query("SELECT * FROM tb_tipo_post");
             $tiposPost = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
+
             // busca temas de grupo
             $stmt = $this->pdo->query("SELECT * FROM temas_grupo");
             $temasGrupo = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
+
             return [
                 'tiposPost' => $tiposPost,
                 'temasGrupo' => $temasGrupo
@@ -237,10 +250,11 @@ class MeetCarFunctions {
         }
     }
 
-    public function formatarDataEventoSimples($dataInicio, $dataTermino = null) {
+    public function formatarDataEventoSimples($dataInicio, $dataTermino = null)
+    {
         $inicio = new DateTime($dataInicio);
         $formatado = $inicio->format('d/m/Y H:i');
-        
+
         if ($dataTermino) {
             $termino = new DateTime($dataTermino);
             if ($inicio->format('Y-m-d') === $termino->format('Y-m-d')) {
@@ -249,20 +263,21 @@ class MeetCarFunctions {
                 $formatado .= ' a ' . $termino->format('d/m/Y H:i');
             }
         }
-        
+
         return $formatado;
     }
 
-    public function tempoParaEvento($dataEvento) {
+    public function tempoParaEvento($dataEvento)
+    {
         $agora = new DateTime();
         $dataEvento = new DateTime($dataEvento);
-        
+
         if ($dataEvento < $agora) {
             return 'Evento encerrado';
         }
-        
+
         $diferenca = $agora->diff($dataEvento);
-        
+
         if ($diferenca->y > 0) {
             return $diferenca->y == 1 ? 'em 1 ano' : 'em ' . $diferenca->y . ' anos';
         } elseif ($diferenca->m > 0) {
@@ -277,11 +292,12 @@ class MeetCarFunctions {
     }
 
     // calcula tempo decorrido desde a postagem
-    function tempoDecorrido($dataPost) {
+    function tempoDecorrido($dataPost)
+    {
         $agora = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
         $dataPost = new DateTime($dataPost, new DateTimeZone('America/Sao_Paulo'));
         $diferenca = $agora->diff($dataPost);
-        
+
         if ($diferenca->y > 0) {
             return $diferenca->y == 1 ? 'há 1 ano' : 'há ' . $diferenca->y . ' anos';
         } elseif ($diferenca->m > 0) {
@@ -297,7 +313,8 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarPostsPorGrupo($groupId, $userId = null) {
+    public function buscarPostsPorGrupo($groupId, $userId = null)
+    {
         $sql = "SELECT p.*, u.id_user, u.nome_user, u.sobrenome_user, u.img_user, tp.nome_tipo_post, tp.cor_fundo, tp.cor_letra,
                     (SELECT COUNT(*) FROM likes_post WHERE fk_id_post = p.id_post) as likes_count,
                     (SELECT COUNT(*) FROM tb_comentario WHERE fk_id_post = p.id_post) as comentarios_count,
@@ -317,7 +334,8 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarEventosPorGrupo($groupId, $userId = null) {
+    public function buscarEventosPorGrupo($groupId, $userId = null)
+    {
         $sql = "SELECT e.*, u.id_user, u.nome_user, u.sobrenome_user, u.img_user,
                 (SELECT COUNT(*) FROM evento_user WHERE fk_id_evento = e.id_evento) as participantes_count,
                 (SELECT EXISTS(SELECT 1 FROM evento_user WHERE fk_id_evento = e.id_evento AND fk_id_user = ?)) as user_participando
@@ -325,7 +343,7 @@ class MeetCarFunctions {
                 JOIN tb_user u ON e.fk_id_criador = u.id_user
                 WHERE fk_id_grupo = ?
                 ORDER BY e.data_inicio_evento ASC";
-        
+
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$userId, $groupId]);
@@ -336,14 +354,15 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarEventoPorId($userId = null, $eventId) {
+    public function buscarEventoPorId($userId = null, $eventId)
+    {
         $sql = "SELECT e.*, u.id_user, u.nome_user, u.sobrenome_user, u.img_user,
                     (SELECT COUNT(*) FROM evento_user WHERE fk_id_evento = e.id_evento) as participantes_count,
                     (SELECT EXISTS(SELECT 1 FROM evento_user WHERE fk_id_evento = e.id_evento AND fk_id_user = ?)) as user_participando
                 FROM tb_evento e
                 JOIN tb_user u ON e.fk_id_criador = u.id_user
                 WHERE e.id_evento = ?";
-        
+
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$userId, $eventId]);
@@ -354,7 +373,8 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarUserPorId($userId) {
+    public function buscarUserPorId($userId)
+    {
         $sql = "SELECT * FROM tb_user WHERE id_user = ?";
         try {
             $stmt = $this->pdo->prepare($sql);
@@ -366,7 +386,8 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarGruposUsuario($userId) {
+    public function buscarGruposUsuario($userId)
+    {
         $sql = "SELECT g.id_grupo, g.data_criacao, g.img_grupo, g.nome_grupo, g.descricao_grupo,
                     u.nome_user, u.sobrenome_user, u.img_user,
                     tg.nome_temas, tg.cor_fundo, tg.cor_letras,
@@ -388,7 +409,8 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarEventosParticipacao($userId) {
+    public function buscarEventosParticipacao($userId)
+    {
         $sql = "SELECT e.id_evento, e.nome_evento, e.img_evento, e.data_inicio_evento
                 FROM evento_user eu
                 JOIN tb_evento e ON eu.fk_id_evento = e.id_evento
@@ -403,7 +425,8 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarPostsPorUser($userId) {
+    public function buscarPostsPorUser($userId)
+    {
         $sql = "SELECT p.*, u.id_user, u.nome_user, u.sobrenome_user, u.img_user, tp.nome_tipo_post, tp.cor_fundo, tp.cor_letra,
                 (SELECT COUNT(*) FROM likes_post WHERE fk_id_post = p.id_post) as likes_count,
                 (SELECT COUNT(*) FROM tb_comentario WHERE fk_id_post = p.id_post) as comentarios_count,
@@ -423,7 +446,8 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarGrupoPorId($groupId, $userId = null) {
+    public function buscarGrupoPorId($groupId, $userId = null)
+    {
         $sql = "SELECT g.*, u.nome_user, u.sobrenome_user, u.img_user,
                 tg.nome_temas, tg.cor_fundo, tg.cor_letras,
                 (SELECT COUNT(*) FROM user_grupo WHERE fk_id_grupo = g.id_grupo) as membros_count,
@@ -444,7 +468,8 @@ class MeetCarFunctions {
         }
     }
 
-    public function userParticipaGrupo($userId, $groupId) {
+    public function userParticipaGrupo($userId, $groupId)
+    {
         $sql = "SELECT 1 FROM user_grupo WHERE fk_id_user = ? AND fk_id_grupo = ?";
         try {
             $stmt = $this->pdo->prepare($sql);
@@ -456,9 +481,10 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarPostPorId($id) {
+    public function buscarPostPorId($id)
+    {
         $userId = $_SESSION['user_id'] ?? null;
-        
+
         $sql = "SELECT p.*, u.nome_user, u.sobrenome_user, u.img_user, tp.nome_tipo_post, tp.cor_fundo, tp.cor_letra,
                 (SELECT COUNT(*) FROM likes_post WHERE fk_id_post = p.id_post) as likes_count,
                 (SELECT COUNT(*) FROM tb_comentario WHERE fk_id_post = p.id_post) as comentarios_count,
@@ -467,7 +493,7 @@ class MeetCarFunctions {
                 JOIN tb_user u ON p.fk_id_user = u.id_user
                 JOIN tb_tipo_post tp ON p.fk_id_tipo_post = tp.id_tipo_post
                 WHERE p.id_post = ?";
-        
+
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$userId, $id]);
@@ -478,13 +504,14 @@ class MeetCarFunctions {
         }
     }
 
-    public function buscarComentariosPorPost($postId) {
+    public function buscarComentariosPorPost($postId)
+    {
         $sql = "SELECT c.*, u.nome_user, u.img_user
             FROM tb_comentario c
             JOIN tb_user u ON c.fk_id_user = u.id_user
             WHERE c.fk_id_post = ?
             ORDER BY c.data_comentario ASC";
-        
+
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$postId]);
@@ -495,7 +522,8 @@ class MeetCarFunctions {
         }
     }
 
-    public function __destruct() {
+    public function __destruct()
+    {
         // fecha a conexão MySQLi 
         if ($this->conn) {
             $this->conn->close();
