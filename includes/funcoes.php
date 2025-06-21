@@ -446,6 +446,60 @@ class MeetCarFunctions
         }
     }
 
+    // Dentro da classe MeetCarFunctions
+
+    public function contarEventosPorUser($userId)
+    {
+        $sql = "SELECT COUNT(*) AS total 
+            FROM tb_evento 
+            WHERE fk_id_criador = ?";
+
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result ? (int) $result['total'] : 0;
+        } catch (PDOException $e) {
+            error_log("Erro ao contar eventos: " . $e->getMessage());
+            return 0;
+        }
+    }
+
+    public function contarGruposPorUser($userId)
+    {
+        $sql = "SELECT COUNT(*) AS total 
+            FROM user_grupo 
+            WHERE fk_id_user = ?";
+
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result ? (int) $result['total'] : 0;
+        } catch (PDOException $e) {
+            error_log("Erro ao contar grupos do usuário: " . $e->getMessage());
+            return 0;
+        }
+    }
+
+    public function contarLikesPorUser($userId)
+    {
+        $sql = "SELECT COUNT(lp.fk_id_post) AS total
+            FROM tb_post tp
+            JOIN likes_post lp ON tp.id_post = lp.fk_id_post
+            WHERE tp.fk_id_user = ?";
+
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result ? (int) $result['total'] : 0;
+        } catch (PDOException $e) {
+            error_log("Erro ao contar likes: " . $e->getMessage());
+            return 0;
+        }
+    }
+
     public function buscarGrupoPorId($groupId, $userId = null)
     {
         $sql = "SELECT g.*, u.nome_user, u.sobrenome_user, u.img_user,

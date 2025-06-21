@@ -1323,7 +1323,8 @@ a {
 
 #form-post,
 #form-evento,
-#form-grupo {
+#form-grupo,
+#form-user {
   position: fixed;
   display: flex;
   align-items: center;
@@ -1339,12 +1340,13 @@ a {
 
 #form-post.ativo,
 #form-evento.ativo,
-#form-grupo.ativo {
+#form-grupo.ativo,
+#form-user.ativo {
   width: 100vw;
   height: 100vh;
   top: 0px;
   right: 0px;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .form-modal {

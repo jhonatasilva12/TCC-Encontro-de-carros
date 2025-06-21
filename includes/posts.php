@@ -1,7 +1,7 @@
 <div class="post" data-id="<?= $post['id_post'] ?>">
     <div class="p-superior">
         <div class="p-identifica">
-            <a href="user.php?id=<?= $post['id_user'] ?>">
+            <a href="sobre_user.php?id=<?= $post['id_user'] ?>">
                 <img src="assets/images/users/<?php echo ($post['img_user']); ?>" class="p-fotinha">
             </a>
             <div>

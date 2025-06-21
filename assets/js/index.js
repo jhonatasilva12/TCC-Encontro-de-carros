@@ -2,6 +2,7 @@ const body = document.body;
 const postModal = document.getElementById("form-post");
 const eventoModal = document.getElementById("form-evento");
 const grupoModal = document.getElementById("form-grupo");
+const userModal = document.getElementById("form-user");
 const opCriar = document.querySelector(".criar");
 const search = document.querySelector(".search-box");
 const tabs = document.querySelectorAll(".tab");
@@ -50,7 +51,6 @@ if (opCriar) {
       eventoModal.classList.toggle("ativo");
       opCriar.classList.remove("ativo");
       document.body.style.overflowY = "hidden";
-      carregarOpcoesFormularios();
     });
 
   document
@@ -64,6 +64,26 @@ if (opCriar) {
       carregarOpcoesFormularios();
     });
 }
+
+if (userModal) {
+  document
+    .querySelector(".edit-info-button")
+    .addEventListener("click", function (e) {
+      //click = modal ativo
+      e.stopPropagation();
+      userModal.classList.toggle("ativo");
+      document.body.style.overflowY = "hidden";
+    });
+}
+
+document.addEventListener("click", function(e) {
+    if (userModal.classList.contains("ativo") && 
+        (e.target.closest(".fecha-modal") || 
+        (!e.target.closest(".form-modal") && !e.target.closest(".edit-info-button")))) {
+        userModal.classList.remove("ativo");
+        document.body.style.overflowY = "scroll";
+    }
+});
 
 if (document.querySelector(".separa-sub")) {
   window.addEventListener("scroll", function () {
@@ -189,8 +209,8 @@ document.addEventListener("click", function (e) {
       opCriar.classList.remove("ativo");
     }
 
-    if (!e.target.closest(".form-modal") || e.target.closest(".fecha-modal")) {
-      [eventoModal, postModal, grupoModal].forEach((modal) => {
+    if (e.target.closest(".fecha-modal") || !e.target.closest(".form-modal")) {
+      [eventoModal, postModal, grupoModal, userModal].forEach(modal => {
         modal.classList.remove("ativo");
       });
       document
@@ -458,7 +478,7 @@ function setupMicroForms() {
     const input = form.querySelector(".micro-input");
     const btnConfirm = form.querySelector(".btn-confirm");
     const btnCancel = form.querySelector(".btn-cancel");
-    
+
     btnOpen.addEventListener("click", () => {
       form.style.display = "block";
       btnOpen.style.display = "none";
@@ -675,94 +695,4 @@ if (document.getElementById("event-start-datetime")) {
 
       endDateInput.min = this.value;
     });
-}
-
-// Validação de formulários
-function setupFormValidations() {
-  // Validação do formulário de post
-  document
-    .querySelector("#form-post form")
-    ?.addEventListener("submit", function (e) {
-      if (!validatePostForm()) {
-        e.preventDefault();
-      }
-    });
-
-  // Validação do formulário de grupo
-  document
-    .querySelector("#form-grupo form")
-    ?.addEventListener("submit", function (e) {
-      if (!validateGroupForm()) {
-        e.preventDefault();
-      }
-    });
-
-  // Validação do formulário de evento
-  document
-    .querySelector("#form-evento form")
-    ?.addEventListener("submit", function (e) {
-      if (!validateEventForm()) {
-        e.preventDefault();
-      }
-    });
-}
-
-function validatePostForm() {
-  const form = document.querySelector("#form-post form");
-  if (!form.texto_post.value.trim()) {
-    alert("O texto do post é obrigatório");
-    return false;
-  }
-  if (!form.fk_id_tipo_post.value) {
-    alert("Selecione um tipo de post");
-    return false;
-  }
-  return true;
-}
-
-function validateGroupForm() {
-  const form = document.querySelector("#form-grupo form");
-  if (!form.nome_grupo.value.trim()) {
-    alert("O nome do grupo é obrigatório");
-    return false;
-  }
-  if (!form.fk_id_temas_grupo.value) {
-    alert("Selecione um tema para o grupo");
-    return false;
-  }
-  return true;
-}
-
-function validateEventForm() {
-  const form = document.querySelector("#form-evento form");
-  const startDate = new Date(form.data_inicio.value);
-  const endDate = form.data_termino.value
-    ? new Date(form.data_termino.value)
-    : null;
-
-  if (!form.nome_evento.value.trim()) {
-    alert("O nome do evento é obrigatório");
-    return false;
-  }
-  if (!form.descricao_evento.value.trim()) {
-    alert("A descrição do evento é obrigatória");
-    return false;
-  }
-  if (!form.data_inicio.value) {
-    alert("A data de início é obrigatória");
-    return false;
-  }
-  if (endDate && endDate < startDate) {
-    alert("A data de término deve ser após a data de início");
-    return false;
-  }
-  if (!form.valor_pedestre.value) {
-    alert("O valor para pedestres é obrigatório");
-    return false;
-  }
-  if (!form.valor_exposicao.value) {
-    alert("O valor para exposição é obrigatório");
-    return false;
-  }
-  return true;
 }

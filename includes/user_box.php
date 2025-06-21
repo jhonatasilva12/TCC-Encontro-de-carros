@@ -1,8 +1,8 @@
 <?php 
 $meetcar = new MeetCarFunctions();
 
-$userId = $_SESSION['user_id'] ?? null; 
-$usuario = $meetcar->buscarUserPorId($userId);
+$sessionUser = $_SESSION['user_id'] ?? null; 
+$usuario = $meetcar->buscarUserPorId($sessionUser);
 
 
 ?>
@@ -33,7 +33,7 @@ $usuario = $meetcar->buscarUserPorId($userId);
     <?php } ?>
 
     <div class="box-inferior">
-        <a href="user.php?id=<?= $usuario['id_user'] ?>"><i class="fas fa-user-alt"></i>ver mais</a>
+        <a href="sobre_user.php?id=<?= $usuario['id_user'] ?>"><i class="fas fa-user-alt"></i>ver mais</a>
         <a href="banco/logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
     </div>
     

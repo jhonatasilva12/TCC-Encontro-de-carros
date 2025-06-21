@@ -1,90 +1,35 @@
 <?php
-session_start();
-// A conexão já utiliza o db_connect.php de forma simplificada
-$conn = require_once('banco/db_connect.php'); 
+require_once('includes/funcoes.php');
+require_once('banco/db_connect.php');
+require_once('banco/autentica.php');
 
-require_once('includes/search-box.php');
-require_once('includes/funcoes.php'); 
+$meetcar = new MeetCarFunctions();
+$userId = $_GET['id'] ?? null;
 
-// Inicialização de variáveis
-$userProfileImagePath = '';
-$userName = 'NOME E SOBRENOME';
-$userBio = 'Aqui é onde a biografia do usuário será exibida. Pode conter algumas informações sobre a pessoa, seus interesses, ou qualquer texto descritivo. Esta área pode crescer e ter uma barra de rolagem se o conteúdo for muito longo. Adicione mais detalhes sobre suas paixões, habilidades e o que você faz.';
-$userEmail = ''; 
-$totalUserLikes = 0; 
-$totalUserEvents = 0; 
-$totalUserGroups = 0; 
+$user = $meetcar->buscarUserPorId($userId);
 
-$baseImagePath = 'assets/images/users/'; 
+$totalUserLikes = $meetcar->contarLikesPorUser($userId);
+$totalUserEvents = $meetcar->contarEventosPorUser($userId);
+$totalUserGroups = $meetcar->contarGruposPorUser($userId);
 
-if (isset($_SESSION['user_id'])) {
-    $loggedInUserId = $_SESSION['user_id'];
-
-    try {
-      
-        $meetCarFunctions = new MeetCarFunctions(); 
-
-        // Consulta para dados do usuário
-        $stmt = $conn->prepare("SELECT nome_user, email_user, img_user, bio_user FROM tb_user WHERE id_user = ?");
-        $stmt->execute([$loggedInUserId]);
-        $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user_data) {
-            $userName = htmlspecialchars($user_data['nome_user']);
-            $userEmail = htmlspecialchars($user_data['email_user']);
-            if (!empty($user_data['img_user'])) {
-                $userProfileImagePath = htmlspecialchars($baseImagePath . $user_data['img_user']); 
-            } else {
-                $userProfileImagePath = 'assets/images/users/user_padrao.jpg';
-            }
-            if (isset($user_data['bio_user']) && !empty($user_data['bio_user'])) {
-                $userBio = htmlspecialchars($user_data['bio_user']);
-            }
-
-            // Lógica para buscar o total de likes nos posts do usuário
-            $stmtLikes = $conn->prepare("
-                SELECT COUNT(lp.fk_id_post) AS total_likes
-                FROM tb_post tp
-                JOIN likes_post lp ON tp.id_post = lp.fk_id_post
-                WHERE tp.fk_id_user = ?
-            ");
-            $stmtLikes->execute([$loggedInUserId]);
-            $likes_data = $stmtLikes->fetch(PDO::FETCH_ASSOC);
-
-            if ($likes_data) {
-                $totalUserLikes = (int)$likes_data['total_likes'];
-            }
-
-          
-            $totalUserEvents = $meetCarFunctions->contarEventosPorUser($loggedInUserId);
-            $totalUserGroups = $meetCarFunctions->contarGruposPorUser($loggedInUserId);
-
-        } else {
-            $userProfileImagePath = 'assets/images/users/user_padrao.jpg';
-        }
-    } catch(PDOException $e) {
-        error_log("Erro ao buscar dados do usuário ou contagens: " . $e->getMessage());
-        $userProfileImagePath = 'assets/images/users/user_padrao.jpg';
-    } finally {
-      
-        unset($meetCarFunctions); 
-    }
-} else {
-    header('Location: login.html');
-    exit();
-}
-
-// Mensagens de feedback
 $message = '';
 if (isset($_GET['status'])) {
-    if ($_GET['status'] == 'success') {
-        $message = '<p style="color: green;">Informações atualizadas com sucesso!</p>';
-    } elseif ($_GET['status'] == 'error') {
-        $message = '<p style="color: red;">Erro ao atualizar informações. Tente novamente.</p>';
-    } elseif ($_GET['status'] == 'no_changes') {
-        $message = '<p style="color: blue;">Nenhuma alteração foi detectada.</p>';
-    } elseif ($_GET['status'] == 'validation_error') {
-        $message = '<p style="color: orange;">Por favor, preencha todos os campos corretamente.</p>';
+    $messages = [
+        'success' => 'Informações atualizadas com sucesso!',
+        'error' => 'Erro ao atualizar informações. Tente novamente.',
+        'no_changes' => 'Nenhuma alteração foi detectada.',
+        'validation_error' => 'Por favor, preencha todos os campos corretamente.'
+    ];
+
+    $color = [
+        'success' => 'green',
+        'error' => 'red',
+        'no_changes' => 'blue',
+        'validation_error' => 'orange'
+    ];
+
+    if (isset($messages[$_GET['status']])) {
+        $message = '<p style="color: ' . $color[$_GET['status']] . ';">' . $messages[$_GET['status']] . '</p>';
     } elseif (isset($_GET['message'])) {
         $message = '<p style="color: red;">' . htmlspecialchars($_GET['message']) . '</p>';
     }
@@ -92,27 +37,16 @@ if (isset($_GET['status'])) {
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/5d7149073d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="assets/css/styles.css">
-    <title>Perfil de <?= $userName ?></title>
+    <title>Perfil de <?= htmlspecialchars($user['nome_user']) ?></title>
+    <link rel="stylesheet" href="assets/css/styles.css">
     <style>
         /* Style temporario, tem que jogar para o styles.css */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            color: #333;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-            z-index: 0;
-        }
-
         .profile-container {
             width: 100%;
             max-width: 900px;
@@ -124,13 +58,10 @@ if (isset($_GET['status'])) {
             grid-template-columns: 160px 1fr;
             grid-template-rows: auto auto auto 1fr auto;
             gap: 25px 30px;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 50px;
-            margin-bottom: 50px;
+            margin-top: 10px;
+            margin-bottom: 10px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             position: relative;
-            z-index: 1;
         }
 
         .profile-photo-area {
@@ -197,7 +128,6 @@ if (isset($_GET['status'])) {
         .user-name {
             font-size: 2.2em;
             font-weight: 700;
-            color: #222;
             margin-bottom: 8px;
             border-bottom: none;
         }
@@ -215,7 +145,7 @@ if (isset($_GET['status'])) {
             cursor: pointer;
             font-size: 0.9em;
             font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
         }
 
@@ -287,19 +217,8 @@ if (isset($_GET['status'])) {
             transform: translateY(-2px);
         }
 
-        /* ---  --- */
-
-        @media (min-width: 769px) {
-            body {
-                padding-left: 220px;
-                padding-right: 250px;
-            }
-        }
         @media (max-width: 768px) {
-            body {
-                padding-left: 0;
-                padding-right: 0;
-            }
+
             .profile-container {
                 grid-template-columns: 1fr;
                 grid-template-rows: auto auto auto 1fr auto;
@@ -359,72 +278,104 @@ if (isset($_GET['status'])) {
                 padding: 15px;
                 margin: 20px auto;
             }
+
             .profile-photo {
                 width: 100px;
                 height: 100px;
             }
+
             .user-name {
                 font-size: 1.5em;
             }
-            .edit-info-button, .section-button {
+
+            .edit-info-button,
+            .section-button {
                 font-size: 0.85em;
                 padding: 10px 20px;
             }
         }
     </style>
 </head>
+
 <body>
+    <div class="geral">
+        <main class="hero">
 
-<?php
+            <?php require_once('includes/search-box.php'); ?>
 
-require_once('includes/search-box.php');
-?>
+            <div class="profile-container">
 
-<div class="profile-container">
-    <div class="profile-photo-area">
-        <div class="profile-photo">
-            <?php if (!empty($userProfileImagePath)): ?>
-                <img src="<?= $userProfileImagePath ?>" alt="Foto de Perfil de <?= $userName ?>">
-            <?php else: ?>
-                FOTO
-            <?php endif; ?>
-        </div>
-        <div class="likes-box">
-            <i class="fa-solid fa-heart"></i> <?= $totalUserLikes ?> Likes
-        </div>
-    </div>
+                <div class="profile-photo-area">
+                    <div class="profile-photo">
+                        <img src="./assets/images/users/<?= htmlspecialchars($user['img_user']) ?>"
+                            alt="Foto de Perfil">
+                    </div>
+                    <div class="likes-box">
+                        <i class="fa-solid fa-heart"></i> <?= $totalUserLikes ?> Likes
+                    </div>
+                </div>
 
-    <div class="user-info">
-        <h1 class="user-name"><?= $userName ?></h1>
-        <div class="message-box">
-            <?= $message ?>
-        </div>
-    </div>
+                <div class="user-info">
+                    <h1 class="user-name">
+                        <?php echo htmlspecialchars($user['nome_user']) . ' ' . htmlspecialchars($user['sobrenome_user']); ?>
+                    </h1>
+                    <div class="message-box"><?= $message ?></div>
+                </div>
+                <?php if ($user['id_user'] == $_SESSION['user_id']) { ?>
+                    <button class="edit-info-button" id="open-edit-profile-modal">
+                        <i class="fa-solid fa-pen-to-square"></i> Editar Perfil
+                    </button>
 
-    <button class="edit-info-button" id="open-edit-profile-modal">
-        <i class="fa-solid fa-pen-to-square"></i> Editar Informação
-    </button>
+                    <div id="form-user">
+                        <div class="form-modal">
+                            <div class="header-form-criacao">
+                                <button class="fecha-modal">X</button>
+                                <h2>editar perfil</h2>
+                            </div>
+                            <form class="modal-container" action="./banco/insert_tb_grupo.php" method="post"
+                                enctype="multipart/form-data" autocomplete="off">
+                                <div class="form-group">
 
-    <div class="bio-section">
-        <div class="bio-label">BIO</div>
-        <div class="bio-content">
-            <?= $userBio ?>
-        </div>
-    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                <?php } ?>
 
-    <div class="bottom-sections">
-        <button class="section-button">
-            <i class="fa-solid fa-calendar-alt"></i> Seus Eventos (<?= $totalUserEvents ?>)
-        </button>
-        <button class="section-button">
-            <i class="fa-solid fa-users"></i> Seus Grupos (<?= $totalUserGroups ?>)
-        </button>
-    </div>
-</div>
+                <?php if (!empty($user['bio_user'])) { ?>
 
-<?php
-require_once('includes/criacao.php');
-?>
-<script src="assets/js/index.js?v=<?= time() ?>"></script>
+                    <div class="bio-section">
+                        <div class="bio-label">BIO</div>
+                        <div class="bio-content"><?= htmlspecialchars($user['bio_user']) ?></div>
+                    </div>
+
+                <?php } ?>
+
+                <div class="bottom-sections">
+                    <button class="section-button">
+                        <i class="fa-solid fa-calendar-alt"></i> Eventos (<?= $totalUserEvents ?>)
+                    </button>
+                    <div class="total-list" style="width: 100px; height: 100px;">
+
+                    </div>
+                    <button class="section-button">
+                        <i class="fa-solid fa-users"></i> Grupos (<?= $totalUserGroups ?>)
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <?php require_once('includes/navbar.php');
+        require_once('includes/search-box.php'); ?>
+
+    </div> <!--fim geral-->
+
+    <?php
+    require_once('includes/user_box.php');
+    ?>
+
+    <script src="assets/js/index.js?v=<?= time() ?>"></script>
+
 </body>
+
 </html>
