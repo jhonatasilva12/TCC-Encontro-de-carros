@@ -4,9 +4,29 @@ require_once('banco/db_connect.php');
 require_once('banco/autentica.php');
 
 $meetcar = new MeetCarFunctions();
-$userId = $_GET['id'] ?? null;
+$userId = $_GET['id'] ?? null; 
 
+// --- Validação do ID do usuário ---
+
+if (empty($userId) || !is_numeric($userId)) {
+    if (isset($_SESSION['user_id'])) {
+        $userId = $_SESSION['user_id'];
+    } else {
+        
+        header("Location: index.php?error=perfil_nao_encontrado");
+        exit();
+    }
+}
+
+// Busca os dados do usuário
 $user = $meetcar->buscarUserPorId($userId);
+
+// --- Verificação se o usuário existe ---
+if (!$user) {
+   
+    header("Location: index.php?error=usuario_nao_existe");
+    exit();
+}
 
 $totalUserLikes = $meetcar->contarLikesPorUser($userId);
 $totalUserEvents = $meetcar->contarEventosPorUser($userId);
@@ -35,6 +55,9 @@ if (isset($_GET['status'])) {
     }
 }
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -322,24 +345,96 @@ if (isset($_GET['status'])) {
                     <div class="message-box"><?= $message ?></div>
                 </div>
                 <?php if ($user['id_user'] == $_SESSION['user_id']) { ?>
+
+
+
                     <button class="edit-info-button" id="open-edit-profile-modal">
                         <i class="fa-solid fa-pen-to-square"></i> Editar Perfil
                     </button>
 
+
+<!------------ acho que e aqui que adiciona ------------>
                     <div id="form-user">
                         <div class="form-modal">
                             <div class="header-form-criacao">
                                 <button class="fecha-modal">X</button>
                                 <h2>editar perfil</h2>
                             </div>
-                            <form class="modal-container" action="./banco/insert_tb_grupo.php" method="post"
+                            
+                            <form class="modal-container" action="./banco/atualizar.php" method="post"
                                 enctype="multipart/form-data" autocomplete="off">
                                 <div class="form-group">
+
+
+
+
+
+  <div class="form-group">
+                    <div class="image-preview" id="groupPreview">
+                      <img id="previewGroup" src="./assets/images/users/<?= htmlspecialchars($user['img_user']) ?>" alt="Pré-visualização da imagem do perfil">
+                    </div>
+                    <label for="group-image">Imagem do Grupo</label>
+                    <input type="file" id="group-image" name="img_user" accept="image/jpg, image/png, image/jpeg">
+                </div>
+
+
+ 
+    
+
+
+              <div class="form-group">
+    <label for="nome_completo_user">Nome Completo*:</label>
+    <input type="text" id="nome_completo_user" name="nome_completo_user" value="<?= htmlspecialchars($user['nome_user'] . ' ' . $user['sobrenome_user']) ?>" required>
+</div>
+
+
+
+
+                
+                  <div class="form-group">
+                <label for="telefone_user">Telefone*:</label>
+                <input type="tel" id="telefone_user" name="telefone_user" value="<?= htmlspecialchars($user['telefone_user']) ?>" maxlength="15" required>
+            </div>
+                
+
+
+
+
+
+     <div class="form-group">
+                <label for="bio_user">Bio:</label>
+                <textarea id="bio_user" name="bio_user" maxlength="250"><?= htmlspecialchars($user['bio_user']) ?></textarea>
+            </div>
+                
+                <button   type="submit"  >Salvar Alterações</button>
+            <
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                                 </div>
                             </form>
                         </div>
                     </div>
+
+<!------------ fim ------------>
+
+
+
+
                 <?php } ?>
 
                 <?php if (!empty($user['bio_user'])) { ?>
