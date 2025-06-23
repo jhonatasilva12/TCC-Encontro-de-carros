@@ -1,7 +1,7 @@
 <div class="evento" data-id="<?= $evento['id_evento'] ?>">
     <div class="e-superior">
         <div class="e-identifica">
-            <a href="user.php?id=<?= $evento['id_user'] ?>">
+            <a href="sobre_user.php?id=<?= $evento['id_user'] ?>">
                 <img src="./assets/images/users/<?php echo !empty($evento['img_user']) ? htmlspecialchars($evento['img_user']) : 'user_padrao.jpg'; ?>" class="e-fotinha">
             </a>
             <div>
