@@ -20,28 +20,6 @@ if (empty($grupo)) {
 
 $grupo = $grupo[0];
 
-$conteudos = [];
-
-foreach ($posts as $post) {
-    $conteudos[] = [
-        'tipo' => 'post',
-        'data' => $post['data_post'],
-        'dados' => $post
-    ];
-}
-
-foreach ($eventos as $evento) {
-    $conteudos[] = [
-        'tipo' => 'evento',
-        'data' => $evento['data_post'],
-        'dados' => $evento
-    ];
-}
-
-// ordena por data (do mais novo pro mais antigo)
-usort($conteudos, function ($a, $b) {
-    return strtotime($b['data']) - strtotime($a['data']);
-});
 ?>
 
 <html lang="pt-br">
@@ -86,7 +64,7 @@ usort($conteudos, function ($a, $b) {
             </div>
 
             <br>
-            <hr class="separa-sub"><br>
+            <hr id="separa-sub"><br>
 
             <?php
 

@@ -438,7 +438,7 @@ class MeetCarFunctions
                 ORDER BY p.data_post DESC";
         try {
             $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([$userId]);
+            $stmt->execute([$userId, $userId]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("Erro ao buscar posts: " . $e->getMessage());
@@ -446,7 +446,25 @@ class MeetCarFunctions
         }
     }
 
-    // Dentro da classe MeetCarFunctions
+    public function buscarEventosPorUser($userId)
+    {
+        $sql = "SELECT e.*, u.id_user, u.nome_user, u.sobrenome_user, u.img_user,
+                (SELECT COUNT(*) FROM evento_user WHERE fk_id_evento = e.id_evento) as participantes_count,
+                (SELECT EXISTS(SELECT 1 FROM evento_user WHERE fk_id_evento = e.id_evento AND fk_id_user = ?)) as user_participando
+                FROM tb_evento e
+                JOIN tb_user u ON e.fk_id_criador = u.id_user
+                WHERE fk_id_criador = ?
+                ORDER BY e.data_inicio_evento ASC";
+
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId, $userId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar eventos: " . $e->getMessage());
+            return [];
+        }
+    }
 
     public function contarEventosPorUser($userId)
     {

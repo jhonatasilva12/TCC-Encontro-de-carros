@@ -4,26 +4,16 @@ require_once('banco/db_connect.php');
 require_once('banco/autentica.php');
 
 $meetcar = new MeetCarFunctions();
-$userId = $_GET['id'] ?? null; 
+$userId = $_GET['id'] ?? null;
 
-// --- Validação do ID do usuário ---
 
-if (empty($userId) || !is_numeric($userId)) {
-    if (isset($_SESSION['user_id'])) {
-        $userId = $_SESSION['user_id'];
-    } else {
-        
-        header("Location: index.php?error=perfil_nao_encontrado");
-        exit();
-    }
-}
+$posts = $meetcar->buscarPostsPorUser($userId);
+$eventos = $meetcar->buscarEventosPorUser($userId);
 
-// Busca os dados do usuário
 $user = $meetcar->buscarUserPorId($userId);
 
-// --- Verificação se o usuário existe ---
 if (!$user) {
-   
+
     header("Location: index.php?error=usuario_nao_existe");
     exit();
 }
@@ -68,256 +58,6 @@ if (isset($_GET['status'])) {
     <link rel="stylesheet" href="assets/css/styles.css">
     <title>Perfil de <?= htmlspecialchars($user['nome_user']) ?></title>
     <link rel="stylesheet" href="assets/css/styles.css">
-    <style>
-        /* Style temporario, tem que jogar para o styles.css */
-        .profile-container {
-            width: 100%;
-            max-width: 900px;
-            background-color: #fff;
-            border-radius: 12px;
-            padding: 30px 40px;
-            box-sizing: border-box;
-            display: grid;
-            grid-template-columns: 160px 1fr;
-            grid-template-rows: auto auto auto 1fr auto;
-            gap: 25px 30px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-
-        .profile-photo-area {
-            grid-column: 1 / 2;
-            grid-row: 1 / 3;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 20px;
-        }
-
-        .profile-photo {
-            width: 130px;
-            height: 130px;
-            background-color: #e0e6ec;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: 1.2em;
-            color: #666;
-            overflow: hidden;
-            border: 4px solid #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .profile-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-
-        .likes-box {
-            padding: 8px 20px;
-            border: none;
-            background-color: #e6f7ff;
-            border-radius: 20px;
-            text-align: center;
-            font-size: 0.95em;
-            font-weight: 600;
-            color: #007bff;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
-        }
-
-        .likes-box:hover {
-            background-color: #cceeff;
-            transform: translateY(-2px);
-        }
-
-        .user-info {
-            grid-column: 2 / 3;
-            grid-row: 1 / 3;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding-left: 20px;
-        }
-
-        .user-name {
-            font-size: 2.2em;
-            font-weight: 700;
-            margin-bottom: 8px;
-            border-bottom: none;
-        }
-
-        .edit-info-button {
-            grid-column: 2 / 3;
-            grid-row: 1 / 2;
-            justify-self: end;
-            align-self: start;
-            padding: 8px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 0.9em;
-            font-weight: 600;
-            transition: 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
-        }
-
-        .edit-info-button:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-        }
-
-        .bio-section {
-            grid-column: 1 / 3;
-            grid-row: 4 / 5;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .bio-label {
-            font-weight: 600;
-            font-size: 1.1em;
-            color: #555;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .bio-content {
-            min-height: 100px;
-            line-height: 1.6;
-            color: #444;
-            background-color: #fdfdfd;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #eee;
-            overflow-y: auto;
-            max-height: 180px;
-        }
-
-        .bottom-sections {
-            grid-column: 1 / 3;
-            grid-row: 5 / 6;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 35px;
-            padding-top: 25px;
-            border-top: 1px solid #eee;
-        }
-
-        .section-button {
-            padding: 12px 30px;
-            background-color: #6c757d;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            flex-grow: 1;
-            max-width: 220px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .section-button:hover {
-            background-color: #5a6268;
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 768px) {
-
-            .profile-container {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto auto auto 1fr auto;
-                padding: 25px;
-                gap: 20px;
-                margin: 20px auto;
-            }
-
-            .profile-photo-area {
-                grid-column: 1 / 2;
-                grid-row: 1 / 2;
-                justify-content: center;
-                margin-bottom: 15px;
-            }
-
-            .user-info {
-                grid-column: 1 / 2;
-                grid-row: 2 / 3;
-                text-align: center;
-                padding-left: 0;
-            }
-
-            .user-name {
-                font-size: 1.8em;
-            }
-
-            .edit-info-button {
-                grid-column: 1 / 2;
-                grid-row: 3 / 4;
-                justify-self: center;
-                width: 70%;
-                margin-top: 10px;
-            }
-
-            .bio-section {
-                grid-column: 1 / 2;
-                grid-row: 4 / 5;
-                margin-top: 20px;
-            }
-
-            .bottom-sections {
-                grid-column: 1 / 2;
-                grid-row: 5 / 6;
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-            }
-
-            .section-button {
-                width: 80%;
-                max-width: none;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .profile-container {
-                padding: 15px;
-                margin: 20px auto;
-            }
-
-            .profile-photo {
-                width: 100px;
-                height: 100px;
-            }
-
-            .user-name {
-                font-size: 1.5em;
-            }
-
-            .edit-info-button,
-            .section-button {
-                font-size: 0.85em;
-                padding: 10px 20px;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -325,8 +65,9 @@ if (isset($_GET['status'])) {
         <main class="hero">
 
             <?php require_once('includes/search-box.php'); ?>
+            <div class="alert"><?= $message ?></div>
 
-            <div class="profile-container">
+            <div id="separa-sub" class="profile-container">
 
                 <div class="profile-photo-area">
                     <div class="profile-photo">
@@ -342,98 +83,89 @@ if (isset($_GET['status'])) {
                     <h1 class="user-name">
                         <?php echo htmlspecialchars($user['nome_user']) . ' ' . htmlspecialchars($user['sobrenome_user']); ?>
                     </h1>
-                    <div class="message-box"><?= $message ?></div>
                 </div>
                 <?php if ($user['id_user'] == $_SESSION['user_id']) { ?>
-
-
 
                     <button class="edit-info-button" id="open-edit-profile-modal">
                         <i class="fa-solid fa-pen-to-square"></i> Editar Perfil
                     </button>
 
-
-<!------------ acho que e aqui que adiciona ------------>
                     <div id="form-user">
                         <div class="form-modal">
                             <div class="header-form-criacao">
                                 <button class="fecha-modal">X</button>
                                 <h2>editar perfil</h2>
                             </div>
-                            
+
                             <form class="modal-container" action="./banco/atualizar.php" method="post"
                                 enctype="multipart/form-data" autocomplete="off">
                                 <div class="form-group">
+                                    <div class="form-group">
+                                        <div class="image-preview" id="groupPreview">
+                                            <img id="previewGroup"
+                                                src="./assets/images/users/<?= htmlspecialchars($user['img_user']) ?>"
+                                                alt="Pré-visualização da imagem do perfil">
+                                        </div>
+                                        <label for="group-image">Imagem de Perfil</label>
+                                        <input type="file" id="group-image" name="img_user"
+                                            accept="image/jpg, image/png, image/jpeg">
+                                    </div>
 
+                                    <div class="form-group-div">
+                                        <div class="form-group">
+                                            <label for="nome_user">Nome*:</label>
+                                            <input type="text" id="nome_user" name="nome_user"
+                                                value="<?= htmlspecialchars($user['nome_user']) ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sobrenome_user">Sobrenome:</label>
+                                            <input type="text" id="sobrenome_user" name="sobrenome_user"
+                                                value="<?= htmlspecialchars($user['sobrenome_user']) ?>">
+                                        </div>
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label for="data_nasc_user">Data de Nascimento:</label>
+                                        <input type="date" id="data_nasc_user" name="data_nasc_user"
+                                            value="<?= htmlspecialchars($user['data_nasc_user']) ?>">
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label for="telefone_user">Telefone*:</label>
+                                        <input type="tel" id="telefone_user" name="telefone_user"
+                                            value="<?= htmlspecialchars($user['telefone_user']) ?>" maxlength="15" required>
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label for="cpf_user">CPF:</label>
+                                        <input type="text" id="cpf_user" name="cpf_user"
+                                            value="<?= htmlspecialchars($user['cpf_user']) ?>" maxlength="14">
+                                    </div>
 
-  <div class="form-group">
-                    <div class="image-preview" id="groupPreview">
-                      <img id="previewGroup" src="./assets/images/users/<?= htmlspecialchars($user['img_user']) ?>" alt="Pré-visualização da imagem do perfil">
-                    </div>
-                    <label for="group-image">Imagem do Grupo</label>
-                    <input type="file" id="group-image" name="img_user" accept="image/jpg, image/png, image/jpeg">
-                </div>
+                                    <div class="form-group">
+                                        <label for="bio_user">Bio:</label>
+                                        <textarea id="bio_user" name="bio_user"
+                                            maxlength="250"><?= htmlspecialchars($user['bio_user']) ?></textarea>
+                                    </div>
 
-
- 
-    
-
-
-              <div class="form-group">
-    <label for="nome_completo_user">Nome Completo*:</label>
-    <input type="text" id="nome_completo_user" name="nome_completo_user" value="<?= htmlspecialchars($user['nome_user'] . ' ' . $user['sobrenome_user']) ?>" required>
-</div>
-
-
-
-
-                
-                  <div class="form-group">
-                <label for="telefone_user">Telefone*:</label>
-                <input type="tel" id="telefone_user" name="telefone_user" value="<?= htmlspecialchars($user['telefone_user']) ?>" maxlength="15" required>
-            </div>
-                
-
-
-
-
-
-     <div class="form-group">
-                <label for="bio_user">Bio:</label>
-                <textarea id="bio_user" name="bio_user" maxlength="250"><?= htmlspecialchars($user['bio_user']) ?></textarea>
-            </div>
-                
-                <button   type="submit"  >Salvar Alterações</button>
-            <
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                                    <button type="submit">Salvar Alterações</button>
                                 </div>
                             </form>
                         </div>
                     </div>
 
-<!------------ fim ------------>
+                    <div class="mini-sub">
+                        <div>
+                            <img src="./assets/images/users/<?= htmlspecialchars($user['img_user']) ?>"
+                                class="micro-foto">
+                            <div>
+                                <p class="titulo"><?php echo htmlspecialchars($user['nome_user']) . ' ' . htmlspecialchars($user['sobrenome_user']); ?></p>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
 
-
-
+                    <!------------ fim ------------>
 
                 <?php } ?>
 
@@ -458,6 +190,8 @@ if (isset($_GET['status'])) {
                     </button>
                 </div>
             </div>
+            <?php require('includes/feed.php') ?>
+
         </main>
 
         <?php require_once('includes/navbar.php');

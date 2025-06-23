@@ -85,10 +85,10 @@ document.addEventListener("click", function(e) {
     }
 });
 
-if (document.querySelector(".separa-sub")) {
+if (document.getElementById("separa-sub")) {
   window.addEventListener("scroll", function () {
     if (
-      document.querySelector(".separa-sub").getBoundingClientRect().bottom >= 0
+      document.getElementById("separa-sub").getBoundingClientRect().bottom >= 0
     ) {
       document.querySelector(".mini-sub").classList.remove("ativo");
     } else {
